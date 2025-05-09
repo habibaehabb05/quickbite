@@ -1,0 +1,52 @@
+<head>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBite! - Home</title>
+    <link rel="stylesheet" href="restocss.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">
+            <h1 class="brand-name">QuickBite!</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="orders.html">Orders</a>
+            <a href="contact.html">Contact</a>
+            <a href="habiba.html">Log Out</a>
+        </nav>
+        <div class="logo-container">
+            <img src="logo.png" alt="QuickBite Logo">
+        </div>
+    </header>
+    <main class="container">
+        <h2>Welcome to QuickBite!</h2>
+        <br>
+        <p>Please Enter your restaurant info. to start making money now.</p>
+        <div class="profile-section">
+            <h3>Restaurant Profile</h3>
+            <input type="text" placeholder="Name" id="restaurant-name"
+                pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" required>
+
+            <input type="email" placeholder="Email" id="restaurant-email"
+                title="Enter a valid email address" required>
+
+            <input type="password" placeholder="Password" id="restaurant-password"
+                pattern="[0-9]+" title="Numbers only" inputmode="numeric" required>
+
+            <input type="tel" placeholder="Phone" id="restaurant-phone"
+                pattern="[0-9]+" title="Numbers only" inputmode="numeric" required>
+
+            <button class="btn" onclick="validateAndSave(this)">Save Profile</button>
+            <p id="confirmation-message" class="confirmation-message"></p>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-notice">&copy; 2025 QuickBite!. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="restoscripts.js"></script>
+</body>
+</html>

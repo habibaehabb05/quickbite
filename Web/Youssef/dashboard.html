@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" width="device-width, initial-scale=1.0">
+    <title>Campus Restaurants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-container">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+             alt="Restaurant Background"
+             onerror="this.src='fallback-background.jpg'">
+        <div class="overlay"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="brand">
+                <img src="C:\Users\MOHANAD\OneDrive\Desktop\Web\Mohanad\logo.png"alt="QuickBit Logo" class="logo">
+                <span class="brand-name">QuickBit</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">HOME</a>
+                <a href="#">ABOUT US</a>
+                <a href="#">CONTACT US</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <span class="welcome-message">Welcome our sweet customer</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <div class="header-top">
+                <h1>QuickBit Restaurants</h1>
+            </div>
+        </header>
+
+        <div class="restaurants-grid">
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://as2.ftcdn.net/jpg/04/96/17/25/1000_F_496172567_mdRzKShupyVNevwDeRzhVPj03xHDNhIk.jpg" 
+                         alt="Gyros Logo" 
+                         class="restaurant-logo"
+                         onerror="this.src='fallback-logo.png'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Gyros</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Authentic Greek gyros and Mediterranean delights</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.8</span>
+                            <span class="review-count">(180 reviews)</span>
+                        </div>
+                        <button class="menu-btn" id="gyros-menu">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSyBpslNZoFBbL53QVtyDdoNAVRylmIwIrrA&s" 
+                         alt="MY Corner" 
+                         class="restaurant-logo"
+                         onerror="this.src='fallback-logo.png'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>MY Corner</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">American cuisine with a modern twist</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.7</span>
+                            <span class="review-count">(150 reviews)</span>
+                        </div>
+                        <button class="menu-btn" id="my-corner-menu">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://www.emaarmisr.com/wp-content/uploads/2024/08/Batates-Zalabya.jpeg" 
+                         alt="Batates and Zalabia" 
+                         class="restaurant-logo"
+                         onerror="this.src='fallback-logo.png'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Batates & Zalabia</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Traditional Egyptian street snacks</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.6</span>
+                            <span class="review-count">(160 reviews)</span>
+                        </div>
+                        <button class="menu-btn" id="batates-zalabia-menu">View Menu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-notice">
+                This website is for QuickBit customers only. By using this website, you agree to our 
+                <a href="/terms" class="footer-link">Terms of Service</a>. 
+                All restaurant information and menus are property of QuickBit.
+            </p>
+
+            <nav class="footer-nav">
+                <a href="/about">About</a>
+                <a href="/faq">FAQ</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/restaurants">Restaurants</a>
+                <a href="/contact">Contact Us</a>
+            </nav>
+
+            <div class="footer-social">
+                <a href="#" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="footer-copyright">
+                © 2024 <span class="site-name">QuickBit</span> - All rights reserved.
+                <br>
+                <span class="footer-tagline">Fast food, faster service - Bite into the future</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.querySelector('.search-box input');
+            const restaurantCards = document.querySelectorAll('.restaurant-card');
+            const tags = document.querySelectorAll('.tag');
+            let activeFilters = new Set();
+
+            function filterRestaurants() {
+                const searchTerm = searchBox.value.toLowerCase();
+                
+                restaurantCards.forEach(card => {
+                    const title = card.querySelector('h2').textContent.toLowerCase();
+                    const description = card.querySelector('.description').textContent.toLowerCase();
+                    const status = card.querySelector('.status-badge').textContent.toLowerCase();
+                    const rating = parseFloat(card.querySelector('.rating-number').textContent);
+
+                    let matchesSearch = title.includes(searchTerm) || 
+                                      description.includes(searchTerm);
+                    
+                    let matchesFilters = true;
+                    activeFilters.forEach(filter => {
+                        switch(filter) {
+                            case 'open now':
+                                matchesFilters = matchesFilters && status.includes('open');
+                                break;
+                            case 'top rated':
+                                matchesFilters = matchesFilters && rating >= 4.5;
+                                break;
+                            case 'fast food':
+                                matchesFilters = matchesFilters && description.toLowerCase().includes('fast');
+                                break;
+                            case 'international':
+                                matchesFilters = matchesFilters && description.toLowerCase().includes('international');
+                                break;
+                        }
+                    });
+
+                    card.style.display = (matchesSearch && matchesFilters) ? '' : 'none';
+                });
+            }
+
+            searchBox.addEventListener('input', filterRestaurants);
+
+            tags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const filter = this.textContent.toLowerCase();
+                    
+                    if (activeFilters.has(filter)) {
+                        activeFilters.delete(filter);
+                        this.classList.remove('active');
+                    } else {
+                        activeFilters.add(filter);
+                        this.classList.add('active');
+                    }
+
+                    filterRestaurants();
+                });
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

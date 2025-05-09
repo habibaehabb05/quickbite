@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Restaurants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-container">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070" alt="background">
+        <div class="overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="brand">
+                <img src="logo.png" alt="QuickBit Logo" class="logo">
+                <span class="brand-name">QuickBit</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">HOME</a>
+                <a href="#">MENU</a>
+                <a href="#">ORDER</a>
+                <a href="#">RESTAURANT</a>
+                <a href="#">ABOUT US</a>
+                <a href="#">CONTACT US</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="btn-login">Login</button>
+            <button class="btn-signup">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="page-header">
+            <div class="header-top">
+                <h1>QuickBit Restaurants</h1>
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search for restaurants or cuisines...">
+                        <button class="search-filter">
+                            <i class="fas fa-sliders-h"></i>
+                            Filters
+                        </button>
+                    </div>
+                    <div class="search-tags">
+                        <span class="tag">Open Now</span>
+                        <span class="tag">Top Rated</span>
+                        <span class="tag">New</span>
+                        <span class="tag">Fast Food</span>
+                        <span class="tag">International</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="restaurants-grid">
+            <!-- Cinnabon -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://d26czciiy2b0rz.cloudfront.net/uploads/images/Cinnabon-main-1630254288.jpg" 
+                         alt="Cinnabon Logo" 
+                         class="restaurant-logo"
+                         onerror="this.src='fallback-cinnabon.jpg'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Cinnabon</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Fresh baked cinnamon rolls and sweet treats</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.8</span>
+                            <span class="review-count">(180 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Man'oucha -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="manoucha-logo.png" alt="Man'oucha" class="restaurant-logo">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Man'oucha</h2>
+                    <div class="status-badge" data-status="closed">
+                        <i class="fas fa-times-circle"></i>
+                        Closed
+                    </div>
+                    <p class="description">Authentic Lebanese street food & pastries</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.7</span>
+                            <span class="review-count">(220 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MY Corner -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="my-corner.png" alt="MY Corner" class="restaurant-logo">
+                </div>
+                <div class="restaurant-info">
+                    <h2>MY Corner</h2>
+                    <div class="status-badge" data-status="closed">
+                        <i class="fas fa-times-circle"></i>
+                        Closed
+                    </div>
+                    <p class="description">Cozy corner for delicious meals and beverages</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.7</span>
+                            <span class="review-count">(150 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TBS -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJvIWYSuoF0zrWGZOmShueZLQAqvHMBLTdRw&s" 
+                         alt="TBS Burger" 
+                         class="restaurant-logo"
+                         onerror="this.src='fallback-tbs.jpg'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>TBS</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Premium burgers and sandwiches</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.7</span>
+                            <span class="review-count">(190 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pink Berry -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="pinkberry-logo.png" alt="Pink Berry" class="restaurant-logo">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Pink Berry</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Premium frozen yogurt & toppings</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.8</span>
+                            <span class="review-count">(170 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- R 2 Go -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="r2go-logo.png" alt="R 2 Go" class="restaurant-logo">
+                </div>
+                <div class="restaurant-info">
+                    <h2>R 2 Go</h2>
+                    <div class="status-badge" data-status="closed">
+                        <i class="fas fa-times-circle"></i>
+                        Closed
+                    </div>
+                    <p class="description">Quick meals and snacks for students on the go</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.5</span>
+                            <span class="review-count">(120 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Batates and Zalabia -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="batates-logo.png" alt="Batates and Zalabia" class="restaurant-logo">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Batates & Zalabia</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Traditional Egyptian street snacks</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.6</span>
+                            <span class="review-count">(160 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fresco -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="fresco-logo.png" alt="Fresco" class="restaurant-logo">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Fresco</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Fresh salads and healthy beverages</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.7</span>
+                            <span class="review-count">(130 reviews)</span>
+                        </div>
+                        <button class="menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-notice">
+                This website is for QuickBit customers only. By using this website, you agree to our 
+                <a href="/terms" class="footer-link">Terms of Service</a>. 
+                All restaurant information and menus are property of QuickBit.
+            </p>
+
+            <nav class="footer-nav">
+                <a href="/about">About</a>
+                <a href="/faq">FAQ</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/restaurants">Restaurants</a>
+                <a href="/contact">Contact Us</a>
+            </nav>
+
+            <div class="footer-social">
+                <a href="#" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="footer-copyright">
+                © 2024 <span class="site-name">QuickBit</span> - All rights reserved.
+                <br>
+                <span class="footer-tagline">Fast food, faster service - Bite into the future</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

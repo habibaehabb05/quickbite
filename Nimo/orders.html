@@ -1,0 +1,61 @@
+<head>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBite! - Orders</title>
+    <link rel="stylesheet" href="restocss.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">
+            <h1 class="brand-name">QuickBite!</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="orders.html" class="active">Orders</a>
+            <a href="contact.html">Contact</a>
+            <a href="habiba.html">Log Out</a>
+        </nav>
+        <div class="logo-container">
+            <img src="logo.png" alt="QuickBite Logo">
+        </div>
+    </header>
+    <main class="container">
+        <h2>Restaurant Orders</h2>
+        <div class="order-list">
+            <div class="order-item">
+                <span>Order #001<br>Name: Nimo<br>Time: 12:30 PM<br>Order: Pizza, Drinks</span>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="showMessage(this.closest('.order-item'), 'confirm')">Confirm</button>
+                    <button class="btn-deny" onclick="showMessage(this.closest('.order-item'), 'deny')">Deny</button>
+                </div>
+                <div class="status-label">Status:</div>
+                <div class="status-actions">
+                    <button class="btn-pending" onclick="updateStatus(this.closest('.order-item'), 'pending')">Pending</button>
+                    <button class="btn-done" onclick="updateStatus(this.closest('.order-item'), 'done')">Done</button>
+                </div>
+                <div class="message"></div>
+            </div>
+            <div class="order-item">
+                <span>Order #002<br>Name: Honda<br>Time: 1:15 PM<br>Order: Burger, Fries</span>
+                <div class="order-actions">
+                    <button class="btn-confirm" onclick="showMessage(this.closest('.order-item'), 'confirm')">Confirm</button>
+                    <button class="btn-deny" onclick="showMessage(this.closest('.order-item'), 'deny')">Deny</button>
+                </div>
+                <div class="status-label">Status:</div>
+                <div class="status-actions">
+                    <button class="btn-pending" onclick="updateStatus(this.closest('.order-item'), 'pending')">Pending</button>
+                    <button class="btn-done" onclick="updateStatus(this.closest('.order-item'), 'done')">Done</button>
+                </div>
+                <div class="message"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-notice">&copy; 2025 QuickBite!. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="restoscripts.js"></script>
+</body>
+</html>

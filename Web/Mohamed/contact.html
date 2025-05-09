@@ -1,0 +1,51 @@
+<head>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBite! - Contact</title>
+    <link rel="stylesheet" href="restocss.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">
+            <h1 class="brand-name">QuickBite!</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="orders.html">Orders</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="habiba.html">Log Out</a>
+        </nav>
+        <div class="logo-container">
+            <img src="logo.png" alt="QuickBite Logo">
+        </div>
+    </header>
+    <main class="container">
+        <h2>Contact QuickBite!</h2>
+        <br>
+        <p>If you have any questions or concerns, feel free to reach out to us.</p>
+        <br>
+        <form action="submit_contact.php" method="POST" class="contact-form">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-notice">&copy; 2025 QuickBite!. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="restoscripts.js"></script>
+</body>
+</html>

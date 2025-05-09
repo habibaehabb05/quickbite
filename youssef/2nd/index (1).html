@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickBite | Campus Food Ordering</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/utensils.svg" type="image/svg+xml">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="logo-container">
+        <div class="logo-bg">
+          <div class="logo-inner">
+            <img src="logo.png" alt="QuickBite Logo" class="logo-img">
+          </div>
+        </div>
+      </div>
+      
+      <div class="loading-text">
+        <h1 class="app-title">QuickBite</h1>
+        <p class="app-subtitle">Campus Food Ordering</p>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <div class="progress-info">
+          <span id="progress-percent" class="progress-percent">0%</span>
+          <div id="tip-container" class="tip-container">
+            <span id="tip-text" class="tip-text"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms and Conditions Modal -->
+  <div id="terms-modal" class="modal">
+    <div class="modal-content terms-modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Terms and Conditions</h2>
+      </div>
+      
+      <div class="modal-body terms-body">
+        <div class="terms-content">
+          <h3>User Agreement</h3>
+          <p>By using QuickBite, you agree to the following terms and conditions:</p>
+          
+          <h4>1. Order Pickup Policy</h4>
+          <p><strong>Important:</strong> If you place an order and fail to pick it up, your account will be immediately suspended and you may be permanently banned from using QuickBite services. We take food waste seriously and have a strict zero-tolerance policy for no-show orders.</p>
+          
+          <h4>2. Responsibility Disclaimer</h4>
+          <p>QuickBite is not responsible for:</p>
+          <ul>
+            <li>Any delays you may experience when picking up your order</li>
+            <li>Time wasted due to user error, circumstances beyond our control, or any other reason</li>
+            <li>Quality issues if you fail to pick up your order in a timely manner</li>
+            <li>Any inconvenience, loss of time, or other consequences resulting from your failure to arrive at the designated pickup location on time</li>
+          </ul>
+          
+          <h4>3. Account Information</h4>
+          <p>You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.</p>
+          
+          <h4>4. Service Availability</h4>
+          <p>QuickBite reserves the right to modify, suspend, or discontinue the service at any time without notice.</p>
+          
+          <h4>5. User Conduct</h4>
+          <p>You agree not to use the service for any unlawful purpose or in any way that could damage, disable, or impair the service.</p>
+          
+          <h4>6. Payment</h4>
+          <p>All payments are final. Refunds are only issued in accordance with our refund policy.</p>
+          
+          <h4>7. Privacy</h4>
+          <p>Your use of QuickBite is subject to our Privacy Policy, which governs our collection and use of your information.</p>
+          
+          <h4>8. Changes to Terms</h4>
+          <p>QuickBite reserves the right to update these terms at any time. Continued use of the service after such changes constitutes acceptance of the new terms.</p>
+
+          <h4>9. Strict Pickup Enforcement</h4>
+          <p>By accepting these terms, you acknowledge that QuickBite maintains the right to enforce our pickup policy at our sole discretion. Users who fail to pick up orders may be subject to:</p>
+          <ul>
+            <li>Immediate account suspension</li>
+            <li>Permanent ban from the platform</li>
+            <li>Forfeiture of any credits or balance in your account</li>
+            <li>Being reported to campus administration for food waste</li>
+          </ul>
+        </div>
+        
+        <div class="terms-checkbox-container">
+          <button id="accept-terms" class="accept-button">I have read and agree to the Terms and Conditions</button>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="decline-terms" class="decline-button">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <img src="logo.png" alt="QuickBite Logo" class="sidebar-logo">
+          <div>
+            <h1 class="sidebar-title">QuickBite</h1>
+            <p class="sidebar-subtitle">Campus Food Delivery</p>
+          </div>
+        </div>
+        
+        <div class="user-profile">
+          <div class="user-avatar">
+            <img src="https://via.placeholder.com/32" alt="User">
+          </div>
+          <div class="user-info">
+            <p class="user-name">YOUSSEF ELSAYED</p>
+            <p class="user-role">Student</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <p class="sidebar-section-title">Main Menu</p>
+          <ul class="sidebar-menu">
+            <li class="sidebar-menu-item active">
+              <a href="#" class="sidebar-menu-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Home</span>
+              </a>
+            </li>
+            <li class="sidebar-menu-item">
+              <a href="#" class="sidebar-menu-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"></path></svg>
+                <span>Menu</span>
+              </a>
+            </li>
+            <li class="sidebar-menu-item">
+              <a href="#" class="sidebar-menu-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+                <span>Orders</span>
+                <span class="menu-badge">3</span>
+              </a>
+            </li>
+            <li class="sidebar-menu-item">
+              <a href="#" class="sidebar-menu-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                <span>Favorites</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="sidebar-divider"></div>
+        
+        <div class="sidebar-section">
+          <p class="sidebar-section-title">Your Account</p>
+          <ul class="sidebar-menu">
+            <li class="sidebar-menu-item">
+              <a href="#" class="sidebar-menu-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li class="sidebar-menu-item">
+              <a href="#" id="view-terms-link" class="sidebar-menu-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+                <span>Terms & Conditions</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="logout-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Log out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button id="mobile-sidebar-toggle" class="mobile-sidebar-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+          </button>
+          
+          <div class="location-selector">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <button class="location-button">
+              MIU Campus
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="search-container">
+          <div class="search-input-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input type="search" id="search-input" class="search-input" placeholder="Search for food or restaurants...">
+          </div>
+          <div id="search-results" class="search-results hidden"></div>
+        </div>
+        
+        <div class="header-right">
+          <button id="notifications-btn" class="header-button notification-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+            <span class="notification-badge">5</span>
+          </button>
+          
+          <button id="theme-toggle" class="header-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+          </button>
+          
+          <div class="user-avatar header-avatar">
+            <img src="https://via.placeholder.com/32" alt="User">
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Wallet Section -->
+        <section class="dashboard-section">
+          <div class="section-header">
+            <h2 class="section-title">Your Account</h2>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <h3 class="stat-title">Wallet Balance</h3>
+                <div class="stat-icon wallet-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg>
+                </div>
+              </div>
+              <div class="stat-value">$50.00</div>
+              <div class="stat-change positive">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 7 5 5-5 5"></path><path d="M6 7l5 5-5 5"></path></svg>
+                +$10.00 this week
+              </div>
+              <button class="add-funds-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+              </button>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-header">
+                <h3 class="stat-title">Active Orders</h3>
+                <div class="stat-icon orders-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7 3 5"></path><path d="M9 5 5 9"></path><circle cx="5" cy="5" r="2"></circle><path d="m19 7-2-2"></path><path d="m15 9-4-4"></path><circle cx="19" cy="5" r="2"></circle><path d="M5 19v-2"></path><path d="M9 15H5"></path><circle cx="5" cy="19" r="2"></circle><path d="M19 19v-2"></path><path d="M15 15h4"></path><circle cx="19" cy="19" r="2"></circle></svg>
+                </div>
+              </div>
+              <div class="stat-value">3</div>
+              <div class="stat-change neutral">
+                2 ready for pickup
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Restaurants Section -->
+        <section class="dashboard-section">
+          <div class="section-header">
+            <h2 class="section-title">Campus Restaurants</h2>
+            <a href="#" class="view-all-link">
+              View all
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+            </a>
+          </div>
+          
+          <div class="restaurants-grid">
+            <!-- Restaurant cards will be added by JavaScript -->
+          </div>
+        </section>
+        
+        <!-- Orders Section -->
+        <section class="dashboard-section">
+          <div class="section-header">
+            <h2 class="section-title">Recent Orders</h2>
+            <a href="#" class="view-all-link">
+              View all
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+            </a>
+          </div>
+          
+          <div class="orders-grid">
+            <!-- Order cards will be added by JavaScript -->
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Tracking Modal -->
+  <div id="tracking-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Order #<span id="tracking-order-id">ORD-2023-0567</span></h2>
+        <button id="close-modal" class="close-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="order-summary">
+          <div class="order-restaurant">
+            <img src="https://via.placeholder.com/48" alt="Restaurant" class="restaurant-img">
+            <div class="order-details">
+              <h4 class="restaurant-name">R2GO</h4>
+              <p class="order-items">Chicken Burger, Fries, Pepsi</p>
+            </div>
+          </div>
+          <div class="pickup-time">Ready for pickup</div>
+        </div>
+        
+        <div class="tracking-steps">
+          <div class="tracking-step active completed">
+            <div class="step-icon preparing-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"></path></svg>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">Order Placed</h4>
+              <p class="step-description">Your order has been received</p>
+            </div>
+          </div>
+          
+          <div class="tracking-step active completed">
+            <div class="step-icon ready-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">Preparing</h4>
+              <p class="step-description">Your food is being prepared</p>
+            </div>
+          </div>
+          
+          <div class="tracking-step active">
+            <div class="step-icon ready-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">Ready for pickup</h4>
+              <p class="step-description">Your order is ready for pickup</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications Panel -->
+  <div id="notifications-panel" class="notifications-panel hidden">
+    <div class="notifications-header">
+      <h3 class="notifications-title">Notifications</h3>
+      <button id="close-notifications" class="close-notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    
+    <div class="notifications-list">
+      <div class="notification-item new">
+        <div class="notification-indicator"></div>
+        <div class="notification-content">
+          <div class="notification-header">
+            <h4 class="notification-title">Your order is ready!</h4>
+            <span class="notification-time">5 minutes ago</span>
+          </div>
+          <p class="notification-description">Your order #ORD-2023-0567 from R2GO is ready for pickup.</p>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-indicator"></div>
+        <div class="notification-content">
+          <div class="notification-header">
+            <h4 class="notification-title">New restaurant added</h4>
+            <span class="notification-time">Yesterday</span>
+          </div>
+          <p class="notification-description">Check out Manosha, now available for ordering on campus.</p>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-indicator"></div>
+        <div class="notification-content">
+          <div class="notification-header">
+            <h4 class="notification-title">Order ready</h4>
+            <span class="notification-time">Yesterday</span>
+          </div>
+          <p class="notification-description">Your order #ORD-2023-0566 from MY Corner is ready for pickup.</p>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-indicator"></div>
+        <div class="notification-content">
+          <div class="notification-header">
+            <h4 class="notification-title">Special offer</h4>
+            <span class="notification-time">2 days ago</span>
+          </div>
+          <p class="notification-description">Get 20% off your next order from R2GO with code CAMPUS20.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-content">
+      <div class="toast-title">Welcome back, Youssef!</div>
+      <div class="toast-description">You have 3 active orders.</div>
+    </div>
+    <button id="close-toast" class="close-toast">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
