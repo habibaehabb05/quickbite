@@ -52,7 +52,7 @@ document.getElementById('checkout').addEventListener('click', function() {
         };
 
         localStorage.setItem('cartData', JSON.stringify(cartData));
-        window.location.href ="file:///C:/Users/MOHANAD/OneDrive/Desktop/Web/salma/payment%20form.html";
+        window.location.href ="salma\payment\payment.html";
     }
     
     function clearCart() {
