@@ -1,15 +1,200 @@
-[
-  {
-    "id": 1,
-    "name": "Gyro Wrap",
-    "price": 7.99,
-    "description": "Delicious Greek-style gyro with tzatziki."
+{
+  "Gyros": {
+    "categories": {
+      "BURGERS": [
+        {
+          "id": 1,
+          "name": "Classic Burger",
+          "description": "Beef patty - Cheese - Lettuce - Tomato - Special sauce",
+          "price": 120,
+          "currency": "EGP"
+        },
+        {
+          "id": 2,
+          "name": "Chicken Burger",
+          "description": "Grilled chicken - Cheese - Lettuce - Mayo",
+          "price": 110,
+          "currency": "EGP"
+        },
+        {
+          "id": 3,
+          "name": "Gyro Burger",
+          "description": "Gyro meat - Tzatziki - Onions - Tomatoes - Pita bread",
+          "price": 130,
+          "currency": "EGP"
+        }
+      ],
+      "DISHES": [
+        {
+          "id": 4,
+          "name": "Hummus Plate",
+          "description": "Homemade hummus - Olive oil - Pita bread",
+          "price": 60,
+          "currency": "EGP"
+        },
+        {
+          "id": 5,
+          "name": "Falafel Plate",
+          "description": "8 Falafel pieces - Tahini - Salad - Pita bread",
+          "price": 70,
+          "currency": "EGP"
+        },
+        {
+          "id": 6,
+          "name": "Chicken Shawarma",
+          "description": "Marinated chicken - Garlic sauce - Pickles - Pita bread",
+          "price": 30,
+          "currency": "EGP"
+        }
+      ],
+      "MEALS": [
+        {
+          "id": 7,
+          "name": "Grilled Chicken",
+          "description": "Shish - Basmotif rice - Pita bread - Fries - Sauce",
+          "price": 140,
+          "currency": "EGP"
+        },
+        {
+          "id": 8,
+          "name": "Crispy Strips",
+          "description": "3 Pieces - Basmotif rice - Pita bread - Fries - Sauce",
+          "price": 140,
+          "currency": "EGP"
+        },
+        {
+          "id": 9,
+          "name": "Gyro Mix",
+          "description": "Grilled Chicken - Strips - Kofta - Basmotif rice - Pita bread - Fries - Sauce",
+          "price": 160,
+          "currency": "EGP"
+        },
+        {
+          "id": 10,
+          "name": "Kofta Meal",
+          "description": "Kofta - Basmotif rice - Pita bread - Fries - Sauce",
+          "price": 150,
+          "currency": "EGP"
+        }
+      ]
+    }
   },
-  {
-    "id": 2,
-    "name": "Falafel Plate",
-    "price": 9.99,
-    "description": "Crispy falafel served with salad and hummus."
+  "MyCorner": {
+    "categories": {
+      "CLASSIC": [
+        {
+          "id": 1,
+          "name": "Sunrise Special",
+          "description": "2 eggs any style, crispy bacon or sausage, toast, and hash browns",
+          "price": 120,
+          "currency": "EGP"
+        },
+        {
+          "id": 2,
+          "name": "Big Corner Platter",
+          "description": "Fluffy pancakes, scrambled eggs, buttery sausage, and fresh fruit",
+          "price": 120,
+          "currency": "EGP"
+        },
+        {
+          "id": 3,
+          "name": "Country Breakfast",
+          "description": "Buttermilk biscuits smothered in sausage gravy, served with hash browns and eggs",
+          "price": 120,
+          "currency": "EGP"
+        },
+        {
+          "id": 4,
+          "name": "Omelet Your Way",
+          "description": "Three-egg omelet with your choice of cheese, vegetables, and meats. Served with toast and fruit",
+          "price": 120,
+          "currency": "EGP"
+        }
+      ],
+      "PANCAKES & WAFFLES": [
+        {
+          "id": 5,
+          "name": "Classic Buttermilk Pancakes",
+          "description": "Stack of 3, served with butter and maple syrup",
+          "price": 120,
+          "currency": "EGP"
+        },
+        {
+          "id": 6,
+          "name": "Belgian Waffle Delight",
+          "description": "Golden waffle topped with seasonal fruits and whipped cream",
+          "price": 110,
+          "currency": "EGP"
+        },
+        {
+          "id": 7,
+          "name": "French Toast Fantasy",
+          "description": "Thick-cut brioche dipped in cinnamon-vanilla batter, powdered sugar, and berries",
+          "price": 130,
+          "currency": "EGP"
+        }
+      ],
+      "Sandwiches": [
+        {
+          "id": 8,
+          "name": "Egg & Cheese Muffin",
+          "description": "Fried egg, cheddar cheese on a toasted English muffin",
+          "price": 60,
+          "currency": "EGP"
+        },
+        {
+          "id": 9,
+          "name": "The Corner Croissant",
+          "description": "Scrambled eggs, ham, and Swiss cheese in a buttery croissant",
+          "price": 70,
+          "currency": "EGP"
+        },
+        {
+          "id": 10,
+          "name": "Veggie Wrap",
+          "description": "Egg whites, spinach, peppers, and feta wrapped in a warm tortilla",
+          "price": 90,
+          "currency": "EGP"
+        }
+      ],
+      "DRINKS": [
+        {
+          "id": 11,
+          "name": "Fresh Brewed Coffee",
+          "price": 80,
+          "currency": "EGP"
+        },
+        {
+          "id": 12,
+          "name": "Espresso",
+          "price": 79.5,
+          "currency": "EGP"
+        },
+        {
+          "id": 13,
+          "name": "Hot Chocolate with Whipped Cream",
+          "price": 100,
+          "currency": "EGP"
+        },
+        {
+          "id": 14,
+          "name": "Iced Coffee or Iced Tea",
+          "price": 100,
+          "currency": "EGP"
+        },
+        {
+          "id": 15,
+          "name": "Fresh Orange Juice",
+          "price": 100,
+          "currency": "EGP"
+        },
+        {
+          "id": 16,
+          "name": "Bottled Water",
+          "price": 75.5,
+          "currency": "EGP"
+        }
+      ]
+    }
   }
-]
-    
+}
