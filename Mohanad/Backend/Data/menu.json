@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "name": "Gyro Wrap",
+    "price": 7.99,
+    "description": "Delicious Greek-style gyro with tzatziki."
+  },
+  {
+    "id": 2,
+    "name": "Falafel Plate",
+    "price": 9.99,
+    "description": "Crispy falafel served with salad and hummus."
+  }
+]
+    
