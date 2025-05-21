@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {
-  getAllMenus,
-  getMenuByRestaurant,
-  addMenuItem
-} = require('../controllers/menuController');
+const menuController = require('../controllers/menuController');
 
-router.get('/', getAllMenus);
-router.get('/:restaurant', getMenuByRestaurant);
-router.post('/', addMenuItem); 
+router.get('/', menuController.getAllMenus);
+router.get('/:restaurant', menuController.getMenuByRestaurant);
+router.post('/', menuController.addMenuItem); 
 
 module.exports = router;
