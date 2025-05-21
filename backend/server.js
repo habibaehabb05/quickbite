@@ -1,5 +1,5 @@
 const express = require('express');
-const menuRoutes = require('../../backend/routes/menuRoutes');
+const menuRoutes = require('./routes/menuRoutes');
 const path = require('path');
 const app = express();
 const PORT = 3000;

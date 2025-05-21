@@ -4,7 +4,7 @@ const {
   getAllMenus,
   getMenuByRestaurant,
   addMenuItem
-} = require('../../../backend/controllers/menuController');
+} = require('../controllers/menuController');
 
 router.get('/', getAllMenus);
 router.get('/:restaurant', getMenuByRestaurant);
