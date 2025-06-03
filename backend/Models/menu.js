@@ -40,5 +40,5 @@ const MenuSchema = new mongoose.Schema({
   }
 });
 
-const Menu = mongoose.model('Menu', MenuSchema);
+const Menu = mongoose8.model('Menu', MenuSchema);
 module.exports = Menu;
