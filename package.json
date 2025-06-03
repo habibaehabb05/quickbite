@@ -1,23 +1,17 @@
 {
-  "dependencies": {
-    "express": "^5.1.0"
-  },
-  "name": "quickbite",
+  "name": "mynode",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/habibaehabb05/quickbite.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/habibaehabb05/quickbite/issues"
-  },
-  "homepage": "https://github.com/habibaehabb05/quickbite#readme"
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1",
+    "nodemon": "^3.1.10"
+  }
 }
