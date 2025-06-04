@@ -2,7 +2,7 @@ const express = require('express');
 const menuRoutes = require('./routes/menuRoutes');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 
 // Middleware
 app.use(express.json());
