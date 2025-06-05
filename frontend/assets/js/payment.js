@@ -1,13 +1,11 @@
-// Display the cart total when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    const totalPrice = localStorage.getItem('cartTotal');
-    const displayElement = document.getElementById('display-total');
-    
-    if (totalPrice) {
-        displayElement.textContent = totalPrice;
-    } else {
-        displayElement.textContent = '0 EGP (No items)';
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  const totalPriceElement = document.getElementById('total-price');
+
+  const cartData = JSON.parse(localStorage.getItem('cartData'));
+
+  if (cartData && totalPriceElement) {
+    totalPriceElement.textContent = `${cartData.total} EGP`;
+  }
 });
         function togglePaymentMethod() {
             var method = document.getElementById("payment-method").value;

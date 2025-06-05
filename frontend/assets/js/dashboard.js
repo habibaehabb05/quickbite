@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auth buttons
     document.querySelector('.login-btn')?.addEventListener('click', function() {
         // Navigate to login page
-        window.location.href = '/auth/login';
+        window.location.href = 'http://127.0.0.1:5500/frontend/Pages/Login.html';
         
         // Show feedback to user
         const feedback = document.createElement('div');
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector('.signup-btn')?.addEventListener('click', function() {
         // Navigate to signup page
-        window.location.href = '/auth/signup';
+        window.location.href = 'http://127.0.0.1:5500/frontend/Pages/Login.html';
         
         // Show feedback to user
         const feedback = document.createElement('div');
@@ -146,10 +146,10 @@ document.addEventListener('DOMContentLoaded', function() {
             let menuPath;
             switch(this.id) {
                 case 'gyros-menu':
-                    menuPath = '/menus/gyros.html';
+                    menuPath = 'http://127.0.0.1:5500/frontend/Pages/Gyros.html';
                     break;
                 case 'my-corner-menu':
-                    menuPath = '/menus/my-corner.html';
+                    menuPath = 'http://127.0.0.1:5500/frontend/Pages/MyCorner.html';
                     break;
                 case 'batates-zalabia-menu':
                     menuPath = '/menus/batates-zalabia.html';
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
             }
             
-            window.location.href = menuPath;
+            window.location.href = menuPath;    
         });
     });
 

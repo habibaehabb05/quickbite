@@ -1,421 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 <body>
   <div class="sidebar">
-    <div class="sidebar-header">
-      <h2><i class="fas fa-shield-alt"></i> Admin Panel</h2>
-    </div>
+    <h2>Admin Panel</h2>
     <ul>
-      <li class="active" data-section="dashboard">
-        <i class="fas fa-tachometer-alt"></i> Dashboard
-      </li>
-      <li data-section="restaurants">
-        <i class="fas fa-utensils"></i> Restaurants
-      </li>
-      <li data-section="orders">
-        <i class="fas fa-clipboard-list"></i> Orders
-      </li>
-      <li data-section="users">
-        <i class="fas fa-users"></i> Users
-      </li>
-      <li data-section="analytics">
-        <i class="fas fa-chart-line"></i> Analytics
-      </li>
+      <li onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</li>
+      <li onclick="showSection('restaurants')"><i class="fas fa-utensils"></i> Restaurants</li>
+      <li onclick="showSection('orders')"><i class="fas fa-shopping-bag"></i> Orders</li>
+      <li onclick="showSection('users')"><i class="fas fa-users"></i> Users</li>
     </ul>
     <div class="sidebar-footer">
-      <div class="admin-profile">
-        <img src="https://ui-avatars.com/api/?name=Admin&background=FF4B4B&color=fff" alt="Admin">
-        <div>
-          <span class="admin-name">Admin</span>
-          <span class="admin-role">Super Admin</span>
-        </div>
-      </div>
-      <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <button class="profile-btn" onclick="openProfileModal()">
+        <i class="fas fa-user-circle"></i> Profile
+      </button>
+      <button class="logout-btn" onclick="confirmLogout()">
+        <i class="fas fa-sign-out-alt"></i> Log Out
+      </button>
     </div>
   </div>
 
   <div class="main">
-    <header class="main-header">
-      <div class="header-left">
-        <h1 id="page-title">Dashboard Overview</h1>
-      </div>
-      <div class="header-right">
-        <div class="notification-bell">
-          <i class="fas fa-bell"></i>
-          <span class="notification-count">3</span>
-        </div>
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search...">
-        </div>
-      </div>
-    </header>
-
     <section id="dashboard" class="section active">
+      <h1>Dashboard Overview</h1>
       <div class="dashboard-cards">
-        <div class="dashboard-card">
-          <div class="card-icon users">
-            <i class="fas fa-users"></i>
-          </div>
-          <div class="card-content">
-            <span class="card-title">Total Users</span>
-            <span class="card-value" id="userCount">0</span>
-            <span class="card-change positive">+12% from last week</span>
-          </div>
+        <div class="dashboard-card" id="userCount">Users: 2</div>
+        <div class="dashboard-card" id="restaurantCount">Restaurants: 2</div>
+        <div class="dashboard-card" id="orderCount">Orders: 2</div>
+        <div class="dashboard-card" id="pendingOrders">Pending Orders: 1</div>
+      </div>
+      
+      <!-- Analytics Chart Section -->
+      <div class="analytics-container">
+        <div class="analytics-header">
+          <h2>Orders & Revenue Analytics</h2>
+          <select class="time-filter">
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="year">This Year</option>
+          </select>
         </div>
-        
-        <div class="dashboard-card">
-          <div class="card-icon restaurants">
-            <i class="fas fa-utensils"></i>
-          </div>
-          <div class="card-content">
-            <span class="card-title">Restaurants</span>
-            <span class="card-value" id="restaurantCount">0</span>
-            <span class="card-change positive">+3 new this month</span>
-          </div>
-        </div>
-        
-        <div class="dashboard-card">
-          <div class="card-icon orders">
-            <i class="fas fa-clipboard-list"></i>
-          </div>
-          <div class="card-content">
-            <span class="card-title">Total Orders</span>
-            <span class="card-value" id="orderCount">0</span>
-            <span class="card-change positive">+24% from last week</span>
-          </div>
-        </div>
-        
-        <div class="dashboard-card">
-          <div class="card-icon revenue">
-            <i class="fas fa-money-bill-wave"></i>
-          </div>
-          <div class="card-content">
-            <span class="card-title">Total Revenue</span>
-            <span class="card-value" id="totalRevenue">0 EGP</span>
-            <span class="card-change positive">+18% from last week</span>
-          </div>
-        </div>
+        <div id="analytics-chart" style="width: 100%; height: 300px;"></div>
       </div>
 
-      <div class="dashboard-row">
-        <div class="chart-container">
-          <h2>Orders Overview</h2>
-          <canvas id="ordersChart"></canvas>
-        </div>
-        
-        <div class="stats-container">
-          <h2>Quick Stats</h2>
-          <div class="stats-grid">
-            <div class="stat-item">
-              <span class="stat-value" id="pendingOrders">0</span>
-              <span class="stat-label">Pending Orders</span>
+      <!-- Popular Restaurants -->
+      <div class="popular-restaurants">
+        <h2>Popular Restaurants</h2>
+        <div class="restaurant-grid">
+          <div class="restaurant-thumbnail" onclick="goToRestaurantPanel('my-corner.html')">
+            <div class="restaurant-img">
+              <i class="fas fa-store fa-3x"></i>
             </div>
-            <div class="stat-item">
-              <span class="stat-value" id="todayOrders">0</span>
-              <span class="stat-label">Today's Orders</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value" id="activeUser">-</span>
-              <span class="stat-label">Top User</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value" id="popularRestaurant">-</span>
-              <span class="stat-label">Top Restaurant</span>
-            </div>
+            <div class="restaurant-name">My Corner</div>
           </div>
-          
-          <div class="recent-orders">
-            <h3>Recent Orders</h3>
-            <div class="orders-list" id="recentOrdersList">
-              <!-- Will be populated by JS -->
+          <div class="restaurant-thumbnail" onclick="goToRestaurantPanel('r-to-go.html')">
+            <div class="restaurant-img">
+              <i class="fas fa-hamburger fa-3x"></i>
             </div>
+            <div class="restaurant-name">R to go</div>
+          </div>
+          <div class="restaurant-thumbnail" onclick="goToRestaurantPanel('gyro.html')">
+            <div class="restaurant-img">
+              <i class="fas fa-pizza-slice fa-3x"></i>
+            </div>
+            <div class="restaurant-name">Gyro</div>
+          </div>
+          <div class="restaurant-thumbnail" onclick="goToRestaurantPanel('add-new.html')">
+            <div class="restaurant-img">
+              <i class="fas fa-plus fa-3x"></i>
+            </div>
+            <div class="restaurant-name">Add New</div>
           </div>
         </div>
       </div>
     </section>
+    
 
     <section id="restaurants" class="section">
-      <div class="section-header">
-        <h2>Restaurant Management</h2>
-        <div class="action-buttons">
-          <button class="btn btn-primary" id="addRestaurantBtn">
-            <i class="fas fa-plus"></i> Add Restaurant
-          </button>
+      <h1>Manage Restaurants</h1>
+      <button class="add-restaurant-btn"><i class="fas fa-plus"></i> Add Restaurant</button>
+      <div class="restaurant-list">
+        <div class="restaurant-card">
+          <h2>My Corner</h2>
+          <p><span class="status-indicator status-active">Open</span></p>
+          <button class="edit-btn">Edit</button>
+          <div class="edit-options">
+            <button class="rename-btn">Rename</button>
+            <button class="status-btn">Toggle Status</button>
+            <button class="remove-btn">Remove</button>
+          </div>
         </div>
-      </div>
-      
-      <div class="search-filter">
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" id="restaurantSearch" placeholder="Search restaurants...">
+        <div class="restaurant-card">
+          <h2>R to go</h2>
+          <p><span class="status-indicator status-active">Open</span></p>
+          <button class="edit-btn">Edit</button>
+          <div class="edit-options">
+            <button class="rename-btn">Rename</button>
+            <button class="status-btn">Toggle Status</button>
+            <button class="remove-btn">Remove</button>
+          </div>
         </div>
-        <select id="restaurantStatusFilter">
-          <option value="">All Statuses</option>
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
-      </div>
-      
-      <div class="restaurant-list" id="restaurantListContainer">
-        <!-- Will be populated by JS -->
       </div>
     </section>
 
     <section id="orders" class="section">
-      <div class="section-header">
-        <h2>Order Management</h2>
-        <div class="action-buttons">
-          <button class="btn btn-export" id="exportOrdersBtn">
-            <i class="fas fa-file-export"></i> Export
-          </button>
-        </div>
-      </div>
-      
-      <div class="search-filter">
+      <h1>Orders</h1>
+      <div class="filters-container">
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="orderSearchInput" placeholder="Search orders...">
+          <input type="text" id="orderSearchInput" placeholder="Search by user or restaurant">
         </div>
-        <select id="statusFilter">
+        <select id="statusFilter" class="filter-select">
           <option value="">All Statuses</option>
           <option value="Pending">Pending</option>
           <option value="Completed">Completed</option>
           <option value="Cancelled">Cancelled</option>
         </select>
-        <input type="date" id="orderDateFilter">
       </div>
-      
-      <div class="table-responsive">
-        <table id="orderTable">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>User</th>
-              <th>Restaurant</th>
-              <th>Amount</th>
-              <th>Date/Time</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Will be populated by JS -->
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="pagination">
-        <button class="btn-pagination" id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
-        <span class="page-info" id="pageInfo">Page 1 of 1</span>
-        <button class="btn-pagination" id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
-      </div>
+      <table id="orderTable" class="data-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Restaurant</th>
+            <th>Amount</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- This will be populated by JavaScript -->
+        </tbody>
+      </table>
     </section>
+    
 
     <section id="users" class="section">
-      <div class="section-header">
-        <h2>User Management</h2>
-        <div class="action-buttons">
-          <button class="btn btn-primary" id="addUserBtn">
-            <i class="fas fa-user-plus"></i> Add User
-          </button>
-        </div>
-      </div>
-      
-      <div class="search-filter">
+      <h1>User Management</h1>
+      <div class="filters-container">
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="userSearchInput" placeholder="Search users...">
+          <input type="text" id="userSearchInput" placeholder="Search users">
         </div>
-        <select id="userRoleFilter">
-          <option value="">All Roles</option>
-          <option value="Student">Student</option>
-          <option value="Staff">Staff</option>
-          <option value="Admin">Admin</option>
-        </select>
-        <select id="userStatusFilter">
-          <option value="">All Statuses</option>
-          <option value="Active">Active</option>
-          <option value="Suspended">Suspended</option>
-        </select>
+        <button id="addUserBtn" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add User</button>
       </div>
-      
-      <div class="table-responsive">
-        <table id="userTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Last Active</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Will be populated by JS -->
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="pagination">
-        <button class="btn-pagination" id="prevUserPageBtn"><i class="fas fa-chevron-left"></i></button>
-        <span class="page-info" id="userPageInfo">Page 1 of 1</span>
-        <button class="btn-pagination" id="nextUserPageBtn"><i class="fas fa-chevron-right"></i></button>
-      </div>
+      <table id="userTable" class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- This will be populated by JavaScript -->
+        </tbody>
+      </table>
     </section>
-
-    <section id="analytics" class="section">
-      <div class="section-header">
-        <h2>Analytics Dashboard</h2>
-        <div class="time-filter">
-          <select id="analyticsTimeRange">
-            <option value="7">Last 7 Days</option>
-            <option value="30">Last 30 Days</option>
-            <option value="90">Last 90 Days</option>
-            <option value="365">Last Year</option>
-          </select>
-        </div>
-      </div>
-      
-      <div class="analytics-grid">
-        <div class="analytics-card">
-          <h3>Revenue Overview</h3>
-          <canvas id="revenueChart"></canvas>
-        </div>
-        <div class="analytics-card">
-          <h3>User Growth</h3>
-          <canvas id="usersChart"></canvas>
-        </div>
-        <div class="analytics-card">
-          <h3>Top Restaurants by Orders</h3>
-          <canvas id="restaurantsChart"></canvas>
-        </div>
-        <div class="analytics-card">
-          <h3>Order Status Distribution</h3>
-          <canvas id="orderStatusChart"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modals -->
-    <div id="addRestaurantModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Add New Restaurant</h3>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <form id="addRestaurantForm">
-            <div class="form-group">
-              <label for="restaurantName">Restaurant Name</label>
-              <input type="text" id="restaurantName" required>
-            </div>
-            <div class="form-group">
-              <label for="restaurantDescription">Description</label>
-              <textarea id="restaurantDescription" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="restaurantCategory">Category</label>
-              <select id="restaurantCategory">
-                <option>Fast Food</option>
-                <option>Casual Dining</option>
-                <option>Cafe</option>
-                <option>Fine Dining</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Status</label>
-              <div class="radio-group">
-                <label>
-                  <input type="radio" name="restaurantStatus" value="Active" checked> Active
-                </label>
-                <label>
-                  <input type="radio" name="restaurantStatus" value="Inactive"> Inactive
-                </label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="restaurantImage">Upload Image</label>
-              <input type="file" id="restaurantImage" accept="image/*">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="cancelRestaurantBtn">Cancel</button>
-          <button class="btn btn-primary" id="saveRestaurantBtn">Save Restaurant</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="addUserModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Add New User</h3>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <form id="addUserForm">
-            <div class="form-group">
-              <label for="userName">Full Name</label>
-              <input type="text" id="userName" required>
-            </div>
-            <div class="form-group">
-              <label for="userEmail">Email</label>
-              <input type="email" id="userEmail" required>
-            </div>
-            <div class="form-group">
-              <label for="userRole">Role</label>
-              <select id="userRole" required>
-                <option value="Student">Student</option>
-                <option value="Staff">Staff</option>
-                <option value="Admin">Admin</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Status</label>
-              <div class="radio-group">
-                <label>
-                  <input type="radio" name="userStatus" value="Active" checked> Active
-                </label>
-                <label>
-                  <input type="radio" name="userStatus" value="Suspended"> Suspended
-                </label>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="cancelUserBtn">Cancel</button>
-          <button class="btn btn-primary" id="saveUserBtn">Save User</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="orderDetailsModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Order Details</h3>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body" id="orderDetailsContent">
-          <!-- Will be populated by JS -->
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="closeOrderDetailsBtn">Close</button>
-        </div>
-      </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../assets/js/admin.js"></script>
   </div>
+
+  <!-- Modals -->
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Edit Profile</h3>
+      <input type="text" id="profileUsername" placeholder="Username">
+      <input type="email" id="profileEmail" placeholder="Email">
+      <input type="password" id="profilePassword" placeholder="New Password">
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="saveProfileChanges()">Save Changes</button>
+        <button class="btn btn-secondary" onclick="closeModal('profileModal')">Discard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logoutModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Confirm Logout</h3>
+      <p>Are you sure you want to log out?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="logout()">Yes</button>
+        <button class="btn btn-secondary" onclick="closeModal('logoutModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Role Modal -->
+  <div id="editRoleModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Edit User Role</h3>
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" id="roleStaff" name="role" value="Staff">
+          <label for="roleStaff">Staff</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="roleManager" name="role" value="Manager">
+          <label for="roleManager">Manager</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="roleAdmin" name="role" value="Admin">
+          <label for="roleAdmin">Admin</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="saveRoleChange()">Save</button>
+        <button class="btn btn-secondary" onclick="closeModal('editRoleModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Order Confirmation Modal -->
+  <div id="deleteOrderModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Confirm Deletion</h3>
+      <p>Are you sure you want to delete this Order?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="confirmDeleteOrder">Yes</button>
+        <button class="btn btn-secondary" onclick="closeModal('deleteOrderModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Order Status Modal -->
+  <div id="changeStatusModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Change Order Status</h3>
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" id="statusPending" name="orderStatus" value="Pending">
+          <label for="statusPending">Pending</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="statusCompleted" name="orderStatus" value="Completed">
+          <label for="statusCompleted">Completed</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="statusCancelled" name="orderStatus" value="Cancelled">
+          <label for="statusCancelled">Cancelled</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="saveOrderStatus">Save</button>
+        <button class="btn btn-secondary" onclick="closeModal('changeStatusModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div id="addUserModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Add New User</h3>
+      <input type="text" id="newUserName" placeholder="Name" required>
+      <input type="email" id="newUserEmail" placeholder="Email" required>
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" id="newUserStudent" name="newUserRole" value="Student" checked>
+          <label for="newUserStudent">Student</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="newUserStaff" name="newUserRole" value="Staff">
+          <label for="newUserStaff">Staff</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="confirmAddUser">Add User</button>
+        <button class="btn btn-secondary" onclick="closeModal('addUserModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Restaurant Modal -->
+  <div id="addRestaurantModal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Add New Restaurant</h3>
+      <input type="text" id="newRestaurantName" placeholder="Restaurant Name" required>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="confirmAddRestaurant">Add Restaurant</button>
+        <button class="btn btn-secondary" onclick="closeModal('addRestaurantModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="../assets/js/admin.js"></script>
 </body>
 </html>
