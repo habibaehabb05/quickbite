@@ -117,6 +117,32 @@ function login() {
         return;
     }
 
+    try {
+        const res = await fetch("http://localhost:3000/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            showPopup("Login successful! Redirecting...");
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 3000);
+        } else {
+            showPopup(data.message || "Invalid credentials", false);
+        }
+
+    } catch (error) {
+        console.error(error);
+        showPopup("Server error. Try again later.", false);
+    }
+}
+
     // Here you would typically check against a database
     // This is just a mock validation
     if (password.length < 6) {
