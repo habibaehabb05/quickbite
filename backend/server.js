@@ -1,19 +1,15 @@
+ 
+require('dotenv').config(); // لو بتستخدمي .env
 const express = require('express');
-const menuRoutes = require('./routes/menuRoutes');
-const path = require('path');
-const app = express();
-const PORT = 8080;
+const connectDB = require('./MongoDb/connect'); // أو المسار الصحيح
+const authRoutes = require('./routes/auth');
 
-// Middleware
+const app = express();
 app.use(express.json());
 
-// Routes
-app.use('/api/menu', menuRoutes);
+connectDB(); // 🟢 اتصلي بقاعدة البيانات
 
-// Serve frontend (optional, if needed)
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/api', authRoutes);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
