@@ -7,7 +7,6 @@ function togglePassword(id) {
 }
 
 // Switch between login/signup forms
-// Show login form (updated)
 function showLogin() {
     document.getElementById("signup-form").style.display = "none";
     document.getElementById("restaurant-form").style.display = "none";
@@ -16,7 +15,6 @@ function showLogin() {
     resetFormErrors('restaurant');
 }
 
-// Show signup form (updated)
 function showSignup() {
     document.getElementById("login-form").style.display = "none";
     document.getElementById("restaurant-form").style.display = "none";
@@ -25,7 +23,6 @@ function showSignup() {
     resetFormErrors('restaurant');
 }
 
-// Show restaurant form (updated)
 function showRestaurant() {
     document.getElementById("signup-form").style.display = "none";
     document.getElementById("login-form").style.display = "none";
@@ -33,6 +30,7 @@ function showRestaurant() {
     resetFormErrors('signup');
     resetFormErrors('login');
 }
+
 // Reset form errors
 function resetFormErrors(formType) {
     const errors = document.querySelectorAll(`#${formType}-form .error-message`);
@@ -53,17 +51,23 @@ function showPopup(message, isSuccess = true) {
     }, 3000);
 }
 
-// Signup validation
-function signUp() {
+// Email validation helper
+function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/;
+    return re.test(email);
+}
+
+// ==========================
+// ✅ SIGNUP with Fetch
+// ==========================
+async function signUp() {
     const email = document.getElementById("signup-email").value.trim();
     const password = document.getElementById("signup-password").value.trim();
     const emailError = document.getElementById("signup-email-error");
     const passwordError = document.getElementById("signup-password-error");
 
-    // Reset errors
     resetFormErrors('signup');
 
-    // Validate email
     if (!email) {
         emailError.textContent = "Email is required";
         return;
@@ -72,7 +76,6 @@ function signUp() {
         return;
     }
 
-    // Validate password
     if (!password) {
         passwordError.textContent = "Password is required";
         return;
@@ -87,22 +90,37 @@ function signUp() {
         return;
     }
 
-    // If validation passes
-    showPopup("Account created successfully! Redirecting...");
-    setTimeout(showLogin, 3000);
+    try {
+        const res = await fetch("http://localhost:3000/api/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            showPopup("Account created successfully! Redirecting...");
+            setTimeout(showLogin, 3000);
+        } else {
+            showPopup(data.message || "Signup failed", false);
+        }
+    } catch (error) {
+        console.error(error);
+        showPopup("Server error. Try again later.", false);
+    }
 }
 
-// Login validation
-function login() {
+// ==========================
+// ✅ LOGIN with Fetch
+// ==========================
+async function login() {
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value.trim();
     const emailError = document.getElementById("login-email-error");
     const passwordError = document.getElementById("login-password-error");
 
-    // Reset errors
     resetFormErrors('login');
 
-    // Validate email
     if (!email) {
         emailError.textContent = "Email is required";
         return;
@@ -111,30 +129,19 @@ function login() {
         return;
     }
 
-    // Validate password
     if (!password) {
         passwordError.textContent = "Password is required";
         return;
     }
 
-
-    // Here you would typically check against a database
-    // This is just a mock validation
-    if (password.length < 6) {
-        showPopup("Invalid credentials", false);
-        return;
-    }
-     try {
+    try {
         const res = await fetch("http://localhost:3000/api/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
         });
 
         const data = await res.json();
-
         if (res.ok) {
             showPopup("Login successful! Redirecting...");
             setTimeout(() => {
@@ -143,74 +150,52 @@ function login() {
         } else {
             showPopup(data.message || "Invalid credentials", false);
         }
-
     } catch (error) {
         console.error(error);
         showPopup("Server error. Try again later.", false);
     }
-
-
-    // If validation passes
-    showPopup("Login successful! Redirecting...");
-    setTimeout(() => {
-        window.location.href = "dashboard.html";
-    }, 3000);}
-
-
-// Email validation helper
-function validateEmail(email) {
-    const re = /^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/;
-    return re.test(email);
 }
 
-// Close popup when clicking outside
-document.getElementById("success-popup").addEventListener("click", function(e) {
-    if (e.target === this) {
-        this.style.display = "none";
-    }
-});
-
-// Prevent form submission on Enter key
-document.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-    }
-});
-// Show restaurant login form
-function showRestaurant() {
-    document.getElementById("signup-form").style.display = "none";
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("restaurant-form").style.display = "block";
-    resetFormErrors('signup');
-    resetFormErrors('login');
-}
-
-// Restaurant login validation
+// ==========================
+// Restaurant login (local validation)
+// ==========================
 function restaurantLogin() {
     const email = document.getElementById("restaurant-email").value.trim();
     const password = document.getElementById("restaurant-password").value.trim();
     const emailError = document.getElementById("restaurant-email-error");
     const passwordError = document.getElementById("restaurant-password-error");
 
-    // Reset errors
     emailError.textContent = "";
     passwordError.textContent = "";
 
-    // Validate email
     if (!email) {
         emailError.textContent = "Email is required";
         return;
     }
 
-    // Validate password
     if (!password) {
         passwordError.textContent = "Password is required";
         return;
     }
 
-    // If validation passes
     showPopup("Restaurant login successful! Redirecting...");
     setTimeout(() => {
         window.location.href = "index.html";
     }, 3000);
 }
+
+// ==========================
+// Close popup on background click
+// ==========================
+document.getElementById("success-popup").addEventListener("click", function(e) {
+    if (e.target === this) {
+        this.style.display = "none";
+    }
+});
+
+// Prevent form submit on Enter
+document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+    }
+});
