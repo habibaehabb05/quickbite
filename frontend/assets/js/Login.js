@@ -117,7 +117,14 @@ function login() {
         return;
     }
 
-    try {
+
+    // Here you would typically check against a database
+    // This is just a mock validation
+    if (password.length < 6) {
+        showPopup("Invalid credentials", false);
+        return;
+    }
+     try {
         const res = await fetch("http://localhost:3000/api/login", {
             method: "POST",
             headers: {
@@ -141,21 +148,14 @@ function login() {
         console.error(error);
         showPopup("Server error. Try again later.", false);
     }
-}
 
-    // Here you would typically check against a database
-    // This is just a mock validation
-    if (password.length < 6) {
-        showPopup("Invalid credentials", false);
-        return;
-    }
 
     // If validation passes
     showPopup("Login successful! Redirecting...");
     setTimeout(() => {
         window.location.href = "dashboard.html";
-    }, 3000);
-}
+    }, 3000);}
+
 
 // Email validation helper
 function validateEmail(email) {
