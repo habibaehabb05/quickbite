@@ -2,9 +2,11 @@
   "name": "mynode",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+ "scripts": {
+  "start": "node Backend/server.js",
+  "dev": "nodemon Backend/server.js"
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",

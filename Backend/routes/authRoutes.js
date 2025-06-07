@@ -1,47 +1,23 @@
 const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const User = require('../Models/user');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const authRoutes = require('./routes/authRoutes');
 
-// POST /api/signup
-router.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
+dotenv.config();
 
-    if (!email || !password) return res.status(400).json({ message: "Email and password required" });
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-    try {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) return res.status(400).json({ message: "User already exists" });
+app.use('/api', authRoutes);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ email, password: hashedPassword });
-        await user.save();
+const PORT = process.env.PORT || 3000;
 
-        res.status(201).json({ message: "User created successfully" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Server error" });
-    }
-});
-
-// POST /api/login
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) return res.status(400).json({ message: "Email and password required" });
-
-    try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: "Invalid email or password" });
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
-
-        res.status(200).json({ message: "Login successful" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Server error" });
-    }
-});
-
-module.exports = router;
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}).catch(err => console.error('DB connection error:', err));
