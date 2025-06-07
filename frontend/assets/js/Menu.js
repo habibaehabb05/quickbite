@@ -148,3 +148,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.getElementById('navbar-toggle');
+  const menu = document.getElementById('navbar-menu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', function() {
+      menu.classList.toggle('active');
+    });
+  }
+});
