@@ -26,6 +26,7 @@
         "label": "off",
         "select-name": "off"
       }
-    ]
+    ],
+    "meta-viewport": "off"
   }
 }
