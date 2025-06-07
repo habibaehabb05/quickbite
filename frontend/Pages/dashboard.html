@@ -12,50 +12,48 @@
     <!-- Background -->
     <div class="bg-container">
         <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-             alt="Restaurant Background"
-             onerror="this.src='fallback-background.jpg'">
-        <div class="overlay"></div>
+             alt="Restaurant Background" class="bg-img">
+        <div class="bg-blur-overlay"></div>
     </div>
 
-   <!-- Wolt-style Header -->
-<header class="wolt-style-header">
-    <div class="header-top">
-        <!-- Logo placed before location selector -->
-        <div class="header-brand">
-            <img src="../assets/images/logo.png" alt="QuickBit Logo" class="logo">
-            <div class="location-selector">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>Network - Select area</span>
-                <i class="fas fa-chevron-down"></i>
+    <!-- Wolt-style Header -->
+    <header class="wolt-style-header">
+        <div class="header-top">
+            <!-- Logo placed before location selector -->
+            <div class="header-brand">
+                <img src="../assets/images/logo.png" alt="QuickBit Logo" class="logo">
+                <div class="location-selector">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Network - Select area</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search in QuickBit...">
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="login-btn">Log in</button>
+                <button class="signup-btn">Sign up</button>
             </div>
         </div>
         
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search in QuickBit...">
-        </div>
-        
-        <div class="auth-buttons">
-            <button class="login-btn">Log in</button>
-            <button class="signup-btn">Sign up</button>
-        </div>
-    </div>
-    
-    <nav class="header-nav">
-        <a href="#" class="nav-item active"><i class="fas fa-compass"></i> Discovery</a>
-        <a href="#" class="nav-item"><i class="fas fa-utensils"></i> Restaurants</a>
-        <a href="#" class="nav-item"><i class="fas fa-store"></i> Stores</a>
-    </nav>
-</header>
+        <nav class="header-nav" aria-label="Main navigation">
+            <a href="#" class="nav-item active"><i class="fas fa-compass"></i> Discovery</a>
+            <a href="#" class="nav-item"><i class="fas fa-utensils"></i> Restaurants</a>
+            <a href="#" class="nav-item"><i class="fas fa-store"></i> Stores</a>
+        </nav>
+    </header>
 
     <!-- Main Content -->
-    <div class="container">
-        <header class="page-header">
-            <div class="header-top">
-                <h1>QuickBit Restaurants</h1>
-            </div>
-        </header>
-
+    <main class="dashboard-main">
+        <div class="dashboard-actions">
+            <button class="add-btn"><i class="fas fa-plus"></i> Add Restaurant</button>
+            <button class="orders-btn"><i class="fas fa-receipt"></i> View Orders</button>
+        </div>
+        <h2 class="dashboard-section-title">Campus Restaurants</h2>
         <div class="restaurants-grid">
             <!-- Gyros -->
             <div class="restaurant-card">
@@ -111,7 +109,7 @@
                 </div>
             </div>
 
-                    <!-- Cinnabon -->
+            <!-- Cinnabon -->
             <div class="restaurant-card">
                 <div class="logo-container">
                     <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/15/d3/50/cinnabon-logo.jpg?w=900&h=-1&s=1" 
@@ -139,100 +137,100 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-   <!-- Bolt-Style Footer -->
-<footer class="bolt-footer">
-    <div class="footer-container">
-        <div class="footer-sections">
-            <!-- QuickBit Section -->
-            <div class="footer-section">
-                <div class="language-selector">
-                    <span>EN</span>
-                    <i class="fas fa-chevron-down"></i>
+    <!-- Bolt-Style Footer -->
+    <footer class="bolt-footer">
+        <div class="footer-container">
+            <div class="footer-sections">
+                <!-- QuickBit Section -->
+                <div class="footer-section">
+                    <div class="language-selector">
+                        <span>EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <h3 class="footer-heading">QuickBit</h3>
+                    <ul class="footer-links">
+                        <li><a href="#/rules">Campus Rules</a></li>
+                        <li><a href="#/delivery">Campus Food Delivery</a></li>
+                        <li><a href="#/schedule">Delivery Schedule</a></li>
+                        <li><a href="#/group-orders">Student Group Orders</a></li>
+                        <li><a href="#/business">Campus Business</a></li>
+                        <li><a href="#/campus-map">Campus Map</a></li>
+                    </ul>
                 </div>
-                <h3 class="footer-heading">QuickBit</h3>
-                <ul class="footer-links">
-                    <li><a href="#/rules">Campus Rules</a></li>
-                    <li><a href="#/delivery">Campus Food Delivery</a></li>
-                    <li><a href="#/schedule">Delivery Schedule</a></li>
-                    <li><a href="#/group-orders">Student Group Orders</a></li>
-                    <li><a href="#/business">Campus Business</a></li>
-                    <li><a href="#/campus-map">Campus Map</a></li>
-                </ul>
+
+                <!-- Partner Section -->
+                <div class="footer-section">
+                    <h3 class="footer-heading">Partner with Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#/partner/restaurant">Open a Restaurant</a></li>
+                        <li><a href="#/partner/courier">Become a Courier</a></li>
+                        <li><a href="#/partner/vendor">Campus Vendor Program</a></li>
+                        <li><a href="#/partner/campus">Campus Partnership</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support Section -->
+                <div class="footer-section">
+                    <h3 class="footer-heading">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#/help">Help Center</a></li>
+                        <li><a href="#/faq">FAQs</a></li>
+                        <li><a href="#/contact">Contact Us</a></li>
+                        <li><a href="#/feedback">Feedback</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Section -->
+                <div class="footer-section">
+                    <h3 class="footer-heading">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#/about">About QuickBit</a></li>
+                        <li><a href="#/careers">Campus Jobs</a></li>
+                        <li><a href="#/sustainability">Sustainability</a></li>
+                        <li><a href="#/blog">Campus Blog</a></li>
+                        <li><a href="#/news">News</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Partner Section -->
-            <div class="footer-section">
-                <h3 class="footer-heading">Partner with Us</h3>
-                <ul class="footer-links">
-                    <li><a href="#/partner/restaurant">Open a Restaurant</a></li>
-                    <li><a href="#/partner/courier">Become a Courier</a></li>
-                    <li><a href="#/partner/vendor">Campus Vendor Program</a></li>
-                    <li><a href="#/partner/campus">Campus Partnership</a></li>
-                </ul>
-            </div>
-
-            <!-- Support Section -->
-            <div class="footer-section">
-                <h3 class="footer-heading">Support</h3>
-                <ul class="footer-links">
-                    <li><a href="#/help">Help Center</a></li>
-                    <li><a href="#/faq">FAQs</a></li>
-                    <li><a href="#/contact">Contact Us</a></li>
-                    <li><a href="#/feedback">Feedback</a></li>
-                </ul>
-            </div>
-
-            <!-- Company Section -->
-            <div class="footer-section">
-                <h3 class="footer-heading">Company</h3>
-                <ul class="footer-links">
-                    <li><a href="#/about">About QuickBit</a></li>
-                    <li><a href="#/careers">Campus Jobs</a></li>
-                    <li><a href="#/sustainability">Sustainability</a></li>
-                    <li><a href="#/blog">Campus Blog</a></li>
-                    <li><a href="#/news">News</a></li>
-                </ul>
+            <div class="footer-apps">
+                <div class="app-buttons">
+                    <a href="quickbit/app-store" class="app-download">
+                        <i class="fab fa-apple"></i>
+                        <div>
+                            <span>Get on</span>
+                            <strong>App Store</strong>
+                        </div>
+                    </a>
+                    <a href="quickbit/google-play" class="app-download">
+                        <i class="fab fa-google-play"></i>
+                        <div>
+                            <span>Get on</span>
+                            <strong>Google Play</strong>
+                        </div>
+                    </a>
+                </div>
+                <div class="social-links">
+                    <a href="quickbit/twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="quickbit/facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="quickbit/instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="quickbit/linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
         </div>
 
-        <div class="footer-apps">
-            <div class="app-buttons">
-                <a href="quickbit/app-store" class="app-download">
-                    <i class="fab fa-apple"></i>
-                    <div>
-                        <span>Get on</span>
-                        <strong>App Store</strong>
-                    </div>
-                </a>
-                <a href="quickbit/google-play" class="app-download">
-                    <i class="fab fa-google-play"></i>
-                    <div>
-                        <span>Get on</span>
-                        <strong>Google Play</strong>
-                    </div>
-                </a>
-            </div>
-            <div class="social-links">
-                <a href="quickbit/twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="quickbit/facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="quickbit/instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="quickbit/linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <div class="footer-bottom">
+            <div class="copyright">© 2024 QuickBit - MIU Campus Food Delivery</div>
+            <div class="legal-links">
+                <a href="#/terms">Terms & Conditions</a>
+                <a href="#/privacy">Privacy Policy</a>
+                <a href="#/cookies">Cookie Policy</a>
+                <a href="#/accessibility">Accessibility</a>
             </div>
         </div>
-    </div>
-
-    <div class="footer-bottom">
-        <div class="copyright">© 2024 QuickBit - MIU Campus Food Delivery</div>
-        <div class="legal-links">
-            <a href="#/terms">Terms & Conditions</a>
-            <a href="#/privacy">Privacy Policy</a>
-            <a href="#/cookies">Cookie Policy</a>
-            <a href="#/accessibility">Accessibility</a>
-        </div>
-    </div>
-</footer>
+    </footer>
     <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

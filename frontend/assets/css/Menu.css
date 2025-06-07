@@ -43,15 +43,15 @@ body {
 
 header,
 .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
     background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -174,6 +174,7 @@ header,
 }
 
 .menu-section {
+    margin-top: 70px;
     padding: 5rem 4rem;
 }
 
