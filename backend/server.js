@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 const menuRoutes = require('./routes/menuRoutes');
 const path = require('path');
 
@@ -14,11 +15,22 @@ mongoose.connect('mongodb://127.0.0.1:27017/orderingSystem', {
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Middleware
+=======
+const dotenv = require('dotenv');
+const cors = require('cors');
+
+const authRoutes = require('./routes/authRoutes'); // استيراد هنا
+
+dotenv.config();
+
+const app = express();
+app.use(cors());
+>>>>>>> 6fecd639df53454c0e6746cecdc82ec5e159f228
 app.use(express.json());
 
-// Routes
-app.use('/api/menu', menuRoutes);
+app.use('/api', authRoutes);
 
+<<<<<<< HEAD
 // Serve frontend (optional)
 app.use(express.static(path.join(__dirname, '../frontend')));
 
@@ -37,3 +49,14 @@ app.use((err, req, res, next) => {
 });
 // Export the app for testing
 module.exports = app; // This allows the app to be imported in test files
+=======
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}).catch(err => console.error('DB connection error:', err));
+>>>>>>> 6fecd639df53454c0e6746cecdc82ec5e159f228
