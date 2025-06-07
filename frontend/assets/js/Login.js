@@ -26,12 +26,29 @@ async function login() {
             body: JSON.stringify({ email, password })
         });
 
-<<<<<<< HEAD
-    // If validation passes
-    showPopup("Login successful! Redirecting...");
-    setTimeout(() => {
-        window.location.href = "http://127.0.0.1:5500/frontend/Pages/dashboard.html";
-    }, 3000);
+        const data = await res.json();
+        if (res.ok) {
+            showPopup("Login successful! Redirecting...");
+            setTimeout(() => {
+                // Redirect based on user role:
+                if (data.role === "student") {
+                    window.location.href = "dashboard.html";
+                } else if (data.role === "restaurant") {
+                    window.location.href = "restaurant-dashboard.html";
+                } else if (data.role === "admin") {
+                    window.location.href = "admin-dashboard.html";
+                } else {
+                    // fallback:
+                    window.location.href = "dashboard.html";
+                }
+            }, 3000);
+        } else {
+            showPopup(data.message || "Invalid credentials", false);
+        }
+    } catch (error) {
+        console.error(error);
+        showPopup("Server error. Try again later.", false);
+    }
 }
 
 // Email validation helper
@@ -91,29 +108,3 @@ function restaurantLogin() {
         window.location.href = "http://127.0.0.1:5500/frontend/Pages/index.html";
     }, 3000);
 }
-=======
-        const data = await res.json();
-        if (res.ok) {
-            showPopup("Login successful! Redirecting...");
-            setTimeout(() => {
-                // Redirect based on user role:
-                if (data.role === "student") {
-                    window.location.href = "dashboard.html";
-                } else if (data.role === "restaurant") {
-                    window.location.href = "restaurant-dashboard.html";
-                } else if (data.role === "admin") {
-                    window.location.href = "admin-dashboard.html";
-                } else {
-                    // fallback:
-                    window.location.href = "dashboard.html";
-                }
-            }, 3000);
-        } else {
-            showPopup(data.message || "Invalid credentials", false);
-        }
-    } catch (error) {
-        console.error(error);
-        showPopup("Server error. Try again later.", false);
-    }
-}
->>>>>>> 6fecd639df53454c0e6746cecdc82ec5e159f228
