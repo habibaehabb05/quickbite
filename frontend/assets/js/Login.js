@@ -127,7 +127,7 @@ function login() {
     // If validation passes
     showPopup("Login successful! Redirecting...");
     setTimeout(() => {
-        window.location.href = "dashboard.html";
+        window.location.href = "http://127.0.0.1:5500/frontend/Pages/dashboard.html";
     }, 3000);
 }
 
@@ -185,6 +185,6 @@ function restaurantLogin() {
     // If validation passes
     showPopup("Restaurant login successful! Redirecting...");
     setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = "http://127.0.0.1:5500/frontend/Pages/index.html";
     }, 3000);
 }
