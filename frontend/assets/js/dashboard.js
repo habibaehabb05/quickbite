@@ -1,67 +1,59 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Lazy load images with data-src
     const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.add('fade-in');
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
-            }
+    if (images.length) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.add('fade-in');
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                }
+            });
         });
-    });
+        images.forEach(img => imageObserver.observe(img));
+    }
 
-    images.forEach(img => imageObserver.observe(img));
-
-    // Header functionality
-    // Location selector dropdown
+    // Location selector click
     const locationSelector = document.querySelector('.location-selector');
     if (locationSelector) {
         locationSelector.addEventListener('click', function() {
-            // Implement location selection functionality
-            console.log('Location selector clicked');
-            // In a real app, this would open a location selection modal
+            // Placeholder for location modal
+            showFeedback('Location selector clicked');
         });
     }
 
-    // Enhanced search functionality
+    // Search functionality
     const searchInput = document.querySelector('.search-bar input');
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             const restaurantCards = document.querySelectorAll('.restaurant-card');
-            
+            let found = false;
             restaurantCards.forEach(card => {
-                const restaurantName = card.querySelector('h2').textContent.toLowerCase();
-                const restaurantDescription = card.querySelector('.description').textContent.toLowerCase();
-                
-                const matchesSearch = restaurantName.includes(searchTerm) || 
-                                    restaurantDescription.includes(searchTerm);
-                
-                // Smooth transition for showing/hiding cards
-                if (matchesSearch) {
+                const name = card.querySelector('h2').textContent.toLowerCase();
+                const desc = card.querySelector('.description').textContent.toLowerCase();
+                const matches = name.includes(searchTerm) || desc.includes(searchTerm);
+                if (matches) {
                     card.style.display = 'block';
                     card.style.opacity = '1';
                     card.style.transform = 'scale(1)';
+                    found = true;
                 } else {
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.8)';
                     setTimeout(() => {
-                        if (!matchesSearch) { // Check again in case of rapid typing
-                            card.style.display = 'none';
-                        }
+                        if (!matches) card.style.display = 'none';
                     }, 300);
                 }
             });
-
-            // Show "no results" message if no restaurants match
+            // Show/hide "no results"
             const noResultsMsg = document.getElementById('no-results') || createNoResultsMessage();
-            const hasResults = Array.from(restaurantCards).some(card => card.style.display !== 'none');
-            noResultsMsg.style.display = hasResults ? 'none' : 'block';
+            noResultsMsg.style.display = found ? 'none' : 'block';
         });
 
-        // Clear search when user presses Escape
         searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 this.value = '';
@@ -73,57 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Auth buttons
     document.querySelector('.login-btn')?.addEventListener('click', function() {
-        // Navigate to login page
         window.location.href = 'http://127.0.0.1:5500/frontend/Pages/Login.html';
-        
-        // Show feedback to user
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        `;
-        feedback.textContent = 'Redirecting to login page...';
-        document.body.appendChild(feedback);
-
-        setTimeout(() => {
-            feedback.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => feedback.remove(), 300);
-        }, 2000);
+        showFeedback('Redirecting to login page...');
     });
-
     document.querySelector('.signup-btn')?.addEventListener('click', function() {
-        // Navigate to signup page
         window.location.href = 'http://127.0.0.1:5500/frontend/Pages/Login.html';
-        
-        // Show feedback to user
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        `;
-        feedback.textContent = 'Redirecting to signup page...';
-        document.body.appendChild(feedback);
-
-        setTimeout(() => {
-            feedback.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => feedback.remove(), 300);
-        }, 2000);
+        showFeedback('Redirecting to signup page...');
     });
 
     // Navigation tabs
@@ -133,16 +80,14 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             navItems.forEach(i => i.classList.remove('active'));
             this.classList.add('active');
-            // Implement tab switching
-            console.log('Switched to:', this.textContent.trim());
-            // In a real app, this would load different content sections
+            // Placeholder for tab switching
+            showFeedback('Switched to: ' + this.textContent.trim());
         });
     });
 
-    // Menu buttons with specific paths
+    // Menu buttons
     document.querySelectorAll('.menu-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-            // Get restaurant specific paths based on button ID
             let menuPath;
             switch(this.id) {
                 case 'gyros-menu':
@@ -151,91 +96,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'my-corner-menu':
                     menuPath = 'http://127.0.0.1:5500/frontend/Pages/MyCorner.html';
                     break;
-                case 'batates-zalabia-menu':
-                    menuPath = '/menus/batates-zalabia.html';
+                case 'cinnabon-menu':
+                    menuPath = 'http://127.0.0.1:5500/frontend/Pages/Cinnabon.html';
                     break;
                 default:
-                    console.error('Menu not found');
+                    showFeedback('Menu not found');
                     return;
             }
-            
-            window.location.href = menuPath;    
+            window.location.href = menuPath;
         });
     });
 
-    // Initialize and set up auto-update
+    // Update restaurant statuses (placeholder)
     updateRestaurantStatuses();
     setInterval(updateRestaurantStatuses, 60000);
 
-    // Handle footer links
-    document.querySelectorAll('.footer-links a, .legal-links a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const path = this.getAttribute('href').replace('#', '');
-            console.log(`Navigating to: ${path}`);
-            
-            // Show feedback to user
-            const feedback = document.createElement('div');
-            feedback.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: var(--card-bg);
-                color: var(--text-color);
-                padding: 1rem 2rem;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1000;
-                animation: slideIn 0.3s ease;
-            `;
-            feedback.textContent = `Navigating to: ${path}`;
-            document.body.appendChild(feedback);
-
-            // Remove feedback after 2 seconds
-            setTimeout(() => {
-                feedback.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => feedback.remove(), 300);
-            }, 2000);
-        });
-    });
-
-    // Add these animations to your CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-});
-
-function updateRestaurantStatuses() {
-    // This would fetch real-time status from your API in a real app
-    console.log('Updating restaurant statuses...');
-}
-
-// Helper function to create "no results" message
-function createNoResultsMessage() {
-    const message = document.createElement('div');
-    message.id = 'no-results';
-    message.innerHTML = `
-        <div style="text-align: center; padding: 2rem; color: var(--gray-text);">
-            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-            <p>No restaurants found matching your search.</p>
-        </div>
-    `;
-    document.querySelector('.restaurants-grid').appendChild(message);
-    return message;
-}
-
-// Footer functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Language selector
+    // Footer links and language selector
     const languageSelector = document.querySelector('.language-selector');
     if (languageSelector) {
         languageSelector.addEventListener('click', function(e) {
@@ -252,17 +128,95 @@ document.addEventListener('DOMContentLoaded', function() {
                 link.setAttribute('href', 'quickbit/' + currentHref);
             }
         }
-    });
-
-    // Log navigation for demonstration
-    document.querySelectorAll('.bolt-footer a').forEach(link => {
         link.addEventListener('click', function(e) {
-            if (!this.href.includes('quickbit/')) {
-                e.preventDefault();
-                console.log('Navigating to: quickbit/' + this.getAttribute('href'));
-                // In a real app, you would do:
-                // window.location.href = 'quickbit/' + this.getAttribute('href');
-            }
+            e.preventDefault();
+            showFeedback('Navigating to: ' + this.getAttribute('href'));
+            // In a real app, you would do:
+            // window.location.href = this.getAttribute('href');
         });
     });
+
+    // Add feedback animations if not present
+    if (!document.getElementById('feedback-animations')) {
+        const style = document.createElement('style');
+        style.id = 'feedback-animations';
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
 });
+
+// Helper: Show feedback message (only one at a time)
+function showFeedback(message) {
+    let feedback = document.getElementById('feedback-message');
+    if (!feedback) {
+        feedback = document.createElement('div');
+        feedback.id = 'feedback-message';
+        feedback.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg, #222);
+            color: var(--text-color, #fff);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        `;
+        document.body.appendChild(feedback);
+    }
+    feedback.textContent = message;
+    feedback.style.display = 'block';
+    feedback.style.animation = 'slideIn 0.3s ease';
+
+    clearTimeout(feedback._timeout);
+    feedback._timeout = setTimeout(() => {
+        feedback.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => feedback.style.display = 'none', 300);
+    }, 2000);
+}
+
+// Helper: Create "no results" message
+function createNoResultsMessage() {
+    const message = document.createElement('div');
+    message.id = 'no-results';
+    message.innerHTML = `
+        <div style="text-align: center; padding: 2rem; color: var(--gray-text);">
+            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+            <p>No restaurants found matching your search.</p>
+        </div>
+    `;
+    document.querySelector('.restaurants-grid').appendChild(message);
+    return message;
+}
+
+// Placeholder: Update restaurant statuses
+function updateRestaurantStatuses() {
+    // This would fetch real-time status from your API in a real app
+    // For now, just log
+    console.log('Updating restaurant statuses...');
+}
+
+function showNotification(message, iconClass = 'fa-info-circle') {
+    const notification = document.getElementById('notification');
+    const messageSpan = document.getElementById('notification-message');
+    const icon = notification.querySelector('i');
+
+    messageSpan.textContent = message;
+    icon.className = `fas ${iconClass}`;
+
+    notification.classList.add('show');
+    clearTimeout(notification._timeout);
+    notification._timeout = setTimeout(() => {
+        notification.classList.remove('show');
+    }, 2500);
+}

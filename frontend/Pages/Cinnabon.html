@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinnabon - Delicious Sweet Treats</title>
+    <meta name="description" content="Order delicious cinnamon rolls, pastries, and sweet treats">
+    <meta name="keywords" content="cinnabon, cinnamon rolls, pastries, desserts, sweet treats">
+    <link rel="stylesheet" href="../assets/css/Menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>CINNABON</h1>
+            </div>
+            <div class="nav-links">
+                <a href="http://127.0.0.1:5500/frontend/Pages/Login.html" class="active">Sign Up</a>
+                <a href="http://127.0.0.1:5500/frontend/Pages/dashboard.html">Home</a>
+                <a href="#classics">Classics</a>
+                <a href="#specialties">Specialties</a>
+                <a href="#drinks">Drinks</a>
+                <a href="#cart" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i> 
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>CINNABON MENU</h1>
+                <p class="tagline">World Famous Cinnamon Rolls</p>
+                <a href="#classics" class="cta-button">View Menu</a>
+            </div>
+        </section>
+
+        <section id="classics" class="menu-section">
+            <h2 class="section-title">CLASSIC ROLLS</h2>
+            <div class="meal-container">
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/classic-cinnabon.png')"></div>
+                    <div class="meal-content">
+                        <h3>Classic Cinnabon</h3>
+                        <p>Our signature cinnamon roll with rich cream cheese frosting</p>
+                        <p class="price">140 EGP</p>
+                        <button class="add-to-cart" data-name="Classic Cinnabon" data-price="140">Add To Cart</button>
+                    </div>
+                </div>
+                
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/caramel-pecanbon.png')"></div>
+                    <div class="meal-content">
+                        <h3>Caramel Pecanbon</h3>
+                        <p>Cinnamon roll topped with caramel glaze and pecans</p>
+                        <p class="price">160 EGP</p>
+                        <button class="add-to-cart" data-name="Caramel Pecanbon" data-price="160">Add To Cart</button>
+                    </div>
+                </div>
+                
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/chocobon.png')"></div>
+                    <div class="meal-content">
+                        <h3>Chocobon</h3>
+                        <p>Chocolate cinnamon roll with chocolate frosting</p>
+                        <p class="price">150 EGP</p>
+                        <button class="add-to-cart" data-name="Chocobon" data-price="150">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/cinnabon-stix.png')"></div>
+                    <div class="meal-content">
+                        <h3>Cinnabon Stix</h3>
+                        <p>Pull-apart cinnamon breadsticks with frosting dip</p>
+                        <p class="price">130 EGP</p>
+                        <button class="add-to-cart" data-name="Cinnabon Stix" data-price="130">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="specialties" class="menu-section">
+            <h2 class="section-title">SPECIALTY TREATS</h2>
+            <div class="meal-container">
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/minibon-4-pack.png')"></div>
+                    <div class="meal-content">
+                        <h3>Minibon 4-Pack</h3>
+                        <p>Four smaller versions of our classic cinnamon roll</p>
+                        <p class="price">120 EGP</p>
+                        <button class="add-to-cart" data-name="Minibon 4-Pack" data-price="120">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/minibon-bites-12-pack.png')"></div>
+                    <div class="meal-content">
+                        <h3>Minibon Bites 12-Pack</h3>
+                        <p>Bite-sized cinnamon rolls perfect for sharing</p>
+                        <p class="price">180 EGP</p>
+                        <button class="add-to-cart" data-name="Minibon Bites 12-Pack" data-price="180">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/cinnabon-center-of-the-roll.png')"></div>
+                    <div class="meal-content">
+                        <h3>Center of the Roll</h3>
+                        <p>The gooey center piece of our famous cinnamon roll</p>
+                        <p class="price">100 EGP</p>
+                        <button class="add-to-cart" data-name="Center of the Roll" data-price="100">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/cinnabon-cinnapacks.png')"></div>
+                    <div class="meal-content">
+                        <h3>Cinnapacks</h3>
+                        <p>Box of 12 cinnamon roll centers with frosting</p>
+                        <p class="price">220 EGP</p>
+                        <button class="add-to-cart" data-name="Cinnapacks" data-price="220">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="drinks" class="menu-section">
+            <h2 class="section-title">DRINKS & MORE</h2>
+            <div class="meal-container">
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/coffee.png')"></div>
+                    <div class="meal-content">
+                        <h3>Caramel Pecanbon Latte</h3>
+                        <p>Espresso with caramel and pecan flavors</p>
+                        <p class="price">90 EGP</p>
+                        <button class="add-to-cart" data-name="Caramel Pecanbon Latte" data-price="90">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/hot-chocolate.png')"></div>
+                    <div class="meal-content">
+                        <h3>Hot Chocolate</h3>
+                        <p>Rich hot chocolate with whipped cream</p>
+                        <p class="price">80 EGP</p>
+                        <button class="add-to-cart" data-name="Hot Chocolate" data-price="80">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/iced-coffee.png')"></div>
+                    <div class="meal-content">
+                        <h3>Iced Cinnamon Coffee</h3>
+                        <p>Cold brew with cinnamon syrup</p>
+                        <p class="price">85 EGP</p>
+                        <button class="add-to-cart" data-name="Iced Cinnamon Coffee" data-price="85">Add To Cart</button>
+                    </div>
+                </div>
+
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('https://www.cinnabon.com/-/media/cinnabon/products/cinnabon-chiller.png')"></div>
+                    <div class="meal-content">
+                        <h3>Cinnabon Chiller</h3>
+                        <p>Frozen coffee drink with cinnamon flavor</p>
+                        <p class="price">95 EGP</p>
+                        <button class="add-to-cart" data-name="Cinnabon Chiller" data-price="95">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cart" class="cart-section">
+            <div class="cart-container">
+                <h2 class="section-title">Your Cart</h2>
+                <div class="cart-items"></div>
+                <div class="cart-total">
+                    <p>Total: <span class="total-price">0 EGP</span></p>
+                    <button id="checkout" class="checkout-btn">Proceed to Checkout</button>
+                    <button class="clear-cart-btn">Clear Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About Cinnabon</h3>
+                <p>Baking the world's best cinnamon rolls since 1985. Our secret recipe makes every bite unforgettable.</p>
+            </div>
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-phone"></i> +20 123 456 7890</p>
+                <p><i class="fas fa-envelope"></i> info@cinnabon-egypt.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Sweet Street, Cairo, Egypt</p>
+            </div>
+            <div class="footer-section hours">
+                <h3>Opening Hours</h3>
+                <p>Sunday - Thursday: 8AM - 11PM</p>
+                <p>Friday - Saturday: 9AM - 12AM</p>
+            </div>
+            <div class="footer-section social-media">
+                <h3>Follow Us</h3>
+                <div class="social-icons follow-us">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Cinnabon Egypt. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/Menu.js"></script>
+</body>
+</html>
