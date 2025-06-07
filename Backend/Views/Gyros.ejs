@@ -162,7 +162,7 @@
             id: "<%= restaurant.id %>",
             name: "<%= restaurant.name %>",
             currency: "<%= restaurant.currency || 'EGP' %>",
-            taxRate: <%- restaurant.taxRate || 0 %>,
+            taxRate: <%= restaurant.taxRate || 0 %>,
             serviceCharge: <%= restaurant.serviceCharge || 0 %>
         };
     </script>

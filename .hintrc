@@ -19,6 +19,14 @@
         "link-name": "off",
         "button-name": "off"
       }
-    ]
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "label": "off",
+        "select-name": "off"
+      }
+    ],
+    "meta-viewport": "off"
   }
 }

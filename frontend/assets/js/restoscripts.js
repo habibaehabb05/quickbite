@@ -1,155 +1,272 @@
-function toggleEditForm(button) {
-    const form = button.closest('.menu-item').querySelector('.edit-form');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+let menuData = [
+    { id: 1, name: 'Burger', category: 'Main', price: 40, available: true },
+    { id: 2, name: 'Pizza', category: 'Main', price: 70, available: false },
+    { id: 3, name: 'Coke', category: 'Drinks', price: 15, available: true }
+];
+
+let orderData = [
+    {
+        id: 1,
+        userName: 'Mohamed Ayman',
+        mobile: '01012345678',
+        items: ['Burger', 'Coke'],
+        status: 'Pending'
+    }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupProfileDropdown();
+    setupLogout();
+    if (document.getElementById('menuTable')) setupMenu();
+    if (document.getElementById('ordersTable')) setupOrders();
+    setupDialogs();
+    setupAccountSave();
+});
+
+function setupProfileDropdown() {
+    const icon = document.getElementById('profileIcon');
+    const dropdown = document.getElementById('profileDropdown');
+    if (!icon) return;
+    icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('show');
+    });
+    document.addEventListener('click', (e) => {
+        if (dropdown.classList.contains('show')) dropdown.classList.remove('show');
+    });
 }
 
-function saveEdit(button) {
-    const form = button.closest('.edit-form');
-    const menuItem = button.closest('.menu-item');
-    const name = form.querySelector('input:nth-child(1)').value;
-    const category = form.querySelector('input:nth-child(2)').value;
-    const price = form.querySelector('input:nth-child(3)').value;
-
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-        alert('Meal name should contain only letters.');
-        return;
-    }
-    if (!/^[a-zA-Z\s]+$/.test(category)) {
-        alert('Category should contain only letters.');
-        return;
-    }
-    if (!/^\d+(\.\d{1,2})?$/.test(price)) {
-        alert('Price should be a valid number.');
-        return; 
-    }
-    menuItem.querySelector('.menu-item-info span').innerHTML = `
-        <strong>${name}</strong><br>
-        Category: ${category}<br>
-        Price: ${price}
-    `;
-    toggleEditForm(button);
-}
-
-function showConfirmation(button) {
-    const confirmationDialog = document.getElementById('confirmation-dialog');
-    confirmationDialog.style.display = 'block';
-    window.confirmingRemoveButton = button.closest('.menu-item');
-}
-
-function hideConfirmation() {
-    document.getElementById('confirmation-dialog').style.display = 'none';
-}
-
-function removeItemConfirmed() {
-    const menuItem = window.confirmingRemoveButton;
-    menuItem.remove();
-    hideConfirmation();
-}
-
-function addMeal() {
-    const name = document.getElementById('meal-name').value;
-    const category = document.getElementById('meal-category').value;
-    const price = document.getElementById('meal-price').value;
-
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-        alert('Meal name should contain only letters.');
-        return;
-    }
-    if (!/^[a-zA-Z\s]+$/.test(category)) {
-        alert('Category should contain only letters.');
-        return;
-    }
-    if (!/^\d+(\.\d{1,2})?$/.test(price)) {
-        alert('Price should be a valid number.');
-        return;
-    }
-
-    const menuList = document.querySelector('.menu-list');
-    const newItem = document.createElement('li');
-    newItem.classList.add('menu-item');
-    newItem.innerHTML = `
-        <div class="menu-item-info">
-            <span>
-                <strong>${name}</strong><br>
-                Category: ${category}<br>
-                Price: ${price}
-            </span>
-            <div class="menu-item-actions">
-                <button class="btn btn-edit" onclick="toggleEditForm(this)">Edit</button>
-                <button class="btn btn-remove" onclick="showConfirmation(this)">Remove</button>
+function setupLogout() {
+    const logoutLink = document.getElementById('logoutLink');
+    if (!logoutLink) return;
+    logoutLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showLogoutDialog();
+    });
+    let dialog = document.getElementById('logoutConfirmation');
+    if (!dialog) {
+        dialog = document.createElement('div');
+        dialog.id = 'logoutConfirmation';
+        dialog.className = 'confirmation-dialog';
+        dialog.innerHTML = `
+            <div class="confirmation-dialog-content">
+                <p>Are you sure you want to log out?</p>
+                <div class="confirmation-dialog-actions">
+                    <button class="btn btn-confirm" id="logoutYesBtn">Yes</button>
+                    <button class="btn btn-cancel" id="logoutNoBtn">No</button>
+                </div>
             </div>
-        </div>
-        <form class="edit-form">
-            <input type="text" placeholder="Meal Name">
-            <input type="text" placeholder="Category">
-            <input type="text" placeholder="Price">
-            <button type="button" class="btn btn-save" onclick="saveEdit(this)">Save</button>
-            <button type="button" class="btn btn-cancel" onclick="toggleEditForm(this)">Cancel</button>
-        </form>
-    `;
-    menuList.appendChild(newItem);
-
-    document.getElementById('meal-name').value = '';
-    document.getElementById('meal-category').value = '';
-    document.getElementById('meal-price').value = '';
-}
-
-function showMessage(orderItem, type) {
-    const messageBox = orderItem.querySelector(".message");
-    if (type === "confirm") {
-        messageBox.textContent = "Order confirmed!";
-        messageBox.classList.remove("denied-message");
-    } else if (type === "deny") {
-        messageBox.textContent = "Order denied.";
-        messageBox.classList.add("denied-message");
+        `;
+        document.body.appendChild(dialog);
     }
-    messageBox.style.display = "block";
+    document.getElementById('logoutYesBtn').onclick = () => window.location.href = 'menu.html';
+    document.getElementById('logoutNoBtn').onclick = () => dialog.classList.remove('show');
 }
 
-function updateStatus(orderItem, status) {
-    orderItem.classList.remove("pending", "done");
+function showLogoutDialog() {
+    let dialog = document.getElementById('logoutConfirmation');
+    dialog.classList.add('show');
+}
 
-    if (status === "pending") {
-        orderItem.classList.add("pending");
-    } else if (status === "done") {
-        orderItem.classList.add("done");
+function setupDialogs() {
+    const deleteNoBtn = document.getElementById('deleteNoBtn');
+    const menuDeleteDialog = document.getElementById('menuDeleteDialog');
+    if (deleteNoBtn && menuDeleteDialog) {
+        deleteNoBtn.onclick = () => menuDeleteDialog.classList.remove('show');
+    }
+    const denyNoBtn = document.getElementById('denyNoBtn');
+    const ordersDenyDialog = document.getElementById('ordersDenyDialog');
+    if (denyNoBtn && ordersDenyDialog) {
+        denyNoBtn.onclick = () => ordersDenyDialog.classList.remove('show');
+    }
+    const menuModalClose = document.getElementById('menuModalClose');
+    const menuModalCancel = document.getElementById('menuModalCancel');
+    const menuModal = document.getElementById('menuModal');
+    if (menuModalClose && menuModal) {
+        menuModalClose.onclick = () => menuModal.classList.remove('show');
+    }
+    if (menuModalCancel && menuModal) {
+        menuModalCancel.onclick = () => menuModal.classList.remove('show');
     }
 }
 
-function validateAndSave(button) {
-    const name = document.getElementById('restaurant-name');
-    const email = document.getElementById('restaurant-email');
-    const password = document.getElementById('restaurant-password');
-    const phone = document.getElementById('restaurant-phone');
-    const message = document.getElementById('confirmation-message');
+function setupAccountSave() {
+    const accountSaveBtn = document.getElementById('accountSaveBtn');
+    const accountMessage = document.getElementById('accountMessage');
+    if (accountSaveBtn && accountMessage) {
+        accountSaveBtn.onclick = function () {
+            accountMessage.textContent = "Profile changes saved!";
+            accountMessage.style.display = "block";
+            setTimeout(() => {
+                accountMessage.style.display = "none";
+            }, 1800);
+        }
+    }
+}
 
-    const nameRegex = /^[A-Za-z\s]+$/;
-    const numOnly = /^[0-9]+$/;
+function setupMenu() {
+    let editingId = null;
+    let deletingId = null;
+    loadMenu();
 
-    if (!nameRegex.test(name.value)) {
-        alert("Name must contain letters and spaces only.");
-        name.focus();
-        return;
+    document.getElementById('menuAddButton').onclick = () => {
+        editingId = null;
+        showMenuModal();
+    };
+    document.getElementById('menuModalClose').onclick = hideMenuModal;
+    document.getElementById('menuModalCancel').onclick = hideMenuModal;
+    document.getElementById('menuSaveBtn').onclick = saveMenuItem;
+    document.getElementById('deleteNoBtn').onclick = () => hideDialog('menuDeleteDialog');
+    document.getElementById('deleteYesBtn').onclick = confirmDeleteMenu;
+
+    function showMenuModal(item = null) {
+        document.getElementById('menuModalTitle').textContent = item ? 'Edit Menu Item' : 'Add Menu Item';
+        document.getElementById('menuName').value = item ? item.name : '';
+        document.getElementById('menuCategory').value = item ? item.category : '';
+        document.getElementById('menuPrice').value = item ? item.price : '';
+        document.getElementById('menuAvailable').value = item ? String(item.available) : 'true';
+        document.getElementById('menuModal').classList.add('show');
+    }
+    function hideMenuModal() {
+        document.getElementById('menuModal').classList.remove('show');
+    }
+    function saveMenuItem() {
+        const name = document.getElementById('menuName').value.trim();
+        const category = document.getElementById('menuCategory').value.trim();
+        const price = parseFloat(document.getElementById('menuPrice').value);
+        const available = document.getElementById('menuAvailable').value === "true";
+        if (!name || !category || isNaN(price)) return;
+        const data = { name, category, price, available };
+        if (editingId) {
+            menuData = menuData.map(item => item.id === editingId ? { ...item, ...data } : item);
+        } else {
+            const nextId = Math.max(...menuData.map(x=>x.id), 0) + 1;
+            menuData.push({ ...data, id: nextId });
+        }
+        hideMenuModal();
+        loadMenu();
+    }
+    function loadMenu() {
+        const tbody = document.getElementById('menuTable').querySelector('tbody');
+        tbody.innerHTML = '';
+        menuData.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.name}</td>
+                <td>${item.category}</td>
+                <td>$${item.price}</td>
+                <td><span class="badge ${item.available ? 'badge-available' : 'badge-unavailable'}">${item.available ? 'Yes' : 'No'}</span></td>
+                <td class="action-btns">
+                    <button class="btn btn-edit" data-id="${item.id}">✏</button>
+                    <button class="btn btn-delete" data-id="${item.id}">🗑</button>
+                </td>
+            `;
+            tr.querySelector('.btn-edit').onclick = () => {
+                editingId = item.id;
+                showMenuModal(item);
+            };
+            tr.querySelector('.btn-delete').onclick = () => {
+                deletingId = item.id;
+                showDialog('menuDeleteDialog');
+            };
+            tbody.appendChild(tr);
+        });
+    }
+    function confirmDeleteMenu() {
+        if (!deletingId) return;
+        menuData = menuData.filter(item => item.id !== deletingId);
+        deletingId = null;
+        hideDialog('menuDeleteDialog');
+        loadMenu();
+    }
+}
+
+function setupOrders() {
+    let unlockingId = null; // row id for which dropdown will be enabled
+    let denyingId = null;
+    loadOrders();
+
+    document.getElementById('denyNoBtn').onclick = () => hideDialog('ordersDenyDialog');
+    document.getElementById('denyYesBtn').onclick = confirmDenyOrder;
+
+    function loadOrders() {
+        const tbody = document.getElementById('ordersTable').querySelector('tbody');
+        tbody.innerHTML = '';
+        orderData.forEach(order => {
+            const tr = document.createElement('tr');
+            let isPending = order.status === 'Pending';
+            let isDenied = order.status === 'Denied';
+            let isDone = order.status === 'Done';
+            let unlocked = unlockingId === order.id && isPending;
+            if(isPending) tr.className = 'orders-status-pending';
+            else if(isDone) tr.className = 'orders-status-done';
+            else if(isDenied) tr.className = 'denied-row';
+
+            tr.innerHTML = `
+                <td>${String(order.id).padStart(4,'0')}</td>
+                <td>${order.userName || ''}</td>
+                <td>${order.mobile || ''}</td>
+                <td>${Array.isArray(order.items) ? order.items.join(', ') : ''}</td>
+                <td>
+                    <select class="status-select" ${unlocked ? "" : "disabled"}>
+                        <option value="Pending" ${order.status === "Pending" ? "selected" : ""}>Pending</option>
+                        <option value="Done" ${order.status === "Done" ? "selected" : ""}>Done</option>
+                    </select>
+                </td>
+                <td class="action-btns">
+                    <button class="btn btn-confirm" data-id="${order.id}" 
+                        ${(!isPending || unlocked || isDenied) ? "disabled" : ""}>✔</button>
+                    <button class="btn btn-deny" data-id="${order.id}" 
+                        ${!isPending ? "disabled" : ""}>❌</button>
+                </td>
+            `;
+
+            // Tick: unlocks dropdown only
+            const confirmBtn = tr.querySelector('.btn-confirm');
+            confirmBtn.onclick = () => {
+                unlockingId = order.id;
+                loadOrders();
+            };
+
+            // Dropdown: handles manual change (only unlocked row)
+            const statusSelect = tr.querySelector('.status-select');
+            statusSelect.onchange = function() {
+                const newStatus = this.value;
+                if (newStatus === "Done") {
+                    order.status = "Done";
+                    unlockingId = null;
+                } else if (newStatus === "Pending") {
+                    order.status = "Pending";
+                    // Keep unlocked so user can change again if needed
+                }
+                loadOrders();
+            };
+
+            // X: denies order instantly
+            const denyBtn = tr.querySelector('.btn-deny');
+            denyBtn.onclick = () => {
+                denyingId = order.id;
+                showDialog('ordersDenyDialog');
+            };
+
+            tbody.appendChild(tr);
+        });
     }
 
-    if (!numOnly.test(password.value)) {
-        alert("Password must contain numbers only.");
-        password.focus();
-        return;
+    function confirmDenyOrder() {
+        if (!denyingId) return;
+        orderData = orderData.map(o => o.id === denyingId ? { ...o, status: 'Denied' } : o);
+        denyingId = null;
+        unlockingId = null;
+        hideDialog('ordersDenyDialog');
+        loadOrders();
     }
+}
 
-    if (!numOnly.test(phone.value)) {
-        alert("Phone number must contain numbers only.");
-        phone.focus();
-        return;
-    }
 
-    if (!email.checkValidity()) {
-        alert("Please enter a valid email address.");
-        email.focus();
-        return;
-    }
-
-    message.style.display = "block";
-    message.textContent = "Profile saved successfully!";
+function showDialog(id) {
+    document.getElementById(id).classList.add('show');
+}
+function hideDialog(id) {
+    document.getElementById(id).classList.remove('show');
 }

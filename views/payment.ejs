@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBite! - Payment</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Payment Details</h1>
+
+      <h3>Complete Your Payment</h3>
+      <div class="order-total">
+        <p>Total: <strong id="display-total"></strong></p>
+      </div>
+
+      <label for="payment-method">Select Payment Method:</label>
+      <select id="payment-method" onchange="togglePaymentMethod()">
+        <option value="">-- Select --</option>
+        <option value="card">Visa / Mastercard</option>
+      </select>
+
+      <div id="card-details" style="display: none">
+        <form id="payment-form" action="/" method="POST">
+          <input
+            name="cardholderName"
+            type="text"
+            id="cardholder-name"
+            placeholder="Cardholder Name"
+            required
+            oninput="this.value = this.value.replace(/[^a-zA-Z ]/g, '')"
+          />
+          <input
+            type="text"
+            id="card-number"
+            placeholder="Card Number"
+            required
+            maxlength="19"
+            oninput="formatCardNumber(this)"
+            onkeypress="return isNumberKey(event)"
+          />
+          <div class="expiry-container">
+            <input
+              type="text"
+              id="expiry-month"
+              placeholder="MM"
+              required
+              maxlength="2"
+              onkeypress="return isNumberKey(event)"
+              onblur="validateExpiryMonth(this)"
+            />
+            <input
+              type="text"
+              id="expiry-year"
+              placeholder="YY"
+              required
+              maxlength="2"
+              onkeypress="return isNumberKey(event)"
+              onblur="validateExpiryYear(this)"
+            />
+          </div>
+          <input
+            type="password"
+            id="cvv"
+            placeholder="CVV"
+            required
+            maxlength="3"
+            onkeypress="return isNumberKey(event)"
+          />
+          <input name="total" type="hidden" id="hidden-total" />
+          <button type="submit">Pay</button>
+        </form>
+      </div>
+
+      <p id="processing-message">Processing...</p>
+      <p id="success-message">Payment Successful!</p>
+    </div>
+
+    <script src="/js/script.js" defer></script>
+
+    <!-- Popup only shows after successful database save -->
+    <% if (recent) { %>
+      <div id="confirmation-popup" class="popup">
+        <h2>🎉 Payment Successful!</h2>
+        <p><strong>Name:</strong> <%= recent.cardholderName %></p>
+        <p><strong>Total:</strong> <%= recent.total %> EGP</p>
+        <p><strong>Date:</strong> <%= recent.date.toDateString() %></p>
+        <button onclick="document.getElementById('confirmation-popup').style.display='none'">Close</button>
+      </div>
+    <% } %>
+
+  </body>
+</html>
