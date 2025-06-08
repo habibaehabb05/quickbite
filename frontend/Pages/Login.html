@@ -13,34 +13,23 @@
     </div>
 
     <div class="auth-container">
+        <!-- Logo -->
         <div class="logo-container">
             <img src="logo.png" alt="University Logo" class="auth-logo">
-            
-        <!-- Restaurant Login Form -->
-        <div class="form-container" id="restaurant-form" style="display: none;">
-            <h2>Restaurant Login</h2>
-            <div class="input-group">
-                <label for="restaurant-email">Restaurant Email</label>
-                <input type="email" id="restaurant-email" placeholder="Enter your restaurant email">
-                <p class="error-message" id="restaurant-email-error"></p>
-            </div>
-
-            <div class="input-group">
-                <label for="restaurant-password">Password</label>
-                <div class="password-container">
-                    <input type="password" id="restaurant-password" placeholder="Enter your password">
-                    <span class="toggle-password" onclick="togglePassword('restaurant-password')">👁</span>
-                </div>
-                <p class="error-message" id="restaurant-password-error"></p>
-            </div>
-
-            <button class="auth-btn" onclick="restaurantLogin()">Login</button>
-            <p class="toggle-form">Are you a student? <a href="#" onclick="showSignup()">Student Signup</a> or <a href="#" onclick="showLogin()">Student Login</a></p>
-        </div>
         </div>
 
-        <!-- Signup Form -->
-        <div class="form-container" id="signup-form">
+        <!-- Selection Container -->
+        <div class="form-container" id="selection-form">
+            <h2>Welcome to MIU QUICK BITE!</h2>
+            <div class="button-group">
+                <button class="auth-btn" onclick="showStudent()">Student</button>
+                <button class="auth-btn" onclick="showRestaurant()">Restaurant</button>
+                <button class="auth-btn" onclick="showAdmin()">Admin</button>
+            </div>
+        </div>
+
+        <!-- Student Signup Form -->
+        <div class="form-container" id="signup-form" style="display: none;">
             <h2>Sign Up</h2>
             <div class="input-group">
                 <label for="signup-email">University Email</label>
@@ -56,14 +45,14 @@
                 </div>
                 <p class="error-message" id="signup-password-error"></p>
             </div>
+ <button class="auth-btn" onclick="signUp()">Sign Up</button>
+        
 
-            <button class="auth-btn" onclick="signUp()">Sign Up</button>
-            <p class="toggle-form">Already have an account? <a href="#" onclick="showLogin()">Student Login</a> or <a href="#" onclick="showRestaurant()">Restaurant Login</a></p>
         </div>
 
-        <!-- Login Form -->
+        <!-- Student Login Form -->
         <div class="form-container" id="login-form" style="display: none;">
-            <h2>Login</h2>
+            <h2>student Login</h2>
             <div class="input-group">
                 <label for="login-email">University Email</label>
                 <input type="email" id="login-email" placeholder="Enter your university email">
@@ -80,10 +69,54 @@
             </div>
 
             <button class="auth-btn" onclick="login()">Login</button>
-            <p class="toggle-form">Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a> or <a href="#" onclick="showRestaurant()">Restaurant Login</a></p>
+            <!--<p class="toggle-form">Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a> or <a href="#" onclick="showRestaurant()">Restaurant Login</a></p>-->
         </div>
-       
+
+<!-- Restaurant Login Form -->
+<div class="form-container" id="restaurant-form" style="display: none;">
+    <h2>Restaurant Login</h2>
+    <div class="input-group">
+        <label for="restaurant-email">Restaurant Email</label>
+        <input type="email" id="restaurant-email" placeholder="Enter your restaurant email">
+  <p class="error-message" id="restaurant-email-error"></p>
     </div>
+
+    <div class="input-group">
+        <label for="restaurant-password">Password</label>
+        <div class="password-container">
+            <input type="password" id="restaurant-password" placeholder="Enter your password">
+            <span class="toggle-password" onclick="togglePassword('restaurant-password')">👁</span>
+        </div>
+        <p class="error-message" id="restaurant-password-error"></p>
+    </div>
+
+    <button type="button" class="auth-btn" onclick="restaurantLogin()">Login</button>
+
+</div>
+
+
+
+<!-- Admin Login Form -->
+<div class="form-container" id="admin-form" style="display: none;">
+    <h2>Admin Login</h2>
+    <div class="input-group">
+        <label for="admin-email">Admin Email</label>
+        <input type="email" id="admin-email" placeholder="Enter your admin email">
+        <p class="error-message" id="admin-email-error"></p>
+    </div>
+
+    <div class="input-group">
+        <label for="admin-password">Password</label>
+        <div class="password-container">
+            <input type="password" id="admin-password" placeholder="Enter your password">
+            <span class="toggle-password" onclick="togglePassword('admin-password')">👁</span>
+        </div>
+        <p class="error-message" id="admin-password-error"></p>
+    </div>
+
+    <button class="auth-btn" onclick="adminLogin()">Login</button>
+</div>
+
 
     <!-- Success Popup -->
     <div id="success-popup" class="popup">
@@ -93,5 +126,5 @@
     </div>
 
     <script src="script.js"></script>
-</body> 
+</body>
 </html>
