@@ -1,23 +1,39 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
- 
+const router = express.Router();
+const authController = require('../controllers/authController');
+const auth = require('../middleware/auth');
+const { body } = require('express-validator');
 
-dotenv.config();
+// Validation middleware
+const registerValidation = [
+    body('email')
+        .isEmail()
+        .withMessage('Please provide a valid email')
+        .matches(/^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/)
+        .withMessage('Email must be from @miuegypt.edu.eg domain'),
+    body('password')
+        .isLength({ min: 6 })
+        .withMessage('Password must be at least 6 characters long'),
+    body('role')
+        .isIn(['student', 'restaurant', 'admin'])
+        .withMessage('Role must be student, restaurant, or admin')
+];
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const loginValidation = [
+    body('email').isEmail().withMessage('Please provide a valid email'),
+    body('password').notEmpty().withMessage('Password is required')
+];
 
-app.use('/api', authRoutes);
+// Auth routes
+router.post('/register', registerValidation, authController.register);
+router.post('/login', loginValidation, authController.login);
+router.post('/logout', auth, authController.logout);
+router.get('/profile', auth, authController.getProfile);
+router.put('/profile', auth, authController.updateProfile);
+router.post('/change-password', auth, authController.changePassword);
 
-const PORT = process.env.PORT || 3000;
+// Admin routes
+router.get('/users', auth, authController.getAllUsers); // Admin only
+router.put('/users/:userId/status', auth, authController.updateUserStatus); // Admin only
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log('MongoDB connected');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}).catch(err => console.error('DB connection error:', err));
+module.exports = router;

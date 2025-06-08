@@ -1,4 +1,4 @@
-const Menu = require('../models/menu');
+const Menu = require('../Models/menu');
 
 // GET all menus
 exports.getAllMenus = async (req, res) => {
@@ -10,11 +10,11 @@ exports.getAllMenus = async (req, res) => {
   }
 };
 
-// GET menu by restaurant name
-exports.getMenuByRestaurant = async (req, res) => {
+// GET menu by restaurant ID
+exports.getMenuByRestaurantId = async (req, res) => {
   try {
-    const restaurant = req.params.restaurant;
-    const menu = await Menu.findOne({ restaurant });
+    const restaurantId = req.params.restaurantId;
+    const menu = await Menu.findOne({ restaurantId });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });
@@ -28,21 +28,21 @@ exports.getMenuByRestaurant = async (req, res) => {
 
 // POST add new menu item
 exports.addMenuItem = async (req, res) => {
-  const { restaurant, name, description, price, category } = req.body;
+  const { restaurantId, name, description, price, category } = req.body;
 
-  if (!restaurant || !name || !price || !category) {
+  if (!restaurantId || !name || !price || !category) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    let menu = await Menu.findOne({ restaurant });
+    let menu = await Menu.findOne({ restaurantId });
 
     const newItem = { name, description, price, category };
 
     if (!menu) {
       // If restaurant doesn't have a menu yet, create a new one
       menu = new Menu({
-        restaurant,
+        restaurantId,
         categories: [category],
         items: [newItem]
       });
@@ -62,16 +62,17 @@ exports.addMenuItem = async (req, res) => {
     res.status(500).json({ message: 'Error adding item', error: err });
   }
 };
+
 // PUT update menu item
 exports.updateMenuItem = async (req, res) => {
-  const { restaurant, itemId, name, description, price, category } = req.body;
+  const { restaurantId, itemId, name, description, price, category } = req.body;
 
-  if (!restaurant || !itemId || !name || !price || !category) {
+  if (!restaurantId || !itemId || !name || !price || !category) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await Menu.findOne({ restaurantId });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });
@@ -97,16 +98,17 @@ exports.updateMenuItem = async (req, res) => {
     res.status(500).json({ message: 'Error updating item', error: err });
   }
 };
+
 // DELETE menu item
 exports.deleteMenuItem = async (req, res) => {
-  const { restaurant, itemId } = req.body;
+  const { restaurantId, itemId } = req.body;
 
-  if (!restaurant || !itemId) {
+  if (!restaurantId || !itemId) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await Menu.findOne({ restaurantId });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });
@@ -131,16 +133,17 @@ exports.deleteMenuItem = async (req, res) => {
     res.status(500).json({ message: 'Error deleting item', error: err });
   }
 };
+
 // GET menu items by category
 exports.getMenuItemsByCategory = async (req, res) => {
-  const { restaurant, category } = req.params;
+  const { restaurantId, category } = req.params;
 
-  if (!restaurant || !category) {
+  if (!restaurantId || !category) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await Menu.findOne({ restaurantId });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });
@@ -157,16 +160,17 @@ exports.getMenuItemsByCategory = async (req, res) => {
     res.status(500).json({ message: 'Error retrieving items', error: err });
   }
 };
+
 // GET menu categories
 exports.getMenuCategories = async (req, res) => {
-  const { restaurant } = req.params;
+  const { restaurantId } = req.params;
 
-  if (!restaurant) {
+  if (!restaurantId) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await Menu.findOne({ restaurantId });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });

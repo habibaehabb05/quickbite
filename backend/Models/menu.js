@@ -61,6 +61,7 @@ MenuSchema.pre('save', function(next) {
     next();
 });
 
+// الـ export الصحيح
 const Menu = mongoose.model('Menu', MenuSchema);
 const MenuItem = mongoose.model('MenuItem', MenuItemSchema);
 
