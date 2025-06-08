@@ -2,15 +2,7 @@ const express = require('express');
 const router = express.Router();
 const menuController = require('../controllers/menuController');
 const auth = require('../middleware/auth');
-const { body, param } = require('express-validator');
-
-// Validation middleware
-const menuItemValidation = [
-    body('name').notEmpty().withMessage('Item name is required'),
-    body('description').notEmpty().withMessage('Description is required'),
-    body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
-    body('category').notEmpty().withMessage('Category is required')
-];
+const { body } = require('express-validator');
 
 // Public routes
 router.get('/', menuController.getAllMenus);
@@ -20,15 +12,9 @@ router.get('/restaurant/:restaurantId/category/:category', menuController.getMen
 router.get('/item/:itemId', menuController.getMenuItem);
 router.get('/search', menuController.searchMenuItems);
 
-// Protected routes (restaurant owners only)
-router.post('/restaurant/:restaurantId/item', auth, menuItemValidation, menuController.addMenuItem);
-router.put('/item/:itemId', auth, menuItemValidation, menuController.updateMenuItem);
-router.delete('/item/:itemId', auth, menuController.deleteMenuItem);
-router.put('/item/:itemId/availability', auth, menuController.toggleItemAvailability);
+// Render restaurant menu page by slug (main frontend route)
+router.get('/:slug', menuController.renderRestaurantPage);
 
-// Menu management
-router.post('/restaurant/:restaurantId/category', auth, menuController.addCategory);
-router.put('/restaurant/:restaurantId/category/:categoryId', auth, menuController.updateCategory);
-router.delete('/restaurant/:restaurantId/category/:categoryId', auth, menuController.deleteCategory);
+// (Optional) Protected routes for menu management can be added here
 
 module.exports = router;

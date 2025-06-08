@@ -102,7 +102,7 @@ const studentOnly = async (req, res, next) => {
 // Restaurant owner verification middleware
 const verifyRestaurantOwner = async (req, res, next) => {
     try {
-        const Restaurant = require('../Models/restaurant');
+        const Restaurant = require('../Models/Dashboard');
         const restaurantId = req.params.restaurantId;
         
         if (!restaurantId) {

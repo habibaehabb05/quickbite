@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= restaurant.name %> - <%= restaurant.tagline %></title>
+    <meta name="description" content="<%= restaurant.description %>">
+    <meta name="keywords" content="<%= restaurant.keywords.join(', ') %>">
+    <link rel="stylesheet" href="/assets/css/Menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><%= restaurant.name.toUpperCase() %></h1>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="/login" class="<%= currentPage === 'signup' ? 'active' : '' %>">Sign Up</a>
+                <a href="/dashboard" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a>
+                <% Object.keys(restaurant.menuCategories).forEach(category => { %>
+                    <a href="#<%= category.toLowerCase() %>"><%= category %></a>
+                <% }); %>
+                <a href="#cart" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count"><%= cartCount || 0 %></span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1><%= restaurant.name.toUpperCase() %> MENU</h1>
+                <p class="tagline"><%= restaurant.tagline %></p>
+                <a href="#<%= Object.keys(restaurant.menuCategories)[0].toLowerCase() %>" class="cta-button">View Menu</a>
+            </div>
+        </section>
+        <% Object.entries(restaurant.menuCategories).forEach(([category, items]) => { %>
+        <section id="<%= category.toLowerCase() %>" class="menu-section">
+            <h2 class="section-title"><%= category.toUpperCase() %></h2>
+            <div class="meal-container">
+                <% items.forEach(item => { %>
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('<%= item.image %>')"></div>
+                    <div class="meal-content">
+                        <h3><%= item.name %></h3>
+                        <p><%= item.description %></p>
+                        <p class="price"><%= item.price %> <%= item.currency || restaurant.currency || 'EGP' %></p>
+                        <button class="add-to-cart"
+                            data-name="<%= item.name %>"
+                            data-price="<%= item.price %>">
+                            Add To Cart
+                        </button>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </section>
+        <% }); %>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About <%= restaurant.name %></h3>
+                <p><%= restaurant.about %></p>
+            </div>
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-phone"></i> <%= restaurant.phone %></p>
+                <p><i class="fas fa-envelope"></i> <%= restaurant.email %></p>
+                <p><i class="fas fa-map-marker-alt"></i> <%= restaurant.address %></p>
+            </div>
+            <div class="footer-section hours">
+                <h3>Opening Hours</h3>
+                <% restaurant.hours.forEach(function(hour){ %>
+                    <p><%= hour %></p>
+                <% }); %>
+            </div>
+            <div class="footer-section social-media">
+                <h3>Follow Us</h3>
+                <div class="social-icons follow-us">
+                    <% if (restaurant.social && restaurant.social.facebook) { %>
+                        <a href="<%= restaurant.social.facebook %>"><i class="fab fa-facebook"></i></a>
+                    <% } %>
+                    <% if (restaurant.social && restaurant.social.instagram) { %>
+                        <a href="<%= restaurant.social.instagram %>"><i class="fab fa-instagram"></i></a>
+                    <% } %>
+                    <% if (restaurant.social && restaurant.social.twitter) { %>
+                        <a href="<%= restaurant.social.twitter %>"><i class="fab fa-twitter"></i></a>
+                    <% } %>
+                    <% if (restaurant.social && restaurant.social.whatsapp) { %>
+                        <a href="<%= restaurant.social.whatsapp %>"><i class="fab fa-whatsapp"></i></a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; <%= new Date().getFullYear() %> <%= restaurant.name %>. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

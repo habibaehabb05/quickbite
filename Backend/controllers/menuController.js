@@ -1,138 +1,56 @@
-const Menu = require('../models/menu');
+import Menu, { find, findOne } from '../Models/menu';
+import Restaurant from '../Models/restaurant';
 
-// GET all menus
-exports.getAllMenus = async (req, res) => {
+// GET all menusS
+export async function getAllMenus(req, res) {
   try {
-    const menus = await Menu.find();
+    const menus = await find().populate('restaurant');
     res.status(200).json(menus);
   } catch (err) {
     res.status(500).json({ message: 'Error retrieving menus', error: err });
   }
-};
+}
 
 // GET menu by restaurant name
-exports.getMenuByRestaurant = async (req, res) => {
+export async function getMenuByRestaurant(req, res) {
   try {
-    const restaurant = req.params.restaurant;
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await findOne({ restaurant: req.params.restaurantId });
 
     if (!menu) {
-      return res.status(404).json({ message: 'Menu not found for this restaurant' });
+      return res.status(404).json({ message: 'Menu not found' });
     }
 
     res.json(menu);
   } catch (err) {
     res.status(500).json({ message: 'Error retrieving menu', error: err });
   }
-};
+}
 
-// POST add new menu item
-exports.addMenuItem = async (req, res) => {
-  const { restaurant, name, description, price, category } = req.body;
+// GET menu categories
+export async function getMenuCategories(req, res) {
+  const { restaurant } = req.params;
 
-  if (!restaurant || !name || !price || !category) {
+  if (!restaurant) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    let menu = await Menu.findOne({ restaurant });
-
-    const newItem = { name, description, price, category };
-
-    if (!menu) {
-      // If restaurant doesn't have a menu yet, create a new one
-      menu = new Menu({
-        restaurant,
-        categories: [category],
-        items: [newItem]
-      });
-    } else {
-      // If exists, push item
-      menu.items.push(newItem);
-
-      // Update categories if new
-      if (!menu.categories.includes(category)) {
-        menu.categories.push(category);
-      }
-    }
-
-    await menu.save();
-    res.status(201).json({ message: 'Item added successfully', item: newItem });
-  } catch (err) {
-    res.status(500).json({ message: 'Error adding item', error: err });
-  }
-};
-// PUT update menu item
-exports.updateMenuItem = async (req, res) => {
-  const { restaurant, itemId, name, description, price, category } = req.body;
-
-  if (!restaurant || !itemId || !name || !price || !category) {
-    return res.status(400).json({ message: 'Missing required fields' });
-  }
-
-  try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await findOne({ restaurant });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });
     }
 
-    const itemIndex = menu.items.findIndex(item => item._id.toString() === itemId);
+    const categories = [...new Set(menu.items.map(item => item.category))];
 
-    if (itemIndex === -1) {
-      return res.status(404).json({ message: 'Item not found' });
-    }
-
-    // Update item
-    menu.items[itemIndex] = { _id: menu.items[itemIndex]._id, name, description, price, category };
-
-    // Update categories if new
-    if (!menu.categories.includes(category)) {
-      menu.categories.push(category);
-    }
-
-    await menu.save();
-    res.status(200).json({ message: 'Item updated successfully', item: menu.items[itemIndex] });
+    res.json(categories);
   } catch (err) {
-    res.status(500).json({ message: 'Error updating item', error: err });
+    res.status(500).json({ message: 'Error retrieving categories', error: err });
   }
-};
-// DELETE menu item
-exports.deleteMenuItem = async (req, res) => {
-  const { restaurant, itemId } = req.body;
+}
 
-  if (!restaurant || !itemId) {
-    return res.status(400).json({ message: 'Missing required fields' });
-  }
-
-  try {
-    const menu = await Menu.findOne({ restaurant });
-
-    if (!menu) {
-      return res.status(404).json({ message: 'Menu not found for this restaurant' });
-    }
-
-    const itemIndex = menu.items.findIndex(item => item._id.toString() === itemId);
-
-    if (itemIndex === -1) {
-      return res.status(404).json({ message: 'Item not found' });
-    }
-
-    // Remove item
-    menu.items.splice(itemIndex, 1);
-
-    // Check if category is still used
-    const categoriesUsed = new Set(menu.items.map(item => item.category));
-    menu.categories = menu.categories.filter(cat => categoriesUsed.has(cat));
-
-    await menu.save();
-    res.status(200).json({ message: 'Item deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ message: 'Error deleting item', error: err });
-  }
-};
 // GET menu items by category
-exports.getMenuItemsByCategory = async (req, res) => {
+export async function getMenuItemsByCategory(req, res) {
   const { restaurant, category } = req.params;
 
   if (!restaurant || !category) {
@@ -140,7 +58,7 @@ exports.getMenuItemsByCategory = async (req, res) => {
   }
 
   try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await findOne({ restaurant });
 
     if (!menu) {
       return res.status(404).json({ message: 'Menu not found for this restaurant' });
@@ -156,24 +74,78 @@ exports.getMenuItemsByCategory = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Error retrieving items', error: err });
   }
-};
-// GET menu categories
-exports.getMenuCategories = async (req, res) => {
-  const { restaurant } = req.params;
+}
 
-  if (!restaurant) {
-    return res.status(400).json({ message: 'Missing required fields' });
-  }
-
+// GET single menu item
+export async function getMenuItem(req, res) {
   try {
-    const menu = await Menu.findOne({ restaurant });
+    const menu = await findOne({ 'items._id': req.params.itemId });
 
     if (!menu) {
-      return res.status(404).json({ message: 'Menu not found for this restaurant' });
+      return res.status(404).json({ message: 'Menu not found' });
     }
 
-    res.json(menu.categories);
+    const item = menu.items.id(req.params.itemId);
+
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+
+    res.json(item);
   } catch (err) {
-    res.status(500).json({ message: 'Error retrieving categories', error: err });
+    res.status(500).json({ message: 'Error retrieving item', error: err });
+  }
+}
+
+// Search menu items
+export async function searchMenuItems(req, res) {
+  const { q } = req.query;
+
+  try {
+    const menus = await find({ 'items.name': { $regex: q, $options: 'i' } });
+    let results = [];
+    menus.forEach(menu => {
+      results = results.concat(menu.items.filter(item => item.name.toLowerCase().includes(q.toLowerCase())));
+    });
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ message: 'Error searching items', error: err });
+  }
+}
+
+// Render restaurant menu page by slug
+export async function renderRestaurantPage(req, res) {
+  try {
+    const restaurant = await Restaurant.findOne({ slug: req.params.slug });
+
+    if (!restaurant) {
+      return res.status(404).send('Restaurant not found');
+    }
+
+    const menu = await findOne({ restaurant: restaurant._id });
+
+    if (!menu) {
+      return res.status(404).send('Menu not found');
+    }
+
+    // Group items by category
+    const menuCategories = {};
+    menu.items.forEach(item => {
+      if (!menuCategories[item.category]) menuCategories[item.category] = [];
+      menuCategories[item.category].push(item);
+    });
+
+    res.render('Restaurant', {
+      restaurant: {
+        ...restaurant.toObject(),
+        menuCategories,
+        currency: restaurant.currency || 'EGP'
+      },
+      currentPage: 'home',
+      cartCount: 0,
+      cartTotal: 0
+    });
+  } catch (err) {
+    res.status(500).send('Server error');
   }
 };
