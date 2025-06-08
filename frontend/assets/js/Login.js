@@ -12,47 +12,42 @@ function hideAllForms() {
     document.getElementById("login-form").style.display = "none";
     document.getElementById("restaurant-form").style.display = "none";
     document.getElementById("selection-form").style.display = "none";
-    // document.getElementById("admin-form").style.display = "none"; // Uncomment if admin form exists
+    // Fixed: Uncommented to ensure the admin form is hidden correctly
+    document.getElementById("admin-form").style.display = "none";
 }
 
-// Show initial student signup
+// Show student login form
 function showStudent() {
     hideAllForms();
-    document.getElementById("signup-form").style.display = "block";
+    // Changed to show login form by default for students
+    document.getElementById("login-form").style.display = "block";
 }
 
+// Show admin login form
 function showAdmin() {
-    document.getElementById("signup-form").style.display = "none";
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("restaurant-form").style.display = "none";
-    document.getElementById("selection-form").style.display = "none";
+    hideAllForms();
     document.getElementById("admin-form").style.display = "block";
 }
 
-
-// Show restaurant login
+// Show restaurant login form
 function showRestaurant() {
     hideAllForms();
     document.getElementById("restaurant-form").style.display = "block";
-    resetFormErrors('signup');
-    resetFormErrors('login');
 }
-// Switch between login/signup forms
-/*function showLogin() {
-    document.getElementById("signup-form").style.display = "none";
-    document.getElementById("restaurant-form").style.display = "none";
-    document.getElementById("login-form").style.display = "block";
-    resetFormErrors('signup');
-    resetFormErrors('restaurant');
-}*/
 
-/*function showSignup() {
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("restaurant-form").style.display = "none";
+// UPDATED: Switch to student login form
+function showLogin() {
+    hideAllForms();
+    document.getElementById("login-form").style.display = "block";
+    resetFormErrors('signup'); // Clear errors from the other form
+}
+
+// UPDATED: Switch to student signup form
+function showSignup() {
+    hideAllForms();
     document.getElementById("signup-form").style.display = "block";
-    resetFormErrors('login');
-    resetFormErrors('restaurant');
-}*/
+    resetFormErrors('login'); // Clear errors from the other form
+}
 
 // Reset form errors
 function resetFormErrors(formType) {
@@ -73,104 +68,114 @@ function showPopup(message, isSuccess = true) {
         popup.style.display = "none";
     }, 3000);
 }
- 
-function restaurantLogin() {
-    const email = document.getElementById('restaurant-email').value.trim();
-    const password = document.getElementById('restaurant-password').value.trim();
 
+// NEW: Student Login Function
+function login() {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value.trim();
     let isValid = true;
 
-    // Clear previous errors
-    document.getElementById('restaurant-email-error').textContent = '';
-    document.getElementById('restaurant-password-error').textContent = '';
+    resetFormErrors('login');
 
-    // Email validation
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/;
-    if (!emailPattern.test(email)) {
-        document.getElementById('restaurant-email-error').textContent = 'Please enter a valid restaurant email ending with @miuegypt.edu.eg.';
+    if (!validateEmail(email)) {
+        document.getElementById('login-email-error').textContent = 'Email must be a university email ending with @miuegypt.edu.eg.';
         isValid = false;
     }
 
-    // Password validation
     if (password === '') {
-        document.getElementById('restaurant-password-error').textContent = 'Password cannot be empty.';
+        document.getElementById('login-password-error').textContent = 'Password cannot be empty.';
         isValid = false;
     }
 
-    // Redirect if valid
     if (isValid) {
-        console.log('Restaurant login successful!');
-        window.location.href = "file:///C:/Users/Bob/Desktop/Nimo/index.html"; // ✅ Ensure this file exists in the same folder
+        console.log('Student login successful!');
+        // UPDATED: Changed to a relative path. Ensure 'dashboard.html' is in the same folder.
+        window.location.href = "dashboard.html";
     }
 }
 
-
-function adminLogin() {
-    const email = document.getElementById('admin-email').value.trim();
-    const password = document.getElementById('admin-password').value.trim();
-
-    let isValid = true;
-
-    // Clear previous errors
-    document.getElementById('admin-email-error').textContent = '';
-    document.getElementById('admin-password-error').textContent = '';
-
-    // Email validation
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/;
-    if (!emailPattern.test(email)) {
-        document.getElementById('admin-email-error').textContent = 'Please enter a valid admin email ending with @miuegypt.edu.eg.';
-        isValid = false;
-    }
-
-    // Password validation
-    if (password === '') {
-        document.getElementById('admin-password-error').textContent = 'Password cannot be empty.';
-        isValid = false;
-    }
-
-    // Redirect if valid
-    if (isValid) {
-        console.log('Admin login successful!');
-        window.location.href = "admin-dashboard.html"; // ✅ Make sure this file exists and is correctly linked
-    }
-}
-
+// Student Signup Function
 function signUp() {
     const email = document.getElementById('signup-email').value.trim();
     const password = document.getElementById('signup-password').value.trim();
-
     let isValid = true;
 
-    // Clear previous errors
-    document.getElementById('signup-email-error').textContent = '';
-    document.getElementById('signup-password-error').textContent = '';
+    resetFormErrors('signup');
 
-    // Email validation
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/;
-    if (!emailPattern.test(email)) {
+    if (!validateEmail(email)) {
         document.getElementById('signup-email-error').textContent = 'Email must be a university email ending with @miuegypt.edu.eg.';
         isValid = false;
     }
 
-    // Password validation
     if (password === '') {
         document.getElementById('signup-password-error').textContent = 'Password cannot be empty.';
         isValid = false;
     }
 
-    // If valid, redirect to student home page
     if (isValid) {
         console.log('Signup successful!');
-        window.location.href = "C:/Users/Bob/Downloads/dashboard.html"; // Change this to your homepage
+        // For demonstration, signup now shows a success message and switches to the login form.
+        showPopup('Sign up successful! Please log in.');
+        showLogin();
     }
 }
 
+// Restaurant Login Function
+function restaurantLogin() {
+    const email = document.getElementById('restaurant-email').value.trim();
+    const password = document.getElementById('restaurant-password').value.trim();
+    let isValid = true;
+
+    resetFormErrors('restaurant');
+
+    if (!validateEmail(email)) {
+        document.getElementById('restaurant-email-error').textContent = 'Please enter a valid restaurant email ending with @miuegypt.edu.eg.';
+        isValid = false;
+    }
+
+    if (password === '') {
+        document.getElementById('restaurant-password-error').textContent = 'Password cannot be empty.';
+        isValid = false;
+    }
+
+    if (isValid) {
+        console.log('Restaurant login successful!');
+        // UPDATED: Changed to a relative path. Ensure 'index.html' is in the same folder.
+        window.location.href = "index.html";
+    }
+}
+
+// Admin Login Function
+function adminLogin() {
+    const email = document.getElementById('admin-email').value.trim();
+    const password = document.getElementById('admin-password').value.trim();
+    let isValid = true;
+
+    resetFormErrors('admin');
+
+    if (!validateEmail(email)) {
+        document.getElementById('admin-email-error').textContent = 'Please enter a valid admin email ending with @miuegypt.edu.eg.';
+        isValid = false;
+    }
+
+    if (password === '') {
+        document.getElementById('admin-password-error').textContent = 'Password cannot be empty.';
+        isValid = false;
+    }
+
+    if (isValid) {
+        console.log('Admin login successful!');
+        // UPDATED: Changed to a relative path. Ensure 'admin-dashboard.html' is in the same folder.
+        window.location.href = "admin-dashboard.html";
+    }
+}
 
 // Email validation helper
 function validateEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@miuegypt\.edu\.eg$/;
-    return re.test(email);
+    return re.test(String(email).toLowerCase());
 }
+
 // Close popup on background click
 document.getElementById("success-popup").addEventListener("click", function (e) {
     if (e.target === this) {
@@ -178,7 +183,7 @@ document.getElementById("success-popup").addEventListener("click", function (e) 
     }
 });
 
-// Prevent Enter key from submitting forms
+// Prevent Enter key from submitting forms (optional but good practice)
 document.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -188,5 +193,5 @@ document.addEventListener('keypress', function (e) {
 // Show selection screen on initial load
 document.addEventListener("DOMContentLoaded", function () {
     hideAllForms();
-    document.getElementById("selection-form").style.display = "block";
+    document.getElementById("selection-form").style.display = "block";
 });

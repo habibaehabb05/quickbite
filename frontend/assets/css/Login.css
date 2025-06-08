@@ -1,6 +1,4 @@
- 
 :root {
-
     --card-bg: #2A2A2A;
     --white: #FFFFFF;
     --gray-300: #D1D1D1;
@@ -12,42 +10,36 @@
 }
 
 * {
-    margin: 0;/*clear the defaul margin of the browser*/
+    margin: 0;
     padding: 0;
-    box-sizing: border-box; /*to make me define the size not the browser make it*/
-    font-family: 'Poppins', sans-serif; /*font for all elements*/
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-/*body {
-    min-height:100vh;
-}*/
-
- 
-.bg-container {/*B.G*/
+.bg-container {
     position: fixed;
     top: 0;
-    left:0;
+    left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /*place an element behind overlay */
+    z-index: -1;
     background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center/cover;
 }
 
-.overlay {/*B.G*/
-    position: absolute; /* This ensures it is positioned relative to its parent */
-    inset: 0;/* Stretches the overlay to cover the entire parent */
+.overlay {
+    position: absolute;
+    inset: 0;
     background: rgba(0, 0, 0, 0.85);
 }
 
- 
-.auth-container {/*auth*/
+.auth-container {
     max-width: 500px;
-    margin: 5rem auto;/*Centers the container with 5rem top and bottom margin*/
+    margin: 5rem auto;
     padding: 2rem;
     background: var(--card-bg);
-    border-radius: 20px;/*round*/
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /*30 for blur*/
-    position: relative;/*its normal positioning*/
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
     z-index: 1;
 }
 
@@ -58,15 +50,14 @@
 
 .auth-logo {
     max-height: 120px;
-    width: auto;/*the width will scale proportionally to the heigh*/
+    width: auto;
 }
 
- 
 .form-container {
     padding: 2rem;
-    background: rgba(42, 42, 42, 0.8);/*80% opaque and 20% transparent.*/
+    background: rgba(42, 42, 42, 0.8);
     border-radius: 12px;
-    border: 1px/*border thickness*/ solid rgba(255, 255, 255, 0.1);/*white with 0.1 transparent*/
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .form-container h2 {
@@ -81,9 +72,9 @@
 }
 
 .input-group label {
-    display: block;/*Makes the label a block element*/
+    display: block;
     color: var(--gray-300);
-    margin-bottom: 0.5rem;/*rem unit is relative to the root font size*/
+    margin-bottom: 0.5rem;
     font-weight: 500;
 }
 
@@ -95,7 +86,7 @@
     border-radius: 8px;
     color: white;
     font-size: 1rem;
-  transition: border 0.3s ease;
+    transition: border 0.3s ease;
 }
 
 .input-group input:focus {
@@ -118,6 +109,13 @@
 }
 
 /* ===== BUTTONS ===== */
+/* Added styling for the initial button group */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Adds space between buttons */
+}
+
 .auth-btn {
     width: 100%;
     padding: 1rem;
@@ -162,7 +160,7 @@
     display: none;
     position: fixed;
     top: 0;
-    left: 50;
+    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
