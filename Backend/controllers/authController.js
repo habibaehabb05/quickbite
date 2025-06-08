@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('./Models/User');
 
 exports.signup = async (req, res) => {
     const { email, password } = req.body;
