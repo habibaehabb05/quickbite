@@ -1,44 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QuickBite! - Payment</title>
-    <link rel="stylesheet" href="../assets/css/payment.css">
-   
-</head>
-<body>
+    <link rel="stylesheet" href="../assets/css/payment.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>Payment Details</h1>
+      <h1>Payment Details</h1>
 
-    <h3>Complete Your Payment</h3>
-    <div class="order-total">
-              <p>Total: <strong id="total-price"></strong></p>
+      <h3>Complete Your Payment</h3>
+      <div class="order-total">
+        <p>Total: <strong id="display-total"></strong></p>
+      </div>
+
+      <label for="payment-method">Select Payment Method:</label>
+      <select id="payment-method" onchange="togglePaymentMethod()">
+        <option value="">-- Select --</option>
+        <option value="card">Visa / Mastercard</option>
+      </select>
+
+      <div id="card-details" style="display: none">
+        <form id="payment-form" action="/" method="POST">
+          <input
+            name="cardholderName"
+            type="text"
+            id="cardholder-name"
+            placeholder="Cardholder Name"
+            required
+            oninput="this.value = this.value.replace(/[^a-zA-Z ]/g, '')"
+          />
+          <input
+            type="text"
+            id="card-number"
+            placeholder="Card Number"
+            required
+            maxlength="19"
+            oninput="formatCardNumber(this)"
+            onkeypress="return isNumberKey(event)"
+          />
+          <div class="expiry-container">
+            <input
+              type="text"
+              id="expiry-month"
+              placeholder="MM"
+              required
+              maxlength="2"
+              onkeypress="return isNumberKey(event)"
+              onblur="validateExpiryMonth(this)"
+            />
+            <input
+              type="text"
+              id="expiry-year"
+              placeholder="YY"
+              required
+              maxlength="2"
+              onkeypress="return isNumberKey(event)"
+              onblur="validateExpiryYear(this)"
+            />
+          </div>
+          
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="cvv"
+              name="cvv"
+              placeholder="CVV"
+              required
+              maxlength="3" 
+              onkeypress="return isNumberKey(event)"
+            />
+            <span class="toggle-visibility" id="toggle-cvv">👁️</span>
+          </div>
+          <input name="total" type="hidden" id="hidden-total" />
+
+          <p id="form-validation-message" style="display:none; color: var(--brand-color); margin-bottom: 10px; font-weight: bold;"></p>
+          <button type="submit">Pay</button>
+        </form>
+      </div>
+
+      <p id="processing-message">Processing...</p>
+      <p id="success-message">Payment Successful!</p>
     </div>
-    <!-- Rest of your payment form -->
 
-        <!-- Rest of your payment form remains the same -->
-        <label for="payment-method">Select Payment Method:</label>
-        <select id="payment-method" onchange="togglePaymentMethod()">
-            <option value="">-- Select --</option>
-            <option value="card">Visa / Mastercard</option>
-        </select>
-        
-        <div id="card-details" style="display: none;">
-            <input type="text" id="cardholder-name" placeholder="Cardholder Name" oninput="this.value = this.value.replace(/[^a-zA-Z ]/g, '')">
-            <input type="text" id="card-number" placeholder="Card Number" maxlength="19" oninput="formatCardNumber(this)" onkeypress="return isNumberKey(event)">
-            <div class="expiry-container">
-                <input type="text" id="expiry-month" placeholder="MM" maxlength="2"  onkeypress="return isNumberKey(event)">
-                <input type="text" id="expiry-year" placeholder="YY" maxlength="2"  onkeypress="return isNumberKey(event)">
-            </div>
-            <input type="password" id="cvv" placeholder="CVV" maxlength="3" onkeypress="return isNumberKey(event)">
-            <button onclick="processPayment()">Pay</button>
-        </div>
-        
-        <p id="processing-message">Processing...</p>
-        <p id="success-message">Payment Successful!</p>
-    </div>
-    <script src="../assets/js/payment.js"></script>
-</body>
+    <script src="../assets/js/payment.js" defer></script>
 
+
+
+  </body>
 </html>
