@@ -1,6 +1,6 @@
 const Order = require('../Models/order');
 const Cart = require('../Models/cart');
-const User = require('../Models/user');
+const User = require('./Models/user');
 
 // POST create new order
 exports.createOrder = async (req, res) => {
