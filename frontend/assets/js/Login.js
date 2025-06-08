@@ -116,7 +116,7 @@ function signUp() {
         console.log('Signup successful!');
         // For demonstration, signup now shows a success message and switches to the login form.
         showPopup('Sign up successful! Please log in.');
-        showLogin();
+        window.location.href = "dashboard.html";
     }
 }
 
