@@ -6,20 +6,11 @@
     <title><%= restaurant.name %> - <%= restaurant.tagline %></title>
     <meta name="description" content="<%= restaurant.description %>">
     <meta name="keywords" content="<%= restaurant.keywords.join(', ') %>">
-    <link rel="stylesheet" href="/styles/menu.css">
+    <link rel="stylesheet" href="/assets/css/Menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .hero {
-            background-image: url('<%= restaurant.heroImage || "/images/default-hero.jpg" %>');
-        }
-        :root {
-            --primary-color: <%= restaurant.themeColors.primary || '#ff6b6b' %>;
-            --secondary-color: <%= restaurant.themeColors.secondary || '#ffa502' %>;
-        }
-    </style>
 </head>
 
 <body>
@@ -28,19 +19,18 @@
             <div class="logo">
                 <h1><%= restaurant.name.toUpperCase() %></h1>
             </div>
-            <div class="nav-links">
-                <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a>
-                
+            <div class="nav-links" id="nav-links">
+                <a href="/login" class="<%= currentPage === 'signup' ? 'active' : '' %>">Sign Up</a>
+                <a href="/dashboard" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a>
                 <% Object.keys(restaurant.menuCategories).forEach(category => { %>
-                    <a href="#<%= category.toLowerCase().replace(/\s+/g, '-') %>"><%= category %></a>
+                    <a href="#<%= category.toLowerCase() %>"><%= category %></a>
                 <% }); %>
-                
                 <a href="#cart" class="cart-link">
-                    <i class="fas fa-shopping-cart"></i> 
-                    <span class="cart-count">0</span>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count"><%= cartCount || 0 %></span>
                 </a>
             </div>
-            <div class="hamburger">
+            <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
         </nav>
@@ -51,73 +41,39 @@
             <div class="hero-content">
                 <h1><%= restaurant.name.toUpperCase() %> MENU</h1>
                 <p class="tagline"><%= restaurant.tagline %></p>
-                <a href="#menu-start" class="cta-button">View Menu</a>
+                <a href="#<%= Object.keys(restaurant.menuCategories)[0].toLowerCase() %>" class="cta-button">View Menu</a>
             </div>
         </section>
 
-        <div id="menu-start"></div>
-
-        <% Object.entries(restaurant.menuCategories).forEach(([categoryName, items]) => { %>
-            <section id="<%= categoryName.toLowerCase().replace(/\s+/g, '-') %>" class="menu-section">
-                <h2 class="section-title"><%= categoryName %></h2>
-                <div class="meal-container">
-                    <% items.forEach(item => { %>
-                        <div class="meal-box">
-                            <div class="meal-image" style="background-image: url('<%= item.image || '/images/default-food.jpg' %>')"></div>
-                            <div class="meal-content">
-                                <h3><%= item.name %></h3>
-                                <% if(item.description) { %>
-                                    <p><%= item.description %></p>
-                                <% } %>
-                                <p class="price">
-                                    <%= item.price %> <%= item.currency || 'EGP' %>
-                                    <% if(item.dietaryTags && item.dietaryTags.length) { %>
-                                        <span class="dietary-tags">
-                                            <% item.dietaryTags.forEach(tag => { %>
-                                                <span class="tag <%= tag %>"><%= tag %></span>
-                                            <% }); %>
-                                        </span>
-                                    <% } %>
-                                </p>
-                                <button class="add-to-cart" 
-                                        data-id="<%= item.id %>"
-                                        data-name="<%= item.name %>" 
-                                        data-price="<%= item.price %>"
-                                        data-restaurant="<%= restaurant.id %>">
-                                    Add To Cart
-                                </button>
-                            </div>
-                        </div>
-                    <% }); %>
+        <% Object.entries(restaurant.menuCategories).forEach(([category, items]) => { %>
+        <section id="<%= category.toLowerCase() %>" class="menu-section">
+            <h2 class="section-title"><%= category.toUpperCase() %></h2>
+            <div class="meal-container">
+                <% items.forEach(item => { %>
+                <div class="meal-box">
+                    <div class="meal-image" style="background-image: url('<%= item.image %>')"></div>
+                    <div class="meal-content">
+                        <h3><%= item.name %></h3>
+                        <p><%= item.description %></p>
+                        <p class="price"><%= item.price %> <%= item.currency || 'EGP' %></p>
+                        <button class="add-to-cart"
+                            data-name="<%= item.name %>"
+                            data-price="<%= item.price %>">
+                            Add To Cart
+                        </button>
+                    </div>
                 </div>
-            </section>
+                <% }); %>
+            </div>
+        </section>
         <% }); %>
 
         <section id="cart" class="cart-section">
             <div class="cart-container">
                 <h2 class="section-title">Your Cart</h2>
                 <div class="cart-items"></div>
-                <div class="cart-summary">
-                    <div class="cart-subtotal">
-                        <p>Subtotal: <span class="subtotal-price">0 <%= restaurant.currency || 'EGP' %></span></p>
-                    </div>
-                    <% if(restaurant.taxRate > 0) { %>
-                        <div class="cart-tax">
-                            <p>Tax (<%= (restaurant.taxRate * 100).toFixed(0) %>%): 
-                                <span class="tax-amount">0 <%= restaurant.currency || 'EGP' %></span>
-                            </p>
-                        </div>
-                    <% } %>
-                    <% if(restaurant.serviceCharge > 0) { %>
-                        <div class="cart-service">
-                            <p>Service Charge (<%= (restaurant.serviceCharge * 100).toFixed(0) %>%): 
-                                <span class="service-amount">0 <%= restaurant.currency || 'EGP' %></span>
-                            </p>
-                        </div>
-                    <% } %>
-                    <div class="cart-total">
-                        <p>Total: <span class="total-price">0 <%= restaurant.currency || 'EGP' %></span></p>
-                    </div>
+                <div class="cart-total">
+                    <p>Total: <span class="total-price"><%= cartTotal || 0 %> <%= restaurant.currency || 'EGP' %></span></p>
                     <button id="checkout" class="checkout-btn">Proceed to Checkout</button>
                     <button class="clear-cart-btn">Clear Cart</button>
                 </div>
@@ -133,22 +89,31 @@
             </div>
             <div class="footer-section contact-info">
                 <h3>Contact Us</h3>
-                <p><i class="fas fa-phone"></i> <%= restaurant.contact.phone %></p>
-                <p><i class="fas fa-envelope"></i> <%= restaurant.contact.email %></p>
-                <p><i class="fas fa-map-marker-alt"></i> <%= restaurant.contact.address %></p>
+                <p><i class="fas fa-phone"></i> <%= restaurant.phone %></p>
+                <p><i class="fas fa-envelope"></i> <%= restaurant.email %></p>
+                <p><i class="fas fa-map-marker-alt"></i> <%= restaurant.address %></p>
             </div>
             <div class="footer-section hours">
                 <h3>Opening Hours</h3>
-                <% restaurant.openingHours.forEach(time => { %>
-                    <p><%= time %></p>
+                <% restaurant.hours.forEach(function(hour){ %>
+                    <p><%= hour %></p>
                 <% }); %>
             </div>
             <div class="footer-section social-media">
                 <h3>Follow Us</h3>
                 <div class="social-icons follow-us">
-                    <% restaurant.socialMedia.forEach(social => { %>
-                        <a href="<%= social.link %>" target="_blank"><i class="<%= social.icon %>"></i></a>
-                    <% }); %>
+                    <% if (restaurant.social && restaurant.social.facebook) { %>
+                        <a href="<%= restaurant.social.facebook %>"><i class="fab fa-facebook"></i></a>
+                    <% } %>
+                    <% if (restaurant.social && restaurant.social.instagram) { %>
+                        <a href="<%= restaurant.social.instagram %>"><i class="fab fa-instagram"></i></a>
+                    <% } %>
+                    <% if (restaurant.social && restaurant.social.twitter) { %>
+                        <a href="<%= restaurant.social.twitter %>"><i class="fab fa-twitter"></i></a>
+                    <% } %>
+                    <% if (restaurant.social && restaurant.social.whatsapp) { %>
+                        <a href="<%= restaurant.social.whatsapp %>"><i class="fab fa-whatsapp"></i></a>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -157,15 +122,16 @@
         </div>
     </footer>
 
+    <script src="/assets/js/Menu.js"></script>
     <script>
-        const restaurantConfig = {
-            id: "<%= restaurant.id %>",
-            name: "<%= restaurant.name %>",
-            currency: "<%= restaurant.currency || 'EGP' %>",
-            taxRate: <%= restaurant.taxRate || 0 %>,
-            serviceCharge: <%= restaurant.serviceCharge || 0 %>
-        };
+        // Responsive hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        });
     </script>
-    <script src="/scripts/menu.js"></script>
 </body>
 </html>
