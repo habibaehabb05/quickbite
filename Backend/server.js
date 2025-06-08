@@ -1,48 +1,44 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
+
+const authRoutes = require('./routes/authRoutes');
+const connectDB = require('./MongoDb/connect');
+
+dotenv.config();
 
 const app = express();
-
-// Middleware
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json());
 
-// Static files (for uploads)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Use API routes
+app.use('/api', authRoutes);
 
-// Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/restaurants', require('./routes/restaurantRoutes'));
-app.use('/api/menu', require('./routes/menuRoutes'));
-app.use('/api/cart', require('./routes/cartRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
-app.use('/api/payments', require('./routes/paymentRoutes'));
+// Serve frontend (optional)
+app.use(express.static(path.join(__dirname, '../frontend')));
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('🚀 Connected to MongoDB'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+const PORT = process.env.PORT || 5000;
 
-// Error handling middleware
+connectDB().then(() => {
+  app.listen(PORT, () => console.log(`✅ Server is running on http://localhost:${PORT}`));
+});
+
+// 404 handler for API routes
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'API route not found' });
+});
+
+// 404 handler for frontend (SPA fallback)
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, '../frontend', 'index.html'));
+});
+
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
+  res.status(500).json({ error: 'Something broke!' });
 });
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🌟 Server running on port ${PORT}`);
-  console.log(`📱 Environment: ${process.env.NODE_ENV}`);
-});
+module.exports = app;

@@ -1,0 +1,346 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: #18171b;
+    color: #fff;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #18171b;
+    padding: 14px 38px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #e62429;
+}
+
+.logo-brand {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+.logo img {
+    height: 38px;
+    width: auto;
+    display: block;
+}
+.brand-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-left: 10px;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    margin-left: 30px;
+}
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.13rem;
+    transition: color 0.15s, background 0.15s;
+    border-radius: 6px;
+    padding: 6px 17px;
+    font-weight: 500;
+}
+.nav-links a.active,
+.nav-links a:hover {
+    color: #e62429;
+    background: #19181c;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.profile-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.profile-icon {
+    cursor: pointer;
+    font-size: 1.6rem;
+    background: #19181c;
+    padding: 7px 13px;
+    border-radius: 12px;
+    color: #e62429;
+    transition: background 0.18s, color 0.15s;
+}
+.profile-icon:hover {
+    background: #e62429;
+    color: #fff;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: #18171b;
+    min-width: 140px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.13);
+    border-radius: 8px;
+    flex-direction: column;
+}
+.dropdown-menu.show {
+    display: flex;
+}
+.dropdown-menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 18px;
+    transition: background 0.17s, color 0.13s;
+    font-size: 1rem;
+    border-radius: 7px;
+}
+.dropdown-menu a.active,
+.dropdown-menu a:hover {
+    background: #e62429;
+    color: #fff;
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 40px auto 0;
+    padding: 24px 18px 18px 18px;
+    background: #1d1b20;
+    border-radius: 22px;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.10);
+    flex: 1 0 auto;
+}
+
+.menu-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+.menu-header-bar h2 {
+    margin: 0;
+}
+
+.btn {
+    padding: 7px 18px;
+    font-size: 1rem;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    background: #e62429;
+    color: #fff;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.14s;
+}
+.btn:hover {
+    background: #a3161a;
+}
+.btn:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+.menu-table, .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    background: #232124;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+}
+.menu-table th, .menu-table td, .orders-table th, .orders-table td {
+    padding: 14px 13px;
+    text-align: left;
+    border-bottom: 1px solid #28252b;
+}
+.menu-table th, .orders-table th {
+    background: #232124;
+    color: #e62429;
+    font-size: 1.07rem;
+    letter-spacing: 1px;
+}
+.menu-table tr:last-child td,
+.orders-table tr:last-child td { border-bottom: none; }
+.menu-table tr, .orders-table tr { background: none; }
+.menu-table tr:hover, .orders-table tr:hover { background: #28252b; }
+
+.action-btns {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.menu-table td .badge, .orders-table td .badge {
+    font-size: 0.96rem;
+    border-radius: 8px;
+    padding: 5px 14px;
+}
+.badge-available {
+    background: #19181c;
+    color: #fff;
+}
+.badge-unavailable {
+    background: #e62429;
+    color: #fff;
+}
+
+/* --- Orders Table Status Colors --- */
+.orders-table tr.orders-status-pending {
+    background: #ecb10161 !important; /* soft warm yellow */
+    color: #ffffff !important;
+}
+.orders-table tr.orders-status-done {
+    background: #2f3c23 !important; /* dark muted green */
+    color: #fff !important;
+}
+.orders-table tr.denied-row {
+    background: #e6242b7f !important;
+    color: #fff !important;
+}
+.orders-table tr.denied-row select.status-select {
+    background: #e6242b2e !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+.orders-table .status-select:disabled {
+    background: #1d1b20;
+    color: #fff;
+}
+.orders-table .status-select {
+    background: #232124;
+    color: #fff;
+    border: 1px solid #e62429;
+}
+
+.form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.form-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #e62429;
+}
+.form-input, .form-textarea {
+    border: 1px solid #28252b;
+    border-radius: 8px;
+    padding: 9px 13px;
+    background: #232124;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    resize: none;
+}
+.form-textarea { min-height: 80px; }
+.status-select {
+    border-radius: 7px;
+    border: 1px solid #e62429;
+    padding: 5px 10px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.modal, .confirmation-dialog {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(20,19,22,0.82);
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+.modal.show, .confirmation-dialog.show {
+    display: flex;
+}
+.modal-content, .confirmation-dialog-content {
+    background: #18171b;
+    padding: 32px 28px 24px 28px;
+    border-radius: 19px;
+    min-width: 330px;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.16);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+    background: none;
+    border: none;
+}
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 18px;
+}
+.modal-actions {
+    display: flex;
+    gap: 13px;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+.confirmation-dialog .confirmation-dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.confirmation-dialog .confirmation-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 26px;
+}
+.confirmation-dialog .btn {
+    min-width: 85px;
+}
+.confirmation-message {
+    color: #e62429;
+    font-weight: 500;
+    margin-top: 13px;
+    display: none;
+}
+.footer {
+    background: #18171b;
+    color: #fff;
+    text-align: center;
+    padding: 18px 0 8px 0;
+    border-top: 2px solid #e6242b32;
+    border-radius: 0 0 19px 19px;
+    margin-top: auto;
+}
+.footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.footer-notice {
+    font-size: 0.95rem;
+    color: #ffffff;
+}
