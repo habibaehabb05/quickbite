@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs'); // استخدم bcryptjs بدلاً من bcrypt
-module.exports = mongoose.model('User', userSchema);
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -59,4 +58,4 @@ userSchema.methods.toJSON = function() {
     return user;
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);
