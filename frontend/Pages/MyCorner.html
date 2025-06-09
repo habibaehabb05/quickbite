@@ -15,27 +15,8 @@
 
 
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>MY CORNER</h1>
-            </div>
-            <div class="nav-links">
-                <a href="http://127.0.0.1:5500/frontend/Pages/Login.html" class="active">Sign Up</a>
-                <a href="http://127.0.0.1:5500/frontend/Pages/dashboard.html">Home</a>
-                <a href="#classic">Classic</a>
-                <a href="#pancakes">Pancakes</a>
-                <a href="#sandwiches">Sandwiches</a>
-                <a href="#drinks">Drinks</a>
-                <a href="#cart" class="cart-link">
-                    <i class="fas fa-shopping-cart"></i> 
-                    <span class="cart-count">0</span>
-                </a>
-            </div>            <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
-    </header>
+    <%- include('partials/navigation') %>
+    
 
     <main>
         <section id="home" class="hero">
