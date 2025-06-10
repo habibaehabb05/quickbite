@@ -58,4 +58,4 @@ userSchema.methods.toJSON = function () {
     return user;
 };
 
-module.exports = mongoose.model('User', userSchema); // Capital "U" for consistency
+module.exports = mongoose.model('User', userSchema); // Export after schema is defined

@@ -1,13 +1,17 @@
 const User = require('../Models/user');
+const bcrypt = require('bcrypt');
 
 // Signup
+
 exports.signup = async (req, res) => {
     const { email, password, role } = req.body;
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: 'Email already registered' });
 
-        const newUser = new User({ email, password, role });
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = new User({ email, password: hashedPassword, role });
         await newUser.save();
         res.status(201).json({ message: 'User created successfully' });
     } catch (err) {
@@ -20,16 +24,32 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+        if (!user) return res.status(400).send('Invalid credentials');
 
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).send('Invalid credentials');
 
-        res.status(200).json({ message: 'Login successful', role: user.role });
+        // Save user to session
+        req.session.user = {
+            id: user._id,
+            role: user.role,
+            email: user.email
+        };
+
+        // Redirect based on role
+        if (user.role === 'admin') {
+            return res.redirect('/admin/dashboard');
+        } else if (user.role === 'restaurant') {
+            return res.redirect('/restaurant/dashboard');
+        } else {
+            return res.redirect('/dashboard');
+        }
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+        console.error(err);
+        res.status(500).send('Server error');
     }
 };
+
 
 // Get profile
 exports.getProfile = async (req, res) => {

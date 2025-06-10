@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
+const authController = require('../controllers/authController');
+
 const {
   auth,
   adminOnly,
@@ -8,7 +10,35 @@ const {
   restaurantOnly
 } = require('../middleware/auth');
 
-const authController = require('../controllers/authController');
+// POST /auth/signup
+router.post('/signup', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already registered' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Save user
+        const newUser = new User({
+            email,
+            password: hashedPassword,
+            role: 'student' // ثابت لطالب
+        });
+
+        await newUser.save();
+
+        return res.status(201).json({ message: 'Signup successful' });
+    } catch (err) {
+        console.error('Signup error:', err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
 
 // Validation middleware
 const registerValidation = [
@@ -31,6 +61,10 @@ const loginValidation = [
 ];
 
 // Auth routes
+// GET login page
+router.get('/login', (req, res) => {
+    res.render('login'); // يرندر صفحة login.ejs
+});
 router.post('/signup', registerValidation, authController.signup);
 router.post('/login', loginValidation, authController.login);
 router.get('/profile', auth, authController.getProfile);
