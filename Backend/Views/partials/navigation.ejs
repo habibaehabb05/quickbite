@@ -1,22 +1,30 @@
 <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>MY CORNER</h1>
+    <nav class="navbar">
+        <div class="logo">
+            <h1><%= restaurant ? restaurant.name.toUpperCase() : "QUICKBITE" %></h1>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="/login" class="<%= currentPage === 'signup' ? 'active' : '' %>">Sign Up</a>
+            <a href="/dashboard" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a>
+            <!-- Restaurant switcher links -->
+            <div class="restaurant-switcher">
+                <a href="/menus/gyros">Gyros</a>
+                <a href="/menus/mycorner">My Corner</a>
+                <a href="/menus/cinnabon">Cinnabon</a>
             </div>
-            <div class="nav-links">
-                <a href="http://127.0.0.1:5500/frontend/Pages/Login.html" class="active">Sign Up</a>
-                <a href="http://127.0.0.1:5500/frontend/Pages/dashboard.html">Home</a>
-                <a href="#classic">Classic</a>
-                <a href="#pancakes">Pancakes</a>
-                <a href="#sandwiches">Sandwiches</a>
-                <a href="#drinks">Drinks</a>
-                <a href="#cart" class="cart-link">
-                    <i class="fas fa-shopping-cart"></i> 
-                    <span class="cart-count">0</span>
-                </a>
-            </div>           
-             <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
-    </header>
+            <!-- Dynamic category links -->
+            <% if (restaurant && restaurant.menuCategories) { %>
+                <% Object.keys(restaurant.menuCategories).forEach(category => { %>
+                    <a href="#<%= category.toLowerCase() %>"><%= category %></a>
+                <% }); %>
+            <% } %>
+            <a href="#cart" class="cart-link">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+            </a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+</header>
