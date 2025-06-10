@@ -1,301 +1,227 @@
-/* ==========================================================================
-   1. CSS Variables & Global Styles
-   ========================================================================== */
-
 :root {
-    /* Color Palette */
-    --background: #1A1A1A;
-    --card-bg: #2A2A2A;
-    --white: #FFFFFF;
-    --brand-color: #FF4B4B;
-    --brand-secondary: #FFB168;
-    --brand-successColor: #90ee90;
+            --background: #1A1A1A;
+            --card-bg: #2A2A2A;
+            --white: #FFFFFF;
+            --brand-color: #FF4B4B;
+            --brand-secondary: #FFB168;
+            --success-green: #4CAF50; /* Softer green */
+            --processing-amber: #f5a623; /* Amber/Orange for processing */
+            --error-red: #dc3545;
+        }
 
-    /* Font Sizes */
-    --font-size-base: 1rem;      /* Approx 16px */
-    --font-size-small: 0.875rem; /* Approx 14px */
-    --font-size-input: 0.9rem;   /* Approx 14.4px */
-    --font-size-large: 1.125rem; /* Approx 18px */
-}
+        body {
+            background: var(--background);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            padding: 1rem 0;
+        }
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        .container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+        }
 
-html {
-    font-size: 100%; /* Establishes the base for `rem` units */
-    scroll-behavior: smooth;
-}
+        .order-total {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-    /* Layout */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 1rem;
+        .form-group {
+            margin-bottom: 1.25rem; /* Adjusted spacing */
+        }
 
-    /* Typography & Appearance */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: var(--font-size-base);
-    line-height: 1.6;
-    background: var(--background);
-    color: var(--white);
-}
+        input,
+        button,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: #333;
+            color: var(--white);
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        
+        select {
+            background-color: #333;
+        }
 
-/* ==========================================================================
-   2. Main Layout & Component Styles
-   ========================================================================== */
+        input:focus,
+        select:focus {
+            border-color: var(--brand-secondary);
+            box-shadow: 0 0 8px rgba(255, 177, 104, 0.5);
+        }
 
-/* The main content box */
-.container {
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
+        button {
+            background: var(--brand-color);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.1s;
+            margin-top: 1rem;
+        }
 
-/* General styles for all heading levels used */
-h1, h2, h3 {
-    margin-bottom: 1rem;
-    line-height: 1.3;
-    color: var(--white);
-}
+        button:hover {
+            background: var(--brand-secondary);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
 
-/* Box showing the order total */
-.order-total {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin: 1.5rem 0;
-    padding: 1rem;
-    font-size: var(--font-size-large);
-}
+        .expiry-container {
+            display: flex;
+            gap: 1rem;
+        }
 
-/* The highlighted text within the order total */
-.order-total strong {
-    color: var(--brand-secondary);
-}
+        #card-details {
+            margin-top: 1.5rem;
+        }
+        
+        .message {
+            display: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
 
-/* ==========================================================================
-   3. Form Element Styles
-   ========================================================================== */
+        #success-message {
+            color: var(--success-green);
+            background-color: rgba(76, 175, 80, 0.15); /* Transparent green background */
+            border: 1px solid var(--success-green); /* Solid green border */
+        }
 
-/* Shared styles for all form controls */
-input,
-button,
-select {
-    width: 100%;
-    margin: 0.75rem 0;
-    padding: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--white);
-    font-family: inherit;
-    font-size: var(--font-size-input);
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
+        #processing-message {
+            color: var(--processing-amber);
+            background-color: rgba(245, 166, 35, 0.15); /* Transparent amber background */
+            border: 1px solid var(--processing-amber); /* Solid amber border */
+        }
+        
+        .error-message {
+            color: var(--error-red);
+            font-size: 0.8rem;
+            margin-top: 0.35rem;
+            display: none;
+            text-align: left;
+        }
 
-/* Specific styles for the dropdown menu */
-select {
-    appearance: none; /* Removes default system arrow */
-    background-color: var(--card-bg);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFFFFF'%3E%3Cpath d='M8 11.207l-4.667-4.667.94-.94L8 9.327l3.727-3.727.94.94z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1em;
-    padding-right: 2.5rem; /* Make space for our custom arrow */
-}
+        .cvv-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-/* Style for the options inside the dropdown */
-select option {
-    background-color: var(--card-bg);
-    color: var(--white);
-}
+        #cvv {
+            padding-right: 45px; /* Make space for the icon */
+        }
 
-/* Style for inputs when they are focused (clicked on) */
-input:focus,
-select:focus {
-    border-color: var(--brand-secondary);
-    box-shadow: 0 0 0 3px rgba(255, 177, 104, 0.3);
-}
+        #toggle-cvv {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.2s;
+        }
 
-/* Main "Pay" button */
-button {
-    background: var(--brand-color);
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
+        #toggle-cvv:hover {
+            color: var(--white);
+        }
 
-/* "Pay" button when hovered or focused */
-button:hover,
-button:focus {
-    background: var(--brand-secondary);
-    outline: none;
-}
+        #toggle-cvv svg {
+            width: 20px;
+            height: 20px;
+        }
 
-/* Container for the MM/YY inputs to sit side-by-side */
-.expiry-container {
-    display: flex;
-    gap: 0.5rem;
-}
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1000;
+        }
 
-/* Fix for browser autofill styles in dark mode */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 50px var(--card-bg) inset !important;
-    -webkit-text-fill-color: var(--white) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
 
-/* ==========================================================================
-   4. Icon & Message Styles
-   ========================================================================== */
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
 
-/* Wrapper for the CVV input and its show/hide icon */
-.input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
+        .modal-content h2 {
+            color: var(--success-green);
+            margin-top: 0;
+        }
+        
+        .modal-content p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+         .modal-content strong {
+            color: var(--brand-secondary);
+        }
 
-.input-wrapper input {
-    padding-right: 3rem; /* Prevents typed text from going under the icon */
-}
-
-/* The "eye" icon itself */
-.toggle-visibility {
-    position: absolute;
-    right: 1rem;
-    cursor: pointer;
-    user-select: none; /* Prevents selecting the icon as text */
-    font-size: 1.2rem;
-    color: #ccc;
-    transition: color 0.2s ease, text-decoration 0.2s ease;
-}
-
-/* Style for the icon when the CVV is visible */
-.toggle-visibility.active {
-    text-decoration: line-through;
-    color: #999;
-}
-
-/* Shared styles for processing/success messages */
-#processing-message,
-#success-message {
-    display: none; /* Hidden by default, shown with JavaScript */
-    font-weight: bold;
-    margin-top: 0.75rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-#processing-message {
-    background-color: rgba(255, 75, 75, 0.1);
-    color: var(--brand-color);
-}
-
-#success-message {
-    background-color: rgba(144, 238, 144, 0.1);
-    color: var(--brand-successColor);
-}
-
-/* ==========================================================================
-   5. Popup & Animation Styles
-   ========================================================================== */
-
-.popup {
-    /* Positioning */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    
-    /* Box Model */
-    display: none; /* Hidden by default */
-    width: 90%;
-    max-width: 360px;
-    padding: 2rem 1.5rem;
-    
-    /* Appearance */
-    background-color: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
-/* This class is added by JS to show the popup with an animation */
-.popup.visible {
-    display: block;
-    animation: fadeInPopup 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.popup p {
-    margin-bottom: 1.5rem;
-}
-
-.popup button {
-    margin-top: 1rem;
-}
-
-@keyframes fadeInPopup {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -55%) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-/* ==========================================================================
-   6. Responsive Styles for Small Screens
-   ========================================================================== */
-
-@media (max-width: 480px) {
-    .container {
-        padding: 1.5rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    input,
-    button,
-    select {
-        padding: 0.8rem;
-        font-size: calc(var(--font-size-input) * 0.98);
-    }
-
-    select {
-        background-position: right 0.65rem center;
-        padding-right: 2.3rem;
-    }
-
-    .order-total {
-        font-size: var(--font-size-base);
-    }
-
-    .popup {
-        padding: 1.5rem 1rem;
-        width: calc(100% - 2rem);
-    }
-
-    .popup p {
-        font-size: var(--font-size-small);
-    }
-}
+        .modal-content .close-button {
+            margin-top: 1.5rem;
+            background-color: var(--brand-color);
+            padding: 10px 20px;
+            font-size: 1rem;
+            width: auto;
+        }

@@ -1,5 +1,5 @@
-# Node modules
-node_modules/
+# Node modules (for both backend and frontend)
+**/node_modules/
 
 # Logs
 npm-debug.log*
@@ -9,3 +9,19 @@ yarn-error.log*
 # OS-specific
 .DS_Store
 Thumbs.db
+
+# Environment variables (DO NOT share secrets!)
+**/.env
+
+# IDEs & editors
+.vscode/
+.idea/
+
+# Build outputs (optional)
+dist/
+build/
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
