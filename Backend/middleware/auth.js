@@ -1,6 +1,6 @@
 // middleware/auth.js
 const jwt = require('jsonwebtoken');
-const User = require('./Models/user');//خلى بالك كدا لو فيه ايرور
+const User = require('../Models/user');//خلى بالك كدا لو فيه ايرور
 
 // Basic authentication middleware
 const auth = async (req, res, next) => {

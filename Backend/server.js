@@ -1,13 +1,11 @@
 const express = require('express');
+require('dotenv').config(); // Load environment variables
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const Mydata = require('./models/mydataSchema');
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,10 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// === API routes ===
+// === API Routes ===
 app.use('/api', authRoutes);
 
-// === Rendered pages ===
+// === Rendered Pages ===
 app.get('/', async (req, res) => {
   try {
     const allData = await Mydata.find();
@@ -73,19 +71,19 @@ app.use('/api', (req, res) => {
   res.status(404).json({ error: 'API route not found' });
 });
 
-// === SPA fallback or custom 404 page ===
+// === SPA fallback or 404 page ===
 app.use((req, res) => {
   res.status(404).render('layout', { message: 'Page not found' });
 });
 
-// === Error handler ===
+// === Global Error Handler ===
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something broke!' });
 });
 
-// === Connect DB & Start server ===
-mongoose.connect(process.env.MONGODB_URI, {
+// === Connect to MongoDB and Start Server ===
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
