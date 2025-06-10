@@ -4,11 +4,17 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
+const app = express(); // ✅ عرّف app في الأول
+const PORT = process.env.PORT || 3000;
+
 const authRoutes = require('./routes/authRoutes');
 const Mydata = require('./models/mydataSchema');
-
-const app = express();
-const PORT = process.env.PORT || 3000;
+const session = require('express-session');
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'secretkey123',
+  resave: false,
+  saveUninitialized: false,
+}));
 
 // === Middleware ===
 app.use(cors());
@@ -21,6 +27,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // === API Routes ===
+app.use('/auth', authRoutes); // ✅ دلوقتي ينفع تستخدم app
 app.use('/api', authRoutes);
 
 // === Rendered Pages ===
@@ -33,14 +40,26 @@ app.get('/', async (req, res) => {
       recentData = await Mydata.findById(req.query.confirmId);
     }
 
-    res.render('index', {
+    res.render('dashboard', {
       arr: allData,
       recent: recentData,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving data');
+    console.error("❌ Error retrieving data:", err.message);
+  res.status(500).send('Error retrieving data: ' + err.message);
   }
+});
+
+app.get('/dashboard', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/Login');
+  }
+
+  res.render('dashboard', { user: req.session.user });
+});
+
+app.get('/Login', (req, res) => { // ✅ استخدم res.render لعرض صفحة تسجيل الدخول
+  res.render('Login'); // login.ejs لازم تكون موجودة في views
 });
 
 app.post('/', async (req, res) => {
@@ -79,6 +98,7 @@ app.use((req, res) => {
 // === Global Error Handler ===
 app.use((err, req, res, next) => {
   console.error(err.stack);
+  console.error("🔥 Global Error:", err);
   res.status(500).json({ error: 'Something broke!' });
 });
 

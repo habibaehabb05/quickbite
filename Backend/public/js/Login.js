@@ -70,7 +70,7 @@ function showPopup(message, isSuccess = true) {
 }
 
 // NEW: Student Login Function
-function login() {
+async function login() {
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
     let isValid = true;
@@ -87,38 +87,76 @@ function login() {
         isValid = false;
     }
 
-    if (isValid) {
-        console.log('Student login successful!');
-        // UPDATED: Changed to a relative path. Ensure 'dashboard.html' is in the same folder.
-        window.location.href = "dashboard.html";
+    if (!isValid) return;
+
+    try {
+        const res = await fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            showPopup('Login successful');
+            // Redirect based on role
+            if (data.role === 'student') {
+                window.location.href = '/dashboard.html';
+            } else if (data.role === 'restaurant') {
+                window.location.href = '/restaurant-dashboard.html';
+            } else if (data.role === 'admin') {
+                window.location.href = '/admin-dashboard.html';
+            }
+        } else {
+            showPopup(data.message || 'Login failed', false);
+        }
+    } catch (err) {
+        console.error('Login error:', err);
+        showPopup('Server error', false);
     }
 }
 
 // Student Signup Function
-function signUp() {
+async function signUp() {
     const email = document.getElementById('signup-email').value.trim();
     const password = document.getElementById('signup-password').value.trim();
-    let isValid = true;
 
-    resetFormErrors('signup');
+    // Reset any previous errors
+    document.getElementById('signup-email-error').textContent = '';
+    document.getElementById('signup-password-error').textContent = '';
 
-    if (!validateEmail(email)) {
-        document.getElementById('signup-email-error').textContent = 'Email must be a university email ending with @miuegypt.edu.eg.';
-        isValid = false;
+    if (!email.endsWith('@miuegypt.edu.eg')) {
+        document.getElementById('signup-email-error').textContent = 'Use your university email';
+        return;
     }
 
-    if (password === '') {
-        document.getElementById('signup-password-error').textContent = 'Password cannot be empty.';
-        isValid = false;
+    if (password.length < 6) {
+        document.getElementById('signup-password-error').textContent = 'Password must be at least 6 characters';
+        return;
     }
 
-    if (isValid) {
-        console.log('Signup successful!');
-        // For demonstration, signup now shows a success message and switches to the login form.
-        showPopup('Sign up successful! Please log in.');
-        window.location.href = "dashboard.html";
+    try {
+        const res = await fetch('/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            showPopup(data.message);
+            showLogin(); // بعد التسجيل نرجّع المستخدم لصفحة تسجيل الدخول
+        } else {
+            showPopup(data.message);
+        }
+    } catch (err) {
+        console.error('Signup error:', err);
+        showPopup('Something went wrong');
     }
 }
+
 
 // Restaurant Login Function
 function restaurantLogin() {
