@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ إعداد عرض الصفحات باستخدام EJS
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("Views", path.join(__dirname, "Views"));
 
 // ✅ Route تجريبي للتأكد إن السيرفر شغال
 app.get("/", (req, res) => {
