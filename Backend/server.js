@@ -31,7 +31,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public"))); // ✅ استخدمي express.static لتقديم الملفات الثابتة')));
 
 // ✅ إعداد عرض الصفحات باستخدام EJS
 app.set("view engine", "ejs");
