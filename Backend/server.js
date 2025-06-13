@@ -8,7 +8,7 @@ const app = express(); // ✅ عرّف app في الأول
 const PORT = process.env.PORT || 3000;
 
 const authRoutes = require('./routes/authRoutes');
-const Mydata = require('/Models/mydataSchema');
+const Mydata = require('./Models/mydataSchema');
 const session = require('express-session');
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secretkey123',
