@@ -50,13 +50,24 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', async (req, res) => {
   if (!req.session.user) {
-    return res.redirect('/Login');
+    return res.redirect('/Login'); // لو مش مسجل دخول، يرجعه للّوجين
   }
 
-  res.render('dashboard', { user: req.session.user });
+  try {
+    const allData = await Mydata.find();
+    res.render('dashboard', {
+      user: req.session.user,
+      arr: allData,
+      recent: null, // لو عايز تخليها فاضية هنا
+    });
+  } catch (err) {
+    console.error('❌ Error loading dashboard:', err.message);
+    res.status(500).send('Error loading dashboard');
+  }
 });
+
 
 app.get('/Login', (req, res) => { // ✅ استخدم res.render لعرض صفحة تسجيل الدخول
   res.render('Login'); // login.ejs لازم تكون موجودة في views

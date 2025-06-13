@@ -6,7 +6,7 @@
     <title>QuickBit- Restaurants</title>
     <meta name="description" content="<%= restaurant.description %>">
     <meta name="keywords" content="<%= restaurant.keywords.join(', ') %>">
-    <link rel="stylesheet" href="/assets/css/Menu.css">
+    <link rel="stylesheet" href="../public/css/Menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -31,9 +31,13 @@
                         <h3><%= item.name %></h3>
                         <p><%= item.description %></p>
                         <p class="price"><%= item.price %> <%= item.currency || restaurant.currency || 'EGP' %></p>
+                        <p class="meal-status" style="color: '<%= item.available === false ? 'red' : 'green' %>';">
+                            <%= item.available === false ? 'Not Available' : 'Available' %>
+                        </p>
                         <button class="add-to-cart"
                             data-name="<%= item.name %>"
-                            data-price="<%= item.price %>">
+                            data-price="<%= item.price %>"
+                            <%= item.available === false ? 'disabled' : '' %>>
                             Add To Cart
                         </button>
                     </div>
