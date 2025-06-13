@@ -9,7 +9,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 dotenv.config();
-const connectDB = require("./mongodb/connect"); // ✅ أضف هذا السطر
+const connectDB = require("./MongoDb/connect"); // ✅ أضف هذا السطر
 connectDB(); // ✅ واتصل بقاعدة البيانات
 
 const app = express();
