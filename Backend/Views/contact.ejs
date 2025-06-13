@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>QuickBite! Contact</title>
-    <link rel="stylesheet" href="../assets/css/restocss.css">
+    <link rel="stylesheet" href="restocss.css">
 </head>
 <body>
     <header class="navbar">
         <div class="logo-brand">
             <div class="logo">
-                <img src="../assets/images/logo.png" alt="QuickBite Logo">
+                <img src="logo.png" alt="QuickBite Logo">
             </div>
             <div class="brand-name">QuickBite!</div>
         </div>
@@ -22,6 +22,7 @@
             <div class="profile-dropdown">
                 <div class="profile-icon" id="profileIcon">👤</div>
                 <div class="dropdown-menu" id="profileDropdown">
+                    <button id="restaurantStatusBtn" class="btn" style="margin-right: 18px;">Closed</button>
                     <a href="account.html">Account</a>
                     <a href="#" id="logoutLink">Log Out</a>
                 </div>
@@ -47,11 +48,21 @@
             <button type="submit" class="btn btn-add">Send Message</button>
         </form>
     </main>
+    <div id="restaurantStatusDialog" class="confirmation-dialog">
+  <div class="confirmation-dialog-content">
+    <p id="restaurantStatusDialogText"></p>
+    <div class="confirmation-dialog-actions">
+      <button class="btn btn-confirm" id="restaurantStatusYesBtn">Yes</button>
+      <button class="btn btn-cancel" id="restaurantStatusNoBtn">No</button>
+    </div>
+  </div>
+</div>
+
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-notice">&copy; 2025 QuickBite!. All rights reserved.</p>
         </div>
     </footer>
-    <script src="../assets/css/restocss.js"></script>
+    <script src="restoscripts.js"></script>
 </body>
 </html>

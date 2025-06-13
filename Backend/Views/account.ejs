@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>QuickBite! Account</title>
-    <link rel="stylesheet" href="/css/restocss.css">
+    <link rel="stylesheet" href="restocss.css">
 </head>
 <body>
     <header class="navbar">
         <div class="logo-brand">
             <div class="logo">
-                <img src="/images/logo.png" alt="QuickBite Logo">
+                <img src="logo.png" alt="QuickBite Logo">
             </div>
             <div class="brand-name">QuickBite!</div>
         </div>
@@ -22,6 +22,7 @@
             <div class="profile-dropdown">
                 <div class="profile-icon" id="profileIcon">👤</div>
                 <div class="dropdown-menu" id="profileDropdown">
+                    <button id="restaurantStatusBtn" class="btn" style="margin-right: 18px;">Closed</button>
                     <a href="account.html" class="active">Account</a>
                     <a href="#" id="logoutLink">Log Out</a>
                 </div>
@@ -31,7 +32,12 @@
     <main class="container">
         <h2>Account Profile</h2>
         <div class="profile-section">
-            <h3>Restaurant Information</h3>
+        <h3>Restaurant Information</h3>
+            <div class="form-group" style="align-items:center;">
+                <label class="form-label" style="margin-bottom:7px;">Restaurant Image</label>
+                <input class="form-input" type="file" id="restaurantImgInput" accept="image/*" style="margin-bottom:8px;">
+                <img id="restaurantImgPreview" src="" alt="Restaurant Image" style="max-width:80px;max-height:80px;border-radius:16px;display:none;">
+            </div>
             <div class="form-group">
                 <label class="form-label" for="restaurantName">Restaurant Name</label>
                 <input class="form-input" type="text" id="restaurantName" placeholder="Restaurant Name" value="QuickBite Restaurant">
@@ -52,11 +58,21 @@
             <p id="accountMessage" class="confirmation-message"></p>
         </div>
     </main>
+    <div id="restaurantStatusDialog" class="confirmation-dialog">
+  <div class="confirmation-dialog-content">
+    <p id="restaurantStatusDialogText"></p>
+    <div class="confirmation-dialog-actions">
+      <button class="btn btn-confirm" id="restaurantStatusYesBtn">Yes</button>
+      <button class="btn btn-cancel" id="restaurantStatusNoBtn">No</button>
+    </div>
+  </div>
+</div>
+
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-notice">&copy; 2025 QuickBite!. All rights reserved.</p>
         </div>
     </footer>
-    <script src="/css/restocss.js"></script>
+    <script src="restoscripts.js"></script>
 </body>
 </html>
