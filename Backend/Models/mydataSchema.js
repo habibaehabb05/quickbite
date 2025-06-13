@@ -1,5 +1,5 @@
 //ay code h3melo 3shan at3amel m3a mongoDB lazem asta5dem mongoose
-const mongoose = require("mongoose");
+/*const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // define the Schema (the structure of the article)
@@ -19,4 +19,15 @@ const Mydata = mongoose.model("Mydata", articleSchema);
  //Mydata dah esm mn 3ndy awel letter is cap
 
  // export the model 3shan app.js yeshof el model el 3mlto 
-module.exports = Mydata;
+module.exports = Mydata;*/
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
+  name: String,
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ["student", "restaurant", "admin"], default: "student" }
+});
+
+module.exports = mongoose.model("userModel", userSchema);
