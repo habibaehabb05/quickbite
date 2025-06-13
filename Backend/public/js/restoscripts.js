@@ -20,15 +20,17 @@ let menuData = [
 ];
 
 
-let orderData = [
+orderData = [
     {
         id: 1,
         userName: 'Mohamed Ayman',
         mobile: '01012345678',
         items: ['Burger', 'Coke'],
-        status: 'Pending'
+        status: 'Pending',
+        time: '2024-06-13 23:18'
     }
 ];
+
 
 document.addEventListener('DOMContentLoaded', () => {
     setupProfileDropdown();
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAccountSave();
 });
 
-// Restaurant image upload preview for account page (frontend only)
+
 const restaurantImgInput = document.getElementById('restaurantImgInput');
 const restaurantImgPreview = document.getElementById('restaurantImgPreview');
 if (restaurantImgInput && restaurantImgPreview) {
@@ -122,8 +124,8 @@ function setupDialogs() {
         menuModalCancel.onclick = () => menuModal.classList.remove('show');
     }
 }
-// Restaurant Status Button Logic
-let isRestaurantOpen = false; // closed by default
+
+let isRestaurantOpen = false; 
 
 const statusBtn = document.getElementById('restaurantStatusBtn');
 const statusDialog = document.getElementById('restaurantStatusDialog');
@@ -179,7 +181,7 @@ function setupMenu() {
     let deletingId = null;
     loadMenu();
 
-    // Image preview logic
+    
     const menuImage = document.getElementById('menuImage');
     const menuImagePreview = document.getElementById('menuImagePreview');
     if (menuImage) {
@@ -288,10 +290,10 @@ function setupMenu() {
 
 
 function setupOrders() {
-    let unlockingId = null; // row id for which dropdown will be enabled
+    let unlockingId = null; 
     let denyingId = null;
 
-    // Example order and menu data for testing
+    
     orderData = [
         {
             id: 1,
@@ -335,32 +337,36 @@ function setupOrders() {
             else if(isDone) tr.className = 'orders-status-done';
             else if(isDenied) tr.className = 'denied-row';
 
-            // ID
+            
             const tdId = document.createElement('td');
             tdId.textContent = String(order.id).padStart(4,'0');
             tr.appendChild(tdId);
 
-            // User Name
+            
             const tdUser = document.createElement('td');
             tdUser.textContent = order.userName || '';
             tr.appendChild(tdUser);
 
-            // Mobile
+            
             const tdMobile = document.createElement('td');
             tdMobile.textContent = order.mobile || '';
             tr.appendChild(tdMobile);
 
-            // Order Items
+            
             const tdItems = document.createElement('td');
             tdItems.textContent = Array.isArray(order.items) ? order.items.join(', ') : '';
             tr.appendChild(tdItems);
 
-            // Total Price
+            
             const tdTotal = document.createElement('td');
             tdTotal.textContent = "EGP" + getOrderTotal(order.items).toFixed(2);
             tr.appendChild(tdTotal);
 
-            // Status (dropdown)
+            
+            const tdTime = document.createElement('td');
+            tdTime.textContent = order.time || '';
+            tr.appendChild(tdTime);
+            
             const tdStatus = document.createElement('td');
             const select = document.createElement('select');
             select.className = 'status-select';
@@ -385,11 +391,11 @@ function setupOrders() {
             tdStatus.appendChild(select);
             tr.appendChild(tdStatus);
 
-            // Actions
+            
             const tdActions = document.createElement('td');
             tdActions.className = 'action-btns';
 
-            // ✔️ button
+            
             const btnConfirm = document.createElement('button');
             btnConfirm.className = 'btn btn-confirm';
             btnConfirm.textContent = '✔️';
@@ -400,7 +406,7 @@ function setupOrders() {
             };
             tdActions.appendChild(btnConfirm);
 
-            // ❌ button
+            
             const btnDeny = document.createElement('button');
             btnDeny.className = 'btn btn-deny';
             btnDeny.textContent = '❌';
