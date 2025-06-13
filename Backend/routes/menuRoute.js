@@ -11,4 +11,3 @@ router.get('/search', menuController.searchMenuItems);
 router.get('/:slug', menuController.renderRestaurantPage);
 
 module.exports = router;
-
