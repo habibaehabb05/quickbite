@@ -1,128 +1,93 @@
-const express = require('express');
-require('dotenv').config(); // Load environment variables
-const mongoose = require('mongoose');
-const cors = require('cors');
-const path = require('path');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const bcrypt = require("bcrypt");
+const bodyParser = require("body-parser");
+const path = require("path");
+const dotenv = require("dotenv");
 
-const app = express(); // ✅ عرّف app في الأول
+dotenv.config();
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-const authRoutes = require('./routes/authRoutes');
-const Mydata = require('./models/mydataSchema');
-const session = require('express-session');
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'secretkey123',
-  resave: false,
-  saveUninitialized: false,
-}));
+require("./Models/mydataSchema");
 
-// === Middleware ===
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+const userModel = mongoose.model("userModel");
 
-// === Set view engine ===
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// === API Routes ===
-app.use('/auth', authRoutes); // ✅ دلوقتي ينفع تستخدم app
-app.use('/api', authRoutes);
-
-// === Rendered Pages ===
-app.get('/', async (req, res) => {
-  try {
-    const allData = await Mydata.find();
-    let recentData = null;
-
-    if (req.query.confirmId) {
-      recentData = await Mydata.findById(req.query.confirmId);
-    }
-
-    res.render('dashboard', {
-      arr: allData,
-      recent: recentData,
-    });
-  } catch (err) {
-    console.error("❌ Error retrieving data:", err.message);
-  res.status(500).send('Error retrieving data: ' + err.message);
-  }
-});
-
-app.get('/dashboard', async (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/Login'); // لو مش مسجل دخول، يرجعه للّوجين
-  }
-
-  try {
-    const allData = await Mydata.find();
-    res.render('dashboard', {
-      user: req.session.user,
-      arr: allData,
-      recent: null, // لو عايز تخليها فاضية هنا
-    });
-  } catch (err) {
-    console.error('❌ Error loading dashboard:', err.message);
-    res.status(500).send('Error loading dashboard');
-  }
-});
-
-
-app.get('/Login', (req, res) => { // ✅ استخدم res.render لعرض صفحة تسجيل الدخول
-  res.render('Login'); // login.ejs لازم تكون موجودة في views
-});
-
-app.post('/', async (req, res) => {
-  try {
-    console.log("=== Payment Data Received ===");
-    console.log("Cardholder Name:", req.body.cardholderName);
-    console.log("Total Amount:", req.body.total);
-    console.log("Full request body:", req.body);
-    console.log("==============================");
-
-    const mydata = new Mydata(req.body);
-    const savedData = await mydata.save();
-
-    console.log("=== Data Saved Successfully ===");
-    console.log("Saved ID:", savedData._id);
-    console.log("Saved Data:", savedData);
-    console.log("===============================");
-
-    res.redirect(`/?confirmId=${savedData._id}`);
-  } catch (err) {
-    console.error("Error saving:", err);
-    res.status(500).send("Failed to save data");
-  }
-});
-
-// === 404 handler for API routes ===
-app.use('/api', (req, res) => {
-  res.status(404).json({ error: 'API route not found' });
-});
-
-// === SPA fallback or 404 page ===
-app.use((req, res) => {
-  res.status(404).render('layout', { message: 'Page not found' });
-});
-
-// === Global Error Handler ===
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  console.error("🔥 Global Error:", err);
-  res.status(500).json({ error: 'Something broke!' });
-});
-
-// === Connect to MongoDB and Start Server ===
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-.then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Server is running on http://localhost:${PORT}`);
-  });
-})
-.catch((err) => {
-  console.error('❌ MongoDB connection error:', err);
+}).then(() => {
+  console.log("✅ MongoDB connected");
+}).catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
+});
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+// ✅ إعداد عرض الصفحات باستخدام EJS
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// ✅ Route تجريبي للتأكد إن السيرفر شغال
+app.get("/", (req, res) => {
+  res.send("✅ QuickBite backend is alive!");
+});
+
+// ✅ Route يعرض صفحة Login
+app.get("/login", (req, res) => {
+  res.render("Login"); // تأكدي إن Login.ejs موجود في مجلد views
+});
+
+// جلسات
+app.use(session({
+  secret: process.env.SESSION_SECRET || "mysecret",
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: "sessions",
+  }),
+}));
+
+// تسجيل مستخدم جديد
+app.post("/signup", async (req, res) => {
+  const { email, password } = req.body;
+  const existingUser = await userModel.findOne({ email });
+
+  if (existingUser) {
+    return res.status(400).send("User already exists");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = new userModel({ email, password: hashedPassword });
+
+  await newUser.save();
+  res.status(200).send("User created successfully");
+});
+
+// تسجيل دخول
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await userModel.findOne({ email });
+
+  if (!user) {
+    return res.status(400).send("User not found");
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    return res.status(400).send("Incorrect password");
+  }
+
+  req.session.userId = user._id;
+  res.status(200).send("Login successful");
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
