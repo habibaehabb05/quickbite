@@ -819,6 +819,7 @@ button i, li i {
   .search-box, .filter-select {
     flex: 1 1 100%; 
     width: 100%;
+    
   }
 
   .modal-content {
