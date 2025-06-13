@@ -9,12 +9,13 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 dotenv.config();
+const connectDB = require("./MongoDb/connect");
+connectDB();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-require("./Models/mydataSchema");
-
-const userModel = mongoose.model("userModel");
+const userModel = require("./Models/mydataSchema");
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -29,21 +30,24 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-// ✅ إعداد عرض الصفحات باستخدام EJS
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// ✅ ملفات static زي CSS, JS, images من مجلد public
+app.use(express.static(path.join(__dirname, "public")));
 
-// ✅ Route تجريبي للتأكد إن السيرفر شغال
+// ✅ إعداد EJS و views
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views")); // ← هنا لازم views بحروف صغيرة
+
+// ✅ Route تجريبي
 app.get("/", (req, res) => {
   res.send("✅ QuickBite backend is alive!");
 });
 
-// ✅ Route يعرض صفحة Login
+// ✅ عرض صفحة Login
 app.get("/login", (req, res) => {
-  res.render("Login"); // تأكدي إن Login.ejs موجود في مجلد views
+  res.render("Login"); // تأكد إن Login.ejs موجود في مجلد views
 });
 
-// جلسات
+// ✅ إعداد الجلسات
 app.use(session({
   secret: process.env.SESSION_SECRET || "mysecret",
   resave: false,
@@ -54,7 +58,7 @@ app.use(session({
   }),
 }));
 
-// تسجيل مستخدم جديد
+// ✅ تسجيل مستخدم جديد
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   const existingUser = await userModel.findOne({ email });
@@ -70,7 +74,7 @@ app.post("/signup", async (req, res) => {
   res.status(200).send("User created successfully");
 });
 
-// تسجيل دخول
+// ✅ تسجيل دخول
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
@@ -88,6 +92,7 @@ app.post("/login", async (req, res) => {
   res.status(200).send("Login successful");
 });
 
+// ✅ تشغيل السيرفر
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
