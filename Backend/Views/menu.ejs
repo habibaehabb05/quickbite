@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>QuickBite! Menu</title>
-    <link rel="stylesheet" href="../assets/css/restocss.css">
+    <link rel="stylesheet" href="restocss.css">
 </head>
 <body>
     <header class="navbar">
         <div class="logo-brand">
             <div class="logo">
-                <img src="../assets/images/logo.png" alt="QuickBite Logo">
+                <img src="logo.png" alt="QuickBite Logo">
             </div>
             <div class="brand-name">QuickBite!</div>
         </div>
@@ -22,6 +22,7 @@
             <div class="profile-dropdown">
                 <div class="profile-icon" id="profileIcon">👤</div>
                 <div class="dropdown-menu" id="profileDropdown">
+                    <button id="restaurantStatusBtn" class="btn" style="margin-right: 18px;">Closed</button>
                     <a href="account.html">Account</a>
                     <a href="#" id="logoutLink">Log Out</a>
                 </div>
@@ -37,7 +38,9 @@
             <table class="table menu-table" id="menuTable">
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Name</th>
+                        <th>Description</th>
                         <th>Category</th>
                         <th>Price</th>
                         <th>Available</th>
@@ -53,32 +56,41 @@
         <div class="modal-content">
             <button class="modal-close" id="menuModalClose">×</button>
             <h3 id="menuModalTitle">Add Menu Item</h3>
-            <div class="modal-form">
-                <div class="form-group">
-                    <label class="form-label" for="menuName">Meal Name</label>
-                    <input class="form-input" type="text" id="menuName" placeholder="Enter meal name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="menuCategory">Category</label>
-                    <input class="form-input" type="text" id="menuCategory" placeholder="Enter category">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="menuPrice">Price</label>
-                    <input class="form-input" type="number" id="menuPrice" placeholder="Enter price">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="menuAvailable">Available</label>
-                    <select class="form-input" id="menuAvailable">
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button id="menuSaveBtn" class="btn btn-save">💾 Save</button>
-                    <button class="btn btn-cancel" id="menuModalCancel">Cancel</button>
-                </div>
+           <div class="modal-form">
+            <div class="form-group">
+                <label class="form-label" for="menuImage">Image</label>
+                <input class="form-input" type="file" id="menuImage" accept="image/*">
+                <img id="menuImagePreview" src="" alt="" style="max-width:70px;max-height:70px;display:none;margin-top:8px;border-radius:10px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="menuName">Meal Name</label>
+                <input class="form-input" type="text" id="menuName" placeholder="Enter meal name">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="menuDesc">Description</label>
+                <input class="form-input" type="text" id="menuDesc" placeholder="Enter description">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="menuCategory">Category</label>
+                <input class="form-input" type="text" id="menuCategory" placeholder="Enter category">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="menuPrice">Price</label>
+                <input class="form-input" type="number" id="menuPrice" placeholder="Enter price">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="menuAvailable">Available</label>
+                <select class="form-input" id="menuAvailable">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button id="menuSaveBtn" class="btn btn-save">💾 Save</button>
+                <button class="btn btn-cancel" id="menuModalCancel">Cancel</button>
             </div>
         </div>
+        </div>        
     </div>
     <div id="menuDeleteDialog" class="confirmation-dialog">
         <div class="confirmation-dialog-content">
@@ -89,11 +101,21 @@
             </div>
         </div>
     </div>
+    <div id="restaurantStatusDialog" class="confirmation-dialog">
+  <div class="confirmation-dialog-content">
+    <p id="restaurantStatusDialogText"></p>
+    <div class="confirmation-dialog-actions">
+      <button class="btn btn-confirm" id="restaurantStatusYesBtn">Yes</button>
+      <button class="btn btn-cancel" id="restaurantStatusNoBtn">No</button>
+    </div>
+  </div>
+</div>
+
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-notice">&copy; 2025 QuickBite!. All rights reserved.</p>
         </div>
     </footer>
-    <script src="../assets/css/restocss.js"></script>
+    <script src="restoscripts.js"></script>
 </body>
 </html>
