@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Schema for individual menu items
 const MenuItemSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -32,7 +31,6 @@ const MenuItemSchema = new mongoose.Schema({
     }
 });
 
-// Schema for the menu
 const MenuSchema = new mongoose.Schema({
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
@@ -54,7 +52,6 @@ const MenuSchema = new mongoose.Schema({
     }
 });
 
-// Update the updatedAt field before saving
 MenuSchema.pre('save', function(next) {
     this.updatedAt = new Date();
     next();
