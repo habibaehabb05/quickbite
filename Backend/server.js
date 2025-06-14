@@ -12,6 +12,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 const connectDB = require("./MongoDb/connect");
 connectDB();
+mongoose.connection.once("open", () => {
+  console.log("✅ Connected to DB:", mongoose.connection.name);
+});
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
