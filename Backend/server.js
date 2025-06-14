@@ -31,16 +31,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 // ✅ ملفات static زي CSS, JS, images من مجلد public
-app.use(express.static(path.join(__dirname, "public")));
 
-// ✅ إعداد EJS و views
+ 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views")); // ← هنا لازم views بحروف صغيرة
 
-// ✅ Route تجريبي
-app.get("/", (req, res) => {
-  res.send("✅ QuickBite backend is alive!");
-});
+// تأكد إن مجلد public موجود في نفس مسار server.js
+app.use(express.static(path.join(__dirname, "views"))); // ← هنا لازم views بحروف صغيرة
+
+// تأكد إن مجلد Views موجود في نفس مسار server.js
+app.use(express.static(path.join(__dirname, "public")));
+
+  
 
 // ✅ عرض صفحة Login
 /*app.get("/login", (req, res) => {
@@ -89,7 +91,7 @@ app.use(session({
 }));
 
 // ✅ عرض صفحة Dashboard
-app.get("/dashboard", (req, res) => {
+app.get("/", (req, res) => {
   /*if (!req.session.userId) {
     return res.redirect("/login");
   }
@@ -99,7 +101,7 @@ app.get("/dashboard", (req, res) => {
   if (!req.session.userId) {
     return res.redirect("/login");
   }*/
-  res.render("Dashboard", { userId: req.session.userId }); // تأكد إن Dashboard.ejs موجود في مجلد views
+  res.render("dashboard"); // تأكد إن Dashboard.ejs موجود في مجلد views
 });
 
 // ✅ عرض صفحة تسجيل الدخول
@@ -144,11 +146,10 @@ app.get("/aboutus",  (req, res) => {
   res.render("aboutus"); // تأكد إن aboutus.ejs موجود في مجلد views
 } );  
 
-app.get("admin", (req, res) => {
-  res.render("admin"); // تأكد إن admin.ejs موجود في مجلد views
+app.get("/admin", (req, res) => {
+  res.render("admin"); // تأكدي إن admin.ejs موجودة في مجلد views
 });
-
-app.get("account", (req, res) => {
+app.get("/account", (req, res) => {
   res.render("account"); // تأكد إن account.ejs موجود في مجلد views
 });
  
