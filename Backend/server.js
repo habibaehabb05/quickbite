@@ -1,3 +1,4 @@
+// ✅ server.js (مُحدَّث)
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -14,7 +15,9 @@ connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 const userModel = require("./Models/mydataSchema");
+const authRoutes = require("./routes/authRoutes"); // ✅ NEW
 
 app.use(cors({
   origin: "http://localhost:3000",
@@ -46,6 +49,9 @@ app.use(session({
   },
 }));
 
+// ✅ استخدمي راوتر authRoutes بدل المسارات المتكررة
+app.use("/auth", authRoutes);
+
 // Pages Routes
 app.get("/", (req, res) => res.render("dashboard"));
 app.get("/login", (req, res) => res.render("Login"));
@@ -58,32 +64,6 @@ app.get("/orders", (req, res) => res.render("orders"));
 app.get("/aboutus", (req, res) => res.render("aboutus"));
 app.get("/admin", (req, res) => res.render("admin"));
 app.get("/account", (req, res) => res.render("account"));
-
-// Auth APIs
-app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-  const existingUser = await userModel.findOne({ email });
-
-  if (existingUser) return res.status(400).send("User already exists");
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new userModel({ email, password: hashedPassword });
-  await newUser.save();
-
-  res.status(200).send("User created successfully");
-});
-
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await userModel.findOne({ email });
-  if (!user) return res.status(400).send("User not found");
-
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  if (!passwordMatch) return res.status(400).send("Incorrect password");
-
-  req.session.userId = user._id;
-  res.status(200).send("Login successful");
-});
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
