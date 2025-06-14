@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="payment.css">
     <title>QuickBite! - Payment</title>
-</head>
-<body>
+    <link rel="stylesheet" href="/css/payment.css" />
+  </head>
+  <body>
     <div class="container">
         <h1>Payment Details</h1>
         <h3>Complete Your Payment</h3>
@@ -59,16 +60,9 @@
         <p id="success-message" class="message">Payment Successful!</p>
     </div>
 
-    <!-- Success Modal -->
-    <div id="success-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Payment Confirmed!</h2>
-            <p>Thank you, <strong id="popup-name"></strong>!</p>
-            <p>You have successfully paid <strong id="popup-amount"></strong>.</p>
-            <p>Date: <strong id="popup-date"></strong></p>
-            <button class="close-button" onclick="closeModal()">Close</button>
-        </div>
-    </div>
-</body>
-<script src="payment.js"></script>
+    <script src="/js/payment.js" defer></script>
+
+     
+
+  </body>
 </html>

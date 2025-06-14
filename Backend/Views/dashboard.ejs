@@ -6,7 +6,9 @@
     <title>Campus Restaurants - QuickBite</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <!-- Adding Montserrat font for the logo text -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Background -->
@@ -16,17 +18,14 @@
         <div class="bg-blur-overlay"></div>
     </div>
 
-
     <!-- Wolt-style Header -->
     <header class="wolt-style-header">
         <div class="header-top">
-            <!-- Logo placed before location selector -->
+            <!-- Logo with MIUQUICKBIT text -->
             <div class="header-brand">
-                <img src="/images/logo.png" alt="QuickBit Logo" class="logo">
-                <div class="location-selector">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Network - Select area</span>
-                    <i class="fas fa-chevron-down"></i>
+                <div class="logo-container">
+                    <img src="https://via.placeholder.com/150" alt="QuickBit Logo" class="logo">
+                    <div class="logo-text">MIU<span>QUICKBIT</span></div>
                 </div>
             </div>
             
@@ -36,170 +35,163 @@
             </div>
             
             <div class="auth-buttons">
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <button class="login-btn" onclick="window.location.href='/account'">Account</button>
-                    <button class="signup-btn" onclick="AuthAPI.logout()">Logout</button>
-                <% } else { %>
-                    <button class="login-btn" onclick="window.location.href='/Login'">Log in</button>
-                    <button class="signup-btn" onclick="window.location.href='/Login'">Sign up</button>
-                <% } %>
+                <button class="login-btn">Log in</button>
+                <button class="signup-btn">Sign up</button>
             </div>
         </div>
         
         <nav class="header-nav" aria-label="Main navigation">
-            <a href="/dashboard" class="nav-item active"><i class="fas fa-compass"></i> Discovery</a>
-            <a href="/Restaurant" class="nav-item"><i class="fas fa-utensils"></i> Restaurants</a>
-            <a href="#" class="nav-item"><i class="fas fa-store"></i> Stores</a>
+            <a href="#" class="nav-item"><i class="fas fa-utensils"></i> Restaurants</a>
+            <a href="#" class="nav-item" id="order-history-nav"><i class="fas fa-history"></i> Order History</a>
         </nav>
     </header>
 
+    <!-- Rest of the HTML remains unchanged -->
     <!-- Main Content -->
     <main class="dashboard-main">
-        <% if (typeof user !== 'undefined' && user && user.role === 'admin') { %>
-        <div class="dashboard-actions">
-            <button class="add-btn"><i class="fas fa-plus"></i> Add Restaurant</button>
-            <button class="orders-btn" onclick="window.location.href='/orders'"><i class="fas fa-receipt"></i> View Orders</button>
-        </div>
-        <% } %>
+        <!-- User Introduction Section -->
+        <section class="user-introduction">
+            <div class="welcome-container">
+                <div class="welcome-text">
+                    <h1>Welcome to QuickBite</h1>
+                    <p>Your campus food delivery service. Order from your favorite restaurants and get it delivered right to your door.</p>
+                    <div class="welcome-actions">
+                        <button class="primary-btn"><i class="fas fa-utensils"></i> Browse Restaurants</button>
+                        <button class="secondary-btn"><i class="fas fa-history"></i> View Your Orders</button>
+                    </div>
+                </div>
+                <div class="welcome-image">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Delicious Food" class="intro-image">
+                </div>
+            </div>
+        </section>
         
-        <h2 class="dashboard-section-title">
-            <% if (typeof user !== 'undefined' && user) { %>
-                Welcome <%= user.name %>, Campus Restaurants
-            <% } else { %>
-                Campus Restaurants
-            <% } %>
-        </h2>
+        <h2 class="dashboard-section-title">Campus Restaurants</h2>
         
-        <div class="restaurants-grid">
-            <% if (typeof restaurants !== 'undefined' && restaurants && restaurants.length > 0) { %>
-                <% restaurants.forEach(restaurant => { %>
-                    <div class="restaurant-card">
-                        <div class="logo-container">
-                            <img src="<%= restaurant.logo || 'https://via.placeholder.com/150' %>" 
-                                 alt="<%= restaurant.name %> Logo" 
-                                 class="restaurant-logo"
-                                 onerror="this.src='https://via.placeholder.com/150'">
-                        </div>
-                        <div class="restaurant-info">
-                            <h2><%= restaurant.name %></h2>
-                            <div class="status-badge" data-status="<%= restaurant.status || 'open' %>">
-                                <% if (restaurant.status === 'open' || !restaurant.status) { %>
-                                    <i class="fas fa-check-circle"></i>
-                                    Open
-                                <% } else { %>
-                                    <i class="fas fa-clock"></i>
-                                    Closed
-                                <% } %>
-                            </div>
-                            <p class="description"><%= restaurant.description || 'Delicious food awaits you!' %></p>
-                            <div class="card-footer">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <span class="rating-number"><%= restaurant.rating || '4.5' %></span>
-                                    <span class="review-count">(<%= restaurant.reviewCount || '0' %> reviews)</span>
-                                </div>
-                                <button class="menu-btn" onclick="window.location.href='/<%= restaurant.slug || restaurant.name %>'">View Menu</button>
-                            </div>
-                        </div>
+        <!-- Order History Section (Initially Hidden) -->
+        <section id="order-history-section" class="order-history-section" style="display: none;">
+            <div class="order-history-header">
+                <h2>Your Order History</h2>
+                <div class="order-filters">
+                    <div class="filter-group">
+                        <label for="status-filter">Status:</label>
+                        <select id="status-filter" class="status-filter">
+                            <option value="all">All Orders</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
                     </div>
-                <% }); %>
-            <% } else { %>
-                <!-- Default restaurants when no data is available -->
-                <div class="restaurant-card">
-                    <div class="logo-container">
-                        <img src="https://as2.ftcdn.net/jpg/04/96/17/25/1000_F_496172567_mdRzKShupyVNevwDeRzhVPj03xHDNhIk.jpg" 
-                             alt="Gyros Logo" 
-                             class="restaurant-logo"
-                             onerror="this.src='https://via.placeholder.com/150'">
-                    </div>
-                    <div class="restaurant-info">
-                        <h2>Gyros</h2>
-                        <div class="status-badge" data-status="open">
-                            <i class="fas fa-check-circle"></i>
-                            Open
-                        </div>
-                        <p class="description">Savor authentic Greek gyros and wholesome Mediterranean dishes—made fresh,
-                                               packed with flavor, and perfect for a healthy lifestyle</p>
-                        <div class="card-footer">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span class="rating-number">4.8</span>
-                                <span class="review-count">(180 reviews)</span>
-                            </div>
-                            <button class="menu-btn" onclick="window.location.href='/Gyros'">View Menu</button>
-                        </div>
+                    <div class="filter-group">
+                        <label for="date-filter">Date:</label>
+                        <select id="date-filter" class="date-filter">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
                     </div>
                 </div>
+            </div>
+            
+            <div class="orders-container" id="orders-container">
+                <!-- Orders will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Restaurants Grid -->
+        <div class="restaurants-grid" id="restaurants-grid">
+            <!-- Default restaurants when no data is available -->
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://as2.ftcdn.net/jpg/04/96/17/25/1000_F_496172567_mdRzKShupyVNevwDeRzhVPj03xHDNhIk.jpg" 
+                         alt="Gyros Logo" 
+                         class="restaurant-logo"
+                         onerror="this.src='https://via.placeholder.com/150'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Gyros</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
+                    </div>
+                    <p class="description">Savor authentic Greek gyros and wholesome Mediterranean dishes—made fresh,
+                                           packed with flavor, and perfect for a healthy lifestyle</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.8</span>
+                            <span class="review-count">(180 reviews)</span>
+                        </div>
+                        <button class="menu-btn" id="gyros-menu">View Menu</button>
+                    </div>
+                </div>
+            </div>
 
-                <div class="restaurant-card">
-                    <div class="logo-container">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSyBpslNZoFBbL53QVtyDdoNAVRylmIwIrrA&s" 
-                             alt="MY Corner Logo" 
-                             class="restaurant-logo"
-                             onerror="this.src='https://via.placeholder.com/150'">
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSyBpslNZoFBbL53QVtyDdoNAVRylmIwIrrA&s" 
+                         alt="MY Corner Logo" 
+                         class="restaurant-logo"
+                         onerror="this.src='https://via.placeholder.com/150'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>MY Corner</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-check-circle"></i>
+                        Open
                     </div>
-                    <div class="restaurant-info">
-                        <h2>MY Corner</h2>
-                        <div class="status-badge" data-status="open">
-                            <i class="fas fa-check-circle"></i>
-                            Open
+                    <p class="description">Golden falafel, warm foul, and fresh bread—Egyptian classics 
+                                           served with a modern twist at My Corner</p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.7</span>
+                            <span class="review-count">(150 reviews)</span>
                         </div>
-                        <p class="description">Golden falafel, warm foul, and fresh bread—Egyptian classics 
-                                               served with a modern twist at My Corner</p>
-                        <div class="card-footer">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span class="rating-number">4.7</span>
-                                <span class="review-count">(150 reviews)</span>
-                            </div>
-                            <button class="menu-btn" onclick="window.location.href='/MyCorner'">View Menu</button>
-                        </div>
+                        <button class="menu-btn" id="my-corner-menu">View Menu</button>
                     </div>
                 </div>
+            </div>
 
-                <div class="restaurant-card">
-                    <div class="logo-container">
-                        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/15/d3/50/cinnabon-logo.jpg?w=900&h=-1&s=1" 
-                             alt="Cinnabon Logo" 
-                             class="restaurant-logo"
-                             loading="lazy"
-                             onerror="this.src='https://via.placeholder.com/150'">
+            <div class="restaurant-card">
+                <div class="logo-container">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/15/d3/50/cinnabon-logo.jpg?w=900&h=-1&s=1" 
+                         alt="Cinnabon Logo" 
+                         class="restaurant-logo"
+                         loading="lazy"
+                         onerror="this.src='https://via.placeholder.com/150'">
+                </div>
+                <div class="restaurant-info">
+                    <h2>Cinnabon</h2>
+                    <div class="status-badge" data-status="open">
+                        <i class="fas fa-clock"></i>
+                        Open Now
                     </div>
-                    <div class="restaurant-info">
-                        <h2>Cinnabon</h2>
-                        <div class="status-badge" data-status="open">
-                            <i class="fas fa-clock"></i>
-                            Open Now
+                    <p class="description">
+                        Fresh-baked cinnamon rolls, classic bites, and refreshing beverages. 
+                        Enjoy the irresistible aroma and taste of our world-famous cinnamon rolls at MIU campus.
+                    </p>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span class="rating-number">4.8</span>
+                            <span class="review-count">(320 reviews)</span>
                         </div>
-                        <p class="description">
-                            Fresh-baked cinnamon rolls, classic bites, and refreshing beverages. 
-                            Enjoy the irresistible aroma and taste of our world-famous cinnamon rolls at MIU campus.
-                        </p>
-                        <div class="card-footer">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <span class="rating-number">4.8</span>
-                                <span class="review-count">(320 reviews)</span>
-                            </div>
-                            <button class="menu-btn" onclick="window.location.href='/Cinnabon'">View Menu</button>
-                        </div>
+                        <button class="menu-btn" id="cinnabon-menu">View Menu</button>
                     </div>
                 </div>
-            <% } %>
+            </div>
         </div>
     </main>
 
-   
     <!-- Bolt-Style Footer -->
     <footer class="bolt-footer">
         <div class="footer-container">
             <div class="footer-sections">
-                <!-- QuickBit Section -->
+                <!-- QuickBit Section - Language selector removed -->
                 <div class="footer-section">
-                    <div class="language-selector">
-                        <span>EN</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
                     <h3 class="footer-heading">QuickBit</h3>
                     <ul class="footer-links">
                         <li><a href="#/rules">Campus Rules</a></li>
@@ -228,7 +220,7 @@
                     <ul class="footer-links">
                         <li><a href="#/help">Help Center</a></li>
                         <li><a href="#/faq">FAQs</a></li>
-                        <li><a href="/contact">Contact Us</a></li>
+                        <li><a href="#/contact">Contact Us</a></li>
                         <li><a href="#/feedback">Feedback</a></li>
                     </ul>
                 </div>
@@ -237,7 +229,7 @@
                 <div class="footer-section">
                     <h3 class="footer-heading">Company</h3>
                     <ul class="footer-links">
-                        <li><a href="/about us">About QuickBit</a></li>
+                        <li><a href="#/about">About QuickBit</a></li>
                         <li><a href="#/careers">Campus Jobs</a></li>
                         <li><a href="#/sustainability">Sustainability</a></li>
                         <li><a href="#/blog">Campus Blog</a></li>
@@ -248,14 +240,14 @@
 
             <div class="footer-apps">
                 <div class="app-buttons">
-                    <a href="quickbit/app-store" class="app-download">
+                    <a href="#/app-store" class="app-download">
                         <i class="fab fa-apple"></i>
                         <div>
                             <span>Get on</span>
                             <strong>App Store</strong>
                         </div>
                     </a>
-                    <a href="quickbit/google-play" class="app-download">
+                    <a href="#/google-play" class="app-download">
                         <i class="fab fa-google-play"></i>
                         <div>
                             <span>Get on</span>
@@ -264,10 +256,10 @@
                     </a>
                 </div>
                 <div class="social-links">
-                    <a href="quickbit/twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="quickbit/facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="quickbit/instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="quickbit/linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#/twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#/facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#/instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#/linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
@@ -289,19 +281,23 @@
         <span id="notification-message"></span>
     </div>
 
+    <!-- Order Template (Hidden) -->
+    <template id="order-template">
+        <div class="order-card">
+            <div class="order-header">
+                <div class="order-id"></div>
+                <div class="order-status"></div>
+            </div>
+            <div class="order-restaurant"></div>
+            <div class="order-items"></div>
+            <div class="order-footer">
+                <div class="order-date"></div>
+                <div class="order-total"></div>
+            </div>
+        </div>
+    </template>
+
     <!-- Scripts -->
-    <script src="/js/dashboard.js"></script>
-    <script src="/js/api.js"></script>
-    
-    <% if (typeof user !== 'undefined' && user) { %>
-    <script>
-        window.currentUser = {
-            id: '<%= user._id %>',
-            name: '<%= user.name %>',
-            email: '<%= user.email %>',
-            role: '<%= user.role %>'
-        };
-    </script>
-    <% } %>
+    <script src="script.js"></script>
 </body>
 </html>
