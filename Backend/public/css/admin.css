@@ -105,13 +105,14 @@ body {
   color: var(--white);
 }
 
-/* Main content area */
+/* In admin.css */
 .main {
   flex: 1;
   padding: 20px;
   background-color: var(--background);
   overflow-y: auto;
   height: 100vh; 
+  box-sizing: border-box; /* Add this line */
 }
 
 /* Section headers */
@@ -274,6 +275,29 @@ body {
   font-size: 14px;
   color: white; 
 }
+
+/* ===== NEW ===== Password view styles for restaurant cards */
+.password-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0 15px;
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+.password-view p {
+  margin: 0;
+  font-family: monospace; /* Helps align masked and unmasked text */
+}
+
+.password-view i {
+  cursor: pointer;
+  margin-left: 10px;
+  color: var(--brand-secondary);
+}
+/* ===== END NEW ===== */
+
 
 .status-active {
   background-color: var(--completed-color); 
@@ -680,6 +704,29 @@ body {
   box-sizing: border-box; 
 }
 
+.modal input:read-only {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+/* ===== NEW ===== Password input container for the eye icon */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-input-container input {
+  padding-right: 40px; /* Make space for the icon */
+}
+.password-input-container i {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: #999;
+}
+/* ===== END NEW ===== */
+
+
 /* Radio buttons */
 .radio-group {
   margin-bottom: 20px;
@@ -690,6 +737,13 @@ body {
   align-items: center;
   margin-bottom: 10px;
   cursor: pointer; 
+}
+
+/* ===== FIX ===== Ensure all parts of the radio option have a pointer cursor */
+.radio-option,
+.radio-option label,
+.radio-option input[type="radio"] {
+    cursor: pointer;
 }
 
 .radio-option input[type="radio"] {
@@ -765,6 +819,7 @@ button i, li i {
   .search-box, .filter-select {
     flex: 1 1 100%; 
     width: 100%;
+    
   }
 
   .modal-content {

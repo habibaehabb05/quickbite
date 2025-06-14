@@ -24,7 +24,6 @@ orderData = [
     {
         id: 1,
         userName: 'Mohamed Ayman',
-        mobile: '01012345678',
         items: ['Burger', 'Coke'],
         status: 'Pending',
         time: '2024-06-13 23:18'
@@ -298,7 +297,6 @@ function setupOrders() {
         {
             id: 1,
             userName: 'Mohamed Ayman',
-            mobile: '01012345678',
             items: ['Burger', 'Coke'],
             status: 'Pending'
         }
@@ -346,11 +344,6 @@ function setupOrders() {
             const tdUser = document.createElement('td');
             tdUser.textContent = order.userName || '';
             tr.appendChild(tdUser);
-
-            
-            const tdMobile = document.createElement('td');
-            tdMobile.textContent = order.mobile || '';
-            tr.appendChild(tdMobile);
 
             
             const tdItems = document.createElement('td');

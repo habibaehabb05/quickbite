@@ -7,13 +7,13 @@ let users = [
   { id: 5, name: "Joe", email: "youssef235@miuegypt.edu.eg", role: "Student", status: "Suspended" }
 ];
 
-// Sample restaurants data
+// Sample restaurants data - UPDATED with username, email, and password
 let restaurants = [
-    { id: 1, name: "Gyro", status: "Open"},
-    { id: 2, name: "R to go", status: "Open"},
-    { id: 3, name: "Cinnabon", status: "Open"},
-    { id: 4, name: "My Corner", status: "Open"},
-    { id: 5, name: "farghali", status: "Closed"}
+    { id: 1, name: "Gyro", status: "Open", username: "gyro_manager", email: "gyro@miuegypt.edu.eg", password: "11223344"},
+    { id: 2, name: "R to go", status: "Open", username: "rtogo_manager", email: "rtogo@miuegypt.edu.eg", password: "55667788"},
+    { id: 3, name: "Cinnabon", status: "Open", username: "cinnabon_manager", email: "cinnabon@miuegypt.edu.eg", password: "99887766"},
+    { id: 4, name: "My Corner", status: "Open", username: "mycorner_manager", email: "mycorner@miuegypt.edu.eg", password: "55443322"},
+    { id: 5, name: "farghali", status: "Closed", username: "farghali_manager", email: "farghali@miuegypt.edu.eg", password: "12345678"}
 ];
 
 // Sample meals data
@@ -482,6 +482,23 @@ function deleteMeal() {
 
 
 // ========== RESTAURANTS SECTION FUNCTIONALITY ========== //
+
+// Helper function to toggle password visibility on cards
+function toggleCardPassword(eyeIcon) {
+    const passSpan = eyeIcon.previousElementSibling.querySelector('.password-text');
+    const password = passSpan.dataset.password;
+    if (passSpan.textContent === '********') {
+        passSpan.textContent = password;
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    } else {
+        passSpan.textContent = '********';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    }
+}
+
+
 function searchRestaurants() {
     const input = document.getElementById("restaurantSearchInput").value.toLowerCase();
     const filtered = restaurants.filter(r => r.name.toLowerCase().includes(input));
@@ -498,6 +515,12 @@ function renderRestaurants(restaurantList = restaurants) {
         card.innerHTML = `
             <div>
                 <h2>${r.name}</h2>
+                <p style="margin: 5px 0; color: #ccc; font-size: 0.9em;">Username: ${r.username}</p>
+                <p style="margin: 5px 0; color: #ccc; font-size: 0.9em;">Email: ${r.email}</p>
+                <div class="password-view">
+                  <p>Password: <span class="password-text" data-password="${r.password}">********</span></p>
+                  <i class="fas fa-eye" onclick="toggleCardPassword(this)"></i>
+                </div>
                 <p><span class="status-indicator ${r.status === 'Open' ? 'status-active' : 'status-inactive'}">${r.status}</span></p>
             </div>
             <div class="card-actions">
@@ -510,14 +533,63 @@ function renderRestaurants(restaurantList = restaurants) {
 }
 
 function openAddRestaurantModal() {
+  document.getElementById("newRestaurantName").value = '';
+  document.getElementById("newRestaurantUsername").value = '';
+  document.getElementById("newRestaurantEmail").value = '';
+  document.getElementById("newRestaurantPassword").value = '';
+
+  const nameInput = document.getElementById("newRestaurantName");
+  const usernameInput = document.getElementById("newRestaurantUsername");
+  const emailInput = document.getElementById("newRestaurantEmail");
+  
+  // Define the handler function for auto-generation
+  const handleNameInput = () => {
+    // Sanitize the name by removing spaces and converting to lowercase
+    const sanitizedName = nameInput.value.trim().replace(/\s+/g, '').toLowerCase();
+    // Generate and set username
+    usernameInput.value = sanitizedName ? `${sanitizedName}_manager` : '';
+    // Generate and set email
+    emailInput.value = sanitizedName ? `${sanitizedName}@miuegypt.edu.eg` : '';
+  };
+
+  // Attach the event listener
+  nameInput.addEventListener('input', handleNameInput);
+
+  // Display the modal
   document.getElementById("addRestaurantModal").style.display = "flex";
 }
 
 function addRestaurant() {
   const name = document.getElementById("newRestaurantName").value.trim();
-  if (!name) { showMessage("Restaurant name is required.", "Validation Error"); return; }
+  const username = document.getElementById("newRestaurantUsername").value.trim();
+  const email = document.getElementById("newRestaurantEmail").value.trim();
+  const password = document.getElementById("newRestaurantPassword").value.trim();
+  
+  // Correct Regex for password validation: must be exactly 8 digits.
+  const passwordRegex = /^\d{8}$/;
+
+  if (!name) {
+      showMessage("Restaurant name is required to generate credentials.", "Validation Error");
+      return;
+  }
+  
+  // Validate password format
+  if (!passwordRegex.test(password)) {
+      showMessage("Password must be exactly 8 numbers.", "Validation Error");
+      return;
+  }
+
   const newId = restaurants.length > 0 ? Math.max(...restaurants.map(r => r.id)) + 1 : 1;
-  restaurants.push({ id: newId, name, status: "Open" });
+  
+  restaurants.push({ 
+      id: newId, 
+      name, 
+      username, 
+      email, 
+      password, 
+      status: "Open" 
+  });
+  
   saveDataToLocalStorage();
   renderRestaurants();
   renderDashboardThumbnails();
@@ -610,6 +682,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("addUserBtn").addEventListener("click", openAddUserModal);
     document.getElementById("confirmLogoutBtn").addEventListener("click", logout);
     document.getElementById("closeMessageBtn").addEventListener("click", () => closeModal('messageModal'));
+
+    // Event listener for password toggle icon in the add restaurant modal
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+    const passwordInput = document.getElementById('newRestaurantPassword');
+    togglePasswordIcon.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
 
     document.addEventListener('click', function(event) {
         if (!event.target.closest('.dropdown')) {

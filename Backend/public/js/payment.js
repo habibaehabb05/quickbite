@@ -1,5 +1,4 @@
-
-        // --- INITIALIZATION ---
+// --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', function() {
             const totalPrice = localStorage.getItem('cartTotal');
             const displayElement = document.getElementById('display-total');
@@ -161,4 +160,3 @@
             document.getElementById('popup-date').textContent = formattedDate;
             document.getElementById('success-modal').classList.add('visible');
         }
-
