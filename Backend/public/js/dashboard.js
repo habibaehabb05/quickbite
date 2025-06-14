@@ -304,7 +304,6 @@ function initOrderHistory() {
 
   // Set up filter event listeners
   document.getElementById("status-filter").addEventListener("change", filterOrders)
-  document.getElementById("date-filter").addEventListener("change", filterOrders)
 }
 
 // Populate Orders
@@ -330,7 +329,6 @@ function populateOrders(orders) {
     const orderCard = document.createElement("div")
     orderCard.className = "order-card"
     orderCard.dataset.status = order.status
-    orderCard.dataset.date = order.date
 
     orderCard.innerHTML = `
             <div class="order-header">
@@ -354,28 +352,15 @@ function populateOrders(orders) {
 // Filter Orders
 function filterOrders() {
   const statusFilter = document.getElementById("status-filter").value
-  const dateFilter = document.getElementById("date-filter").value
 
   const orderCards = document.querySelectorAll(".order-card")
 
   orderCards.forEach((card) => {
     const status = card.dataset.status
-    const date = new Date(card.dataset.date)
-    const today = new Date()
 
     const showByStatus = statusFilter === "all" || status === statusFilter
-    let showByDate = true
 
-    // Apply date filter
-    if (dateFilter === "today") {
-      showByDate = isSameDay(date, today)
-    } else if (dateFilter === "week") {
-      showByDate = isThisWeek(date, today)
-    } else if (dateFilter === "month") {
-      showByDate = isSameMonth(date, today)
-    }
-
-    if (showByStatus && showByDate) {
+    if (showByStatus) {
       card.style.display = "block"
     } else {
       card.style.display = "none"
@@ -408,27 +393,4 @@ function formatDate(dateString) {
     hour: "2-digit",
     minute: "2-digit",
   })
-}
-
-// Helper: Check if two dates are the same day
-function isSameDay(date1, date2) {
-  return (
-    date1.getDate() === date2.getDate() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getFullYear() === date2.getFullYear()
-  )
-}
-
-// Helper: Check if date is in the current week
-function isThisWeek(date, today) {
-  const firstDay = new Date(today.setDate(today.getDate() - today.getDay()))
-  const lastDay = new Date(firstDay)
-  lastDay.setDate(lastDay.getDate() + 6)
-
-  return date >= firstDay && date <= lastDay
-}
-
-// Helper: Check if two dates are in the same month
-function isSameMonth(date1, date2) {
-  return date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear()
 }
