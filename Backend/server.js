@@ -14,180 +14,77 @@ connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 const userModel = require("./Models/mydataSchema");
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log("✅ MongoDB connected");
-}).catch((err) => {
-  console.error("❌ MongoDB connection error:", err);
-});
-
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-
-// ✅ ملفات static زي CSS, JS, images من مجلد public
-app.use(express.static(path.join(__dirname, "public")));
-
-// ✅ إعداد EJS و views
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views")); // ← هنا لازم views بحروف صغيرة
-
-// ✅ Route تجريبي
-app.get("/", (req, res) => {
-  res.send("✅ QuickBite backend is alive!");
-});
-
-// ✅ عرض صفحة Login
-/*app.get("/login", (req, res) => {
-  res.render("Login"); // تأكد إن Login.ejs موجود في مجلد views
-});
-
-app.get("/signup", (req, res) => {
-  res.render("Signup"); // تأكد إن Signup.ejs موجود في مجلد views
-} );
-
-app.get("/dashboard", (req, res) => {
-  if (!req.session.userId) {
-    return res.redirect("/login");
-  }
-  
-  res.render("Dashboard", { userId: req.session.userId }); // تأكد إن Dashboard.ejs موجود في مجلد views
-});*/
-
-// ✅ إعداد CORS            
 app.use(cors({
-  origin: "http://localhost:3000", // استبدل بالمنشأ الصحيح
-  credentials: true, // للسماح بالكوكيز
+  origin: "http://localhost:3000",
+  credentials: true,
 }));
 
-// ✅ إعداد body-parser
-app.use(bodyParser.json()); // لتحليل JSON في الطلبات 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.urlencoded({ extended: true })); // لتحليل بيانات النماذج
+app.use(express.static(path.join(__dirname, "views")));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use(express.urlencoded({ extended: true })); // لتحليل بيانات النماذج
-// ✅ إعدادات الجلسات
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use(session({
   secret: process.env.SESSION_SECRET || "mysecret",
   resave: false,
-  saveUninitialized: false, // لا تحفظ الجلسات غير المبدوءة
+  saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
-    collectionName: "sessions", // اسم مجموعة الجلسات في MongoDB
-  }),           
-// ✅ إعداد الجلسات
+    collectionName: "sessions",
+  }),
   cookie: {
-    maxAge: 24 * 60 * 60 * 1000, // مدة الجلسة 24 ساعة
-    secure: false, // يجب أن يكون true في بيئة الإنتاج مع HTTPS
-    httpOnly: true, // يمنع الوصول إلى الكوكيز من JavaScript
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: false,
+    httpOnly: true,
   },
 }));
 
-// ✅ عرض صفحة Dashboard
-app.get("/dashboard", (req, res) => {
-  /*if (!req.session.userId) {
-    return res.redirect("/login");
-  }
-  // إذا كان المستخدم مسجل الدخول، عرض Dashboard
-  // تأكد من وجود ملف Dashboard.ejs في مجلد views
-  // ويمرر userId إلى الصفحة
-  if (!req.session.userId) {
-    return res.redirect("/login");
-  }*/
-  res.render("Dashboard", { userId: req.session.userId }); // تأكد إن Dashboard.ejs موجود في مجلد views
-});
+// Pages Routes
+app.get("/", (req, res) => res.render("dashboard"));
+app.get("/login", (req, res) => res.render("Login"));
+app.get("/MyCorner", (req, res) => res.render("MyCorner"));
+app.get("/Cinnabon", (req, res) => res.render("Cinnabon"));
+app.get("/Gyros", (req, res) => res.render("Gyros"));
+app.get("/Restaurant", (req, res) => res.render("Restaurant"));
+app.get("/payment", (req, res) => res.render("payment"));
+app.get("/orders", (req, res) => res.render("orders"));
+app.get("/aboutus", (req, res) => res.render("aboutus"));
+app.get("/admin", (req, res) => res.render("admin"));
+app.get("/account", (req, res) => res.render("account"));
 
-// ✅ عرض صفحة تسجيل الدخول
-app.get("/login", (req, res) => {
-  res.render("Login"); // تأكد إن Login.ejs موجود في مجلد views
-});
-
-
-
-//عرض صفحة المطعم
-  app.get("/MyCorner", (req, res) => {
-  res.render("MyCorner"); // تأكد إن MyCorner.ejs موجود في مجلد views 
-});
-
-// عرض صفحة المطعم
-app.get("/Cinnabon", (req, res) => {
-  res.render("Cinnabon"); // تأكد إن Cinnabon.ejs موجود في مجلد views
-
-});
-
-// عرض صفحة المطعم
-app.get("/Gyros", (req, res) => {
-  res.render("Gyros"); // تأكد إن Gyros.ejs موجود في مجلد views
-});
-
-// عرض صفحة المطعم
-app.get("/Restaurant", (req, res) => {
-  res.render("Restaurant"); // تأكد إن Restaurant.ejs موجود في مجلد views
-});
-
-//عرض صفحة الدفع
-app.get("/payment", (req, res) => {
-  res.render("payment"); // تأكد إن Payment.ejs موجود في مجلد views
-});
-// عرض صفحة الطلبات
-app.get("/orders", (req, res) => {
-  res.render("orders"); // تأكد إن Orders.ejs موجود في مجلد views
-});
-
-//عرض صفحة ال
-app.get("/aboutus",  (req, res) => {  
-  res.render("aboutus"); // تأكد إن aboutus.ejs موجود في مجلد views
-} );  
-
-app.get("admin", (req, res) => {
-  res.render("admin"); // تأكد إن admin.ejs موجود في مجلد views
-});
-
-app.get("account", (req, res) => {
-  res.render("account"); // تأكد إن account.ejs موجود في مجلد views
-});
- 
-// ✅ تسجيل مستخدم جديد
+// Auth APIs
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   const existingUser = await userModel.findOne({ email });
 
-  if (existingUser) {
-    return res.status(400).send("User already exists");
-  }
+  if (existingUser) return res.status(400).send("User already exists");
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new userModel({ email, password: hashedPassword });
-
   await newUser.save();
+
   res.status(200).send("User created successfully");
 });
 
-// ✅ تسجيل دخول
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
-
-  if (!user) {
-    return res.status(400).send("User not found");
-  }
+  if (!user) return res.status(400).send("User not found");
 
   const passwordMatch = await bcrypt.compare(password, user.password);
-  if (!passwordMatch) {
-    return res.status(400).send("Incorrect password");
-  }
+  if (!passwordMatch) return res.status(400).send("Incorrect password");
 
   req.session.userId = user._id;
   res.status(200).send("Login successful");
 });
 
-
-// ✅ تشغيل السيرفر
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
